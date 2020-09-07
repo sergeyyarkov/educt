@@ -1,6 +1,4 @@
-import { IResolvers } from 'graphql-tools';
-
-const helloResolver: IResolvers = {
+const helloResolver = {
   Query: {
     hello: (): string => 'Hello world!',
   },

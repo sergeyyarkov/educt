@@ -1,6 +1,4 @@
-import { IResolvers } from 'graphql-tools';
-
-const usersResolver: IResolvers = {
+const usersResolver = {
   Query: {
     users: (): Array<string> => ['user1', 'user2'],
   },
