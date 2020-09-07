@@ -1,24 +1,36 @@
-import express from 'express'
-import fs from 'fs'
-import { ApolloServer, gql } from 'apollo-server-express'
+import express from 'express';
+import cors from 'cors';
+import depthLimit from 'graphql-depth-limit';
+import { ApolloServer } from 'apollo-server-express';
+import schema from './graphql/schema';
 
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 4000;
 
 const startServer = () => {
   try {
-    const app = express()
+    const app = express();
 
-    const resolvers = require('./graphql/resolvers')
-    const typeDefs = gql(fs.readFileSync('./graphql/typeDefs/schema.graphql', { encoding: 'utf8' }))
+    const server = new ApolloServer({
+      schema,
+      validationRules: [depthLimit(10)],
+      playground: true,
+    });
 
-    const server = new ApolloServer({ typeDefs, resolvers })
+    app.use('*', cors());
+    app.get('/', (req, res) => res.send('GraphQL API'));
 
-    server.applyMiddleware({ app })
+    server.applyMiddleware({ app });
 
-    app.listen({ port: PORT }, () => console.log(`🚀 Server ready on port: ${PORT}`))
+    app.listen({ port: PORT }, () =>
+      console.log(`🚀 Server ready on port: ${PORT}`)
+    );
   } catch (err) {
-    console.log(`❌  Something went wrong: \n ${err}`)
+    console.log(`❌  Something went wrong: \n ${err}`);
   }
+};
+
+async function connectDb(): Promise<any> {
+  // todo
 }
 
-startServer()
+startServer();

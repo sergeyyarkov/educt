@@ -1,5 +1,8 @@
-const hello = require('./hello')
+import { IResolvers } from 'graphql-tools';
 
-const resolvers = [hello]
+import helloResolver from './hello';
+import usersResolver from './users';
 
-module.exports = resolvers
+const resolvers: IResolvers[] = [helloResolver, usersResolver];
+
+export default resolvers;

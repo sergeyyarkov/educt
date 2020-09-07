@@ -1,7 +1,9 @@
-const helloResolver: object = {
-  Query: {
-    hello: () => 'Hello world!',
-  },
-}
+import { IResolvers } from 'graphql-tools';
 
-module.exports = helloResolver
+const helloResolver: IResolvers = {
+  Query: {
+    hello: (): string => 'Hello world!',
+  },
+};
+
+export default helloResolver;

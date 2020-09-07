@@ -1,5 +1,4 @@
-# import Lesson from  './types/lesson.graphql'
-
 type Query {
-    hello: String
+  hello: String
+  users: [String]
 }
