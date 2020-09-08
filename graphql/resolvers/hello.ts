@@ -1,6 +1,12 @@
 const helloResolver = {
   Query: {
-    hello: (): string => 'Hello world!',
+    hello: (_: any, args: any, context: any): string => {
+      if (!context.isAuth) {
+        throw new Error('Unauthenticated');
+      }
+
+      return 'hello world!';
+    },
   },
 };
 

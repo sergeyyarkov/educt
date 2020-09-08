@@ -1,7 +1,11 @@
-# import Test from './test.graphql'
+# import AuthData from './AuthData.graphql'
+# import User from './User.graphql'
 
 type Query {
   hello: String
-  users: [String]
-  Test: Test
+  login(email: String!, password: String!): AuthData
+}
+
+type Mutation {
+  createUser(name: String!, email: String!, password: String!): User
 }

@@ -1,3 +1,0 @@
-type Test {
-  message: String
-}

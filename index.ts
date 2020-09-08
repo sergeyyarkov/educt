@@ -1,23 +1,34 @@
-import express from 'express';
+import express, { Application, Request, Response } from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import depthLimit from 'graphql-depth-limit';
 import { ApolloServer } from 'apollo-server-express';
+
 import schema from './graphql/schema';
+import Auth from './lib/Auth';
+
+dotenv.config({ path: `${__dirname}/.env` });
 
 const PORT = process.env.PORT || 4000;
 
-const startServer = () => {
+async function startServer(): Promise<void> {
   try {
-    const app = express();
+    const app: Application = express();
 
     const server = new ApolloServer({
       schema,
       validationRules: [depthLimit(10)],
       playground: true,
+      context: Auth,
+    });
+
+    await connectDb({
+      uri: (process.env.DATABASE_URI as string) || 'http://localhost:27017',
     });
 
     app.use('*', cors());
-    app.get('/', (req, res) => res.send('GraphQL API'));
+    app.get('/', (req: Request, res: Response) => res.send('GraphQL API'));
 
     server.applyMiddleware({ app });
 
@@ -27,10 +38,14 @@ const startServer = () => {
   } catch (err) {
     console.log(`❌  Something went wrong: \n ${err}`);
   }
-};
+}
 
-async function connectDb(): Promise<any> {
-  // todo
+function connectDb(config: { uri: string }): Promise<any> {
+  return mongoose.connect(config.uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  });
 }
 
 startServer();
