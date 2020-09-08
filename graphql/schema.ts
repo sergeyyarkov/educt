@@ -1,12 +1,19 @@
-import 'graphql-import-node';
-import typeDefs from './typeDefs/schema.graphql';
-import resolvers from './resolvers/index';
-import { makeExecutableSchema } from '@graphql-tools/schema';
+import {
+  mergeResolvers,
+  loadSchemaSync,
+  loadFilesSync,
+  GraphQLFileLoader,
+  addResolversToSchema,
+} from 'graphql-tools';
 import { GraphQLSchema } from 'graphql';
 
-const schema: GraphQLSchema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
+const schema = loadSchemaSync(`${__dirname}/typeDefs/schema.graphql`, {
+  loaders: [new GraphQLFileLoader()],
+});
+const resolvers = loadFilesSync(`${__dirname}/resolvers`);
+const schemaWithResolvers: GraphQLSchema = addResolversToSchema({
+  schema,
+  resolvers: mergeResolvers(resolvers),
 });
 
-export default schema;
+export default schemaWithResolvers;
