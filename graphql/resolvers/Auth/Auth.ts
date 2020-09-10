@@ -7,9 +7,9 @@ import { IUser } from '../../../interfaces';
 
 const authResolver: IResolvers = {
   Query: {
-    login: async (_, { email, password }: IUser) => {
+    login: async (_, { login, password }: IUser) => {
       try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ $or: [{ login }, { email: login }] });
 
         if (!user) {
           throw new ApolloError('User doesnt exist!', '404 Not Found');
@@ -29,7 +29,12 @@ const authResolver: IResolvers = {
           }
         );
 
-        return { userId: user._id, token, tokenExpiration: 1 };
+        return {
+          userId: user._id,
+          roles: user.roles,
+          token,
+          tokenExpiration: 1,
+        };
       } catch (error) {
         throw error;
       }

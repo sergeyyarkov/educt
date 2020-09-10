@@ -2,7 +2,7 @@ import { Request } from 'express';
 import jwt from 'jsonwebtoken';
 import { IContext } from '../interfaces';
 
-export default ({ req }: { req: Request }): any => {
+export default ({ req }: { req: Request }): IContext => {
   const header = req.headers.authorization;
 
   if (!header) return { isAuth: false };

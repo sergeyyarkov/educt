@@ -6,10 +6,34 @@ import { assertAuth, assertAdmin } from '../../permissions/index';
 import { IUser, IContext } from '../../../interfaces';
 
 const userResolver: IResolvers = {
+  Query: {
+    user: async (_, { slug }, context: IContext): Promise<IUser> => {
+      try {
+        assertAuth(context);
+
+        const user = await User.findOne({ login: slug });
+
+        if (!user) {
+          throw new ApolloError('User doesnt exist!', '404 Not Found');
+        }
+
+        return user;
+      } catch (error) {
+        throw error;
+      }
+    },
+    users: async (_, args, context: IContext): Promise<IUser[]> => {
+      assertAuth(context);
+      const users = await User.find({});
+
+      return users;
+    },
+  },
+
   Mutation: {
     createUser: async (
       _,
-      { name, email, password, roles }: IUser,
+      { name, surname, patronymic, login, email, password, roles }: IUser,
       context: IContext
     ) => {
       try {
@@ -26,6 +50,9 @@ const userResolver: IResolvers = {
 
         return new User({
           name,
+          surname,
+          patronymic,
+          login,
           email,
           password: hashedPassword,
           roles,

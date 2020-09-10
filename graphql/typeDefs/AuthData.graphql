@@ -1,5 +1,6 @@
 type AuthData {
   userId: ID!
+  roles: [String]
   token: String!
   tokenExpiration: Int!
 }

@@ -2,13 +2,17 @@
 # import User from './User.graphql'
 
 type Query {
-  hello: String
-  login(email: String!, password: String!): AuthData
+  login(login: String!, password: String!): AuthData
+  user(slug: String): User
+  users: [User]
 }
 
 type Mutation {
   createUser(
     name: String!
+    surname: String!
+    patronymic: String!
+    login: String!
     email: String!
     password: String!
     roles: [String!]!
