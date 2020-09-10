@@ -3,11 +3,15 @@ import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
 import { assertAuth } from '../../permissions/index';
-import { IContext } from '../../../lib/Auth';
+import { IUser, IContext } from '../../../interfaces';
 
 const userResolver: IResolvers = {
   Mutation: {
-    createUser: async (_, { name, email, password }, context: IContext) => {
+    createUser: async (
+      _,
+      { name, email, password, roles }: IUser,
+      context: IContext
+    ) => {
       try {
         assertAuth(context);
 
@@ -23,6 +27,7 @@ const userResolver: IResolvers = {
           name,
           email,
           password: hashedPassword,
+          roles,
         }).save();
       } catch (error) {
         throw error;

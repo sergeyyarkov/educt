@@ -1,10 +1,5 @@
 import * as mongoose from 'mongoose';
-
-interface IUser extends mongoose.Document {
-  name: string;
-  email: string;
-  password: string;
-}
+import { IUser } from '../../interfaces';
 
 const User = mongoose.model<IUser>(
   'User',
@@ -12,6 +7,7 @@ const User = mongoose.model<IUser>(
     name: String,
     email: String,
     password: String,
+    roles: [String],
   })
 );
 

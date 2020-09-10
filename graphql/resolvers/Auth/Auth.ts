@@ -3,10 +3,11 @@ import jwt from 'jsonwebtoken';
 import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
+import { IUser } from '../../../interfaces';
 
 const authResolver: IResolvers = {
   Query: {
-    login: async (_, { email, password }) => {
+    login: async (_, { email, password }: IUser) => {
       try {
         const user = await User.findOne({ email });
 
