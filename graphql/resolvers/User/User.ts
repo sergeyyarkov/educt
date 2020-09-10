@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
-import { assertAuth } from '../../permissions/index';
+import { assertAuth, assertAdmin } from '../../permissions/index';
 import { IUser, IContext } from '../../../interfaces';
 
 const userResolver: IResolvers = {
@@ -14,6 +14,7 @@ const userResolver: IResolvers = {
     ) => {
       try {
         assertAuth(context);
+        assertAdmin(context);
 
         const candidate = await User.findOne({ email });
 

@@ -2,7 +2,7 @@ import { Request } from 'express';
 import jwt from 'jsonwebtoken';
 import { IContext } from '../interfaces';
 
-export default ({ req }: { req: Request }): IContext => {
+export default ({ req }: { req: Request }): any => {
   const header = req.headers.authorization;
 
   if (!header) return { isAuth: false };
@@ -21,5 +21,5 @@ export default ({ req }: { req: Request }): IContext => {
 
   if (!decodeToken) return { isAuth: false };
 
-  return { isAuth: true, userId: decodeToken.userId };
+  return { isAuth: true, userId: decodeToken.userId, roles: decodeToken.roles };
 };

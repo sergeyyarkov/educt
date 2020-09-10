@@ -1,7 +1,7 @@
 import { ApolloServerExpressConfig } from 'apollo-server-express';
-import * as mongoose from 'mongoose';
+import { Document } from 'mongoose';
 
-export interface IUser extends mongoose.Document {
+export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
@@ -11,4 +11,5 @@ export interface IUser extends mongoose.Document {
 export interface IContext extends ApolloServerExpressConfig {
   isAuth: boolean;
   userId?: string;
+  roles?: string[];
 }

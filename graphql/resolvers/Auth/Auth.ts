@@ -22,7 +22,7 @@ const authResolver: IResolvers = {
         }
 
         const token = jwt.sign(
-          { userId: user._id, email: user.email },
+          { userId: user._id, roles: user.roles },
           process.env.SECRET_KEY as string,
           {
             expiresIn: '1h',
