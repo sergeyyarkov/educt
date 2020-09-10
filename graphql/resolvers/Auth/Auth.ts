@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
 
@@ -10,13 +11,13 @@ const authResolver: IResolvers = {
         const user = await User.findOne({ email });
 
         if (!user) {
-          throw new Error('User doesnt exist!');
+          throw new ApolloError('User doesnt exist!', '404 Not Found');
         }
 
         const validate = await bcrypt.compare(password, user.password);
 
         if (!validate) {
-          throw new Error('Incorrent password!');
+          throw new ApolloError('Incorrent password!', '403 Forbidden');
         }
 
         const token = jwt.sign(
@@ -28,31 +29,6 @@ const authResolver: IResolvers = {
         );
 
         return { userId: user._id, token, tokenExpiration: 1 };
-      } catch (error) {
-        throw error;
-      }
-    },
-  },
-  Mutation: {
-    createUser: async (_, { name, email, password }, context: any) => {
-      try {
-        if (!context.isAuth) {
-          throw new Error('Unauthenticated!');
-        }
-
-        const candidate = await User.findOne({ email });
-
-        if (candidate) {
-          throw new Error('User exists already!');
-        }
-
-        const hashedPassword = bcrypt.hashSync(password, 10);
-
-        return new User({
-          name,
-          email,
-          password: hashedPassword,
-        }).save();
       } catch (error) {
         throw error;
       }
