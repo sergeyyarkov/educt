@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from 'express';
 import mongoose from 'mongoose';
+import path from 'path';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import depthLimit from 'graphql-depth-limit';
@@ -8,7 +9,9 @@ import { ApolloServer } from 'apollo-server-express';
 import schema from './graphql/schema';
 import Auth from './lib/Auth';
 
-dotenv.config({ path: `${__dirname}/.env` });
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: `${__dirname}/.env` });
+}
 
 const PORT = process.env.PORT || 4000;
 
@@ -28,19 +31,27 @@ async function startServer(): Promise<void> {
     });
 
     app.use('*', cors());
-    app.get('/', (req: Request, res: Response) => res.send('GraphQL API'));
+    app.use(express.static(path.join(__dirname, 'client/build')));
 
     server.applyMiddleware({ app });
 
+    app.get('*', (req: Request, res: Response) =>
+      res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
+    );
+
     app.listen({ port: PORT }, () =>
-      console.log(`🚀 Server ready on port: ${PORT}`)
+      console.log(`• Server ready on port: ${PORT}`)
     );
   } catch (err) {
-    console.log(`❌  Something went wrong: \n ${err}`);
+    console.log(`× Something went wrong: \n ${err}`);
   }
 }
 
 function connectDb(config: { uri: string }): Promise<any> {
+  mongoose.connection.on('connected', () =>
+    console.log('✔ Database connected!')
+  );
+  mongoose.connection.on('error', (error) => console.error(error));
   return mongoose.connect(config.uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,

@@ -1,10 +1,18 @@
 # import AuthData from './AuthData.graphql'
 # import User from './User.graphql'
+# import Course from './Course.graphql'
+# import Lesson from './Lesson.graphql'
+
+scalar Date
 
 type Query {
   login(login: String!, password: String!): AuthData
   user(slug: String): User
   users: [User]
+  lesson(_id: ID!): Lesson
+  lessons: [Lesson]
+  course(_id: ID!): Course
+  courses: [Course]
 }
 
 type Mutation {
@@ -17,4 +25,17 @@ type Mutation {
     password: String!
     roles: [String!]!
   ): User
+  createCourse(
+    title: String!
+    description: String!
+    teacherId: ID!
+    studentIds: [ID]!
+  ): Course
+  createLesson(
+    title: String!
+    description: String!
+    date: Date!
+    content: String!
+    courseId: ID!
+  ): Lesson
 }

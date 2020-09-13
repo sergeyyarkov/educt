@@ -1,0 +1,15 @@
+# import User from './User.graphql'
+# import Lesson from './Lesson.graphql'
+
+scalar Date
+
+type Course {
+  _id: ID
+  title: String
+  description: String
+  teacher: User
+  lessons: [Lesson]
+  students: [User]
+  publishedAt: Date
+  updatedAt: Date
+}

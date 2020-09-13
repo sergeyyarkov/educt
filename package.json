@@ -5,8 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "ts-node index.ts",
-    "server": "ts-node-dev --respawn index.ts",
-    "client": "npm start --prefix client",
+    "dev": "ts-node-dev --respawn index.ts",
     "update": "concurrently \"npm install\" \"cd ./client && npm install\"",
     "format": "prettier --write ."
   },

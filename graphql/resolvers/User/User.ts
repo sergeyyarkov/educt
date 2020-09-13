@@ -7,14 +7,14 @@ import { IUser, IContext } from '../../../interfaces';
 
 const userResolver: IResolvers = {
   Query: {
-    user: async (_, { slug }, context: IContext): Promise<IUser> => {
+    user: async (_, { slug }: IUser, context: IContext): Promise<IUser> => {
       try {
         assertAuth(context);
 
         const user = await User.findOne({ login: slug });
 
         if (!user) {
-          throw new ApolloError('User doesnt exist!', '404 Not Found');
+          throw new ApolloError('User does not exist!', '404 Not Found');
         }
 
         return user;
@@ -35,7 +35,7 @@ const userResolver: IResolvers = {
       _,
       { name, surname, patronymic, login, email, password, roles }: IUser,
       context: IContext
-    ) => {
+    ): Promise<IUser> => {
       try {
         assertAuth(context);
         assertAdmin(context);

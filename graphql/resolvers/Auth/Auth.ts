@@ -3,16 +3,16 @@ import jwt from 'jsonwebtoken';
 import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
-import { IUser } from '../../../interfaces';
+import { IUser, IToken } from '../../../interfaces';
 
 const authResolver: IResolvers = {
   Query: {
-    login: async (_, { login, password }: IUser) => {
+    login: async (_, { login, password }: IUser): Promise<IToken> => {
       try {
         const user = await User.findOne({ $or: [{ login }, { email: login }] });
 
         if (!user) {
-          throw new ApolloError('User doesnt exist!', '404 Not Found');
+          throw new ApolloError('User does not exist!', '404 Not Found');
         }
 
         const validate = await bcrypt.compare(password, user.password);
