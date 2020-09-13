@@ -64,6 +64,22 @@ const lessonResolver: IResolvers = {
         throw error;
       }
     },
+    deleteLesson: async (_, { _id }: ILesson, context: IContext): Promise<ILesson> => {
+      try {
+        assertAuth(context);
+        assertAdmin(context);
+
+        const lesson = await Lesson.findByIdAndRemove(_id)
+
+        if (!lesson) {
+          throw new ApolloError('Lesson does not exist!', '404 Not Found');
+        }
+
+        return lesson
+      } catch (error) {
+        throw error;
+      }
+    }
   },
   Lesson: {
     course: ({ courseId }: ILesson) => Course.findById(courseId),

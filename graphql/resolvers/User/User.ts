@@ -23,10 +23,14 @@ const userResolver: IResolvers = {
       }
     },
     users: async (_, args, context: IContext): Promise<IUser[]> => {
-      assertAuth(context);
-      const users = await User.find({});
+      try {
+        assertAuth(context);
+        const users = await User.find({});
 
-      return users;
+        return users;
+      } catch (error) {
+        throw error;
+      }
     },
   },
 
@@ -61,6 +65,22 @@ const userResolver: IResolvers = {
         throw error;
       }
     },
+    deleteUser: async (_, { _id }: IUser, context: IContext): Promise<IUser> => {
+      try {
+        assertAuth(context);
+        assertAdmin(context);
+
+        const user = await User.findByIdAndRemove(_id);
+
+        if (!user) {
+          throw new ApolloError('User does not exist!', '404 Not Found');
+        }
+
+        return user
+      } catch (error) {
+        throw error;
+      }
+    }
   },
 };
 

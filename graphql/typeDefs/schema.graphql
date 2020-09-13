@@ -25,11 +25,17 @@ type Mutation {
     password: String!
     roles: [String!]!
   ): User
+  deleteUser(
+    _id: ID!
+  ): User
   createCourse(
     title: String!
     description: String!
     teacherId: ID!
     studentIds: [ID]!
+  ): Course
+  deleteCourse(
+    _id: ID!
   ): Course
   createLesson(
     title: String!
@@ -37,5 +43,8 @@ type Mutation {
     date: Date!
     content: String!
     courseId: ID!
+  ): Lesson
+  deleteLesson(
+    _id: ID!
   ): Lesson
 }

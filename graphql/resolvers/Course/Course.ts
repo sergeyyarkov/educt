@@ -71,6 +71,22 @@ const courseResolver: IResolvers = {
         throw error;
       }
     },
+    deleteCourse: async (_, { _id }: ICourse, context: IContext): Promise<ICourse> => {
+      try {
+        assertAuth(context);
+        assertAdmin(context);
+
+        const course = await Course.findByIdAndRemove(_id)
+
+        if (!course) {
+          throw new ApolloError('Course does not exist!', '404 Not Found');
+        }
+
+        return course
+      } catch (error) {
+        throw error;
+      }
+    }
   },
   Course: {
     lessons: ({ _id }) => Lesson.find({ courseId: _id }),
