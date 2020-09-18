@@ -1,15 +1,15 @@
 import bcrypt from 'bcryptjs';
+import Auth from '../../auth/index'
 import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
-import { assertAuth, assertAdmin } from '../../permissions/index';
 import { IUser, IContext } from '../../../interfaces';
 
 const userResolver: IResolvers = {
   Query: {
     user: async (_, { slug }: IUser, context: IContext): Promise<IUser> => {
       try {
-        assertAuth(context);
+        Auth.isAuthenticated(context)
 
         const user = await User.findOne({ login: slug });
 
@@ -24,7 +24,8 @@ const userResolver: IResolvers = {
     },
     users: async (_, args, context: IContext): Promise<IUser[]> => {
       try {
-        assertAuth(context);
+        Auth.isAuthenticated(context)
+
         const users = await User.find({});
 
         return users;
@@ -41,8 +42,7 @@ const userResolver: IResolvers = {
       context: IContext
     ): Promise<IUser> => {
       try {
-        assertAuth(context);
-        assertAdmin(context);
+        Auth.isAdmin(context)
 
         const candidate = await User.findOne({ email });
 
@@ -67,8 +67,7 @@ const userResolver: IResolvers = {
     },
     deleteUser: async (_, { _id }: IUser, context: IContext): Promise<IUser> => {
       try {
-        assertAuth(context);
-        assertAdmin(context);
+        Auth.isAdmin(context)
 
         const user = await User.findByIdAndRemove(_id);
 
