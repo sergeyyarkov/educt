@@ -6,7 +6,6 @@
 scalar Date
 
 type Query {
-  login(login: String!, password: String!): AuthData
   user(slug: String): User
   users: [User]
   lesson(_id: ID!): Lesson
@@ -16,6 +15,10 @@ type Query {
 }
 
 type Mutation {
+  login(
+    login: String!, 
+    password: String!
+  ): AuthData
   createUser(
     name: String!
     surname: String!

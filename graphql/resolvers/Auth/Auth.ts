@@ -6,19 +6,19 @@ import { User } from '../../models/index';
 import { IUser, IToken } from '../../../interfaces';
 
 const authResolver: IResolvers = {
-  Query: {
+  Mutation: {
     login: async (_, { login, password }: IUser): Promise<IToken> => {
       try {
         const user = await User.findOne({ $or: [{ login }, { email: login }] });
 
         if (!user) {
-          throw new ApolloError('User does not exist!', '404 Not Found');
+          throw new ApolloError('Такого пользователя не существует!', '404 Not Found');
         }
 
         const validate = await bcrypt.compare(password, user.password);
 
         if (!validate) {
-          throw new ApolloError('Incorrent password!', '403 Forbidden');
+          throw new ApolloError('Неверный пароль!', '403 Forbidden');
         }
 
         const token = jwt.sign(
