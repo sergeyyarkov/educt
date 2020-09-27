@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import PrivateRoute from './components/PrivateRoute/PrivateRoute'
+import MainPage from './pages/main'
+import AuthPage from './pages/auth'
+import NotFoundPage from './pages/404'
+import { ThemeProvider, CSSReset } from '@chakra-ui/core'
 
-const App: React.FC = () => {
+const App: React.FC = () => { 
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-};
+    <ThemeProvider>
+      <CSSReset />
+      <Router>
+        <Switch>
+          <PrivateRoute exact path='/'>
+            <MainPage />
+          </PrivateRoute>
+          <Route path='/auth' component={AuthPage} />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </Router>
+    </ThemeProvider> 
+  )
+}
 
-export default App;
+export default App
