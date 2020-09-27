@@ -1,8 +1,8 @@
 import { ApolloError } from 'apollo-server-express';
+import Auth from '../../auth/index'
 import { Course, Lesson, User } from '../../models/index';
 import { IResolvers } from 'graphql-tools';
 import { IContext, ICourse, ILesson } from '../../../interfaces';
-import { assertAuth, assertAdmin } from '../../permissions/index';
 
 const courseResolver: IResolvers = {
   Query: {
@@ -12,7 +12,7 @@ const courseResolver: IResolvers = {
       context: IContext
     ): Promise<ICourse> => {
       try {
-        assertAuth(context);
+        Auth.isAuthenticated(context)
         const course = await Course.findById(_id);
 
         if (!course) {
@@ -26,7 +26,7 @@ const courseResolver: IResolvers = {
     },
     courses: async (_, args, context: IContext): Promise<ICourse[]> => {
       try {
-        assertAuth(context);
+        Auth.isAuthenticated(context)
         const courses = await Course.find({});
 
         return courses;
@@ -42,8 +42,7 @@ const courseResolver: IResolvers = {
       context: IContext
     ): Promise<ICourse> => {
       try {
-        assertAuth(context);
-        assertAdmin(context);
+        Auth.isAdmin(context)
 
         const teacher = await User.findById(teacherId);
         const students = await User.find().where('_id').in(studentIds).exec();
@@ -73,8 +72,7 @@ const courseResolver: IResolvers = {
     },
     deleteCourse: async (_, { _id }: ICourse, context: IContext): Promise<ICourse> => {
       try {
-        assertAuth(context);
-        assertAdmin(context);
+        Auth.isAdmin(context)
 
         const course = await Course.findByIdAndRemove(_id)
 

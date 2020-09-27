@@ -1,8 +1,8 @@
 import { ApolloError } from 'apollo-server-express';
-import { Lesson, Course } from '../../models/index';
 import { IResolvers } from 'graphql-tools';
-import { IContext, ICourse, ILesson } from '../../../interfaces';
-import { assertAuth, assertAdmin } from '../../permissions/index';
+import Auth from '../../auth/index'
+import { Lesson, Course } from '../../models/index';
+import { IContext, ILesson } from '../../../interfaces';
 
 const lessonResolver: IResolvers = {
   Query: {
@@ -12,7 +12,8 @@ const lessonResolver: IResolvers = {
       context: IContext
     ): Promise<ILesson> => {
       try {
-        assertAuth(context);
+        Auth.isAuthenticated(context)
+
         const lesson = await Lesson.findById(_id);
 
         if (!lesson) {
@@ -26,7 +27,8 @@ const lessonResolver: IResolvers = {
     },
     lessons: async (_, args, context: IContext): Promise<ILesson[]> => {
       try {
-        assertAuth(context);
+        Auth.isAuthenticated(context)
+
         const lessons = await Lesson.find({});
 
         return lessons;
@@ -42,8 +44,7 @@ const lessonResolver: IResolvers = {
       context: IContext
     ): Promise<ILesson> => {
       try {
-        assertAuth(context);
-        assertAdmin(context);
+        Auth.isAdmin(context)
 
         const course = await Course.findById(courseId);
 
@@ -66,8 +67,7 @@ const lessonResolver: IResolvers = {
     },
     deleteLesson: async (_, { _id }: ILesson, context: IContext): Promise<ILesson> => {
       try {
-        assertAuth(context);
-        assertAdmin(context);
+        Auth.isAdmin(context)
 
         const lesson = await Lesson.findByIdAndRemove(_id)
 
