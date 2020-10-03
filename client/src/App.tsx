@@ -7,15 +7,12 @@ import NotFoundPage from './pages/404'
 import { ThemeProvider, CSSReset } from '@chakra-ui/core'
 
 const App: React.FC = () => { 
-
   return (
     <ThemeProvider>
       <CSSReset />
       <Router>
         <Switch>
-          <PrivateRoute exact path='/'>
-            <MainPage />
-          </PrivateRoute>
+          <PrivateRoute exact path='/' component={MainPage} />
           <Route path='/auth' component={AuthPage} />
           <Route component={NotFoundPage} />
         </Switch>

@@ -1,21 +1,16 @@
 import React from 'react';
 import Cookies from 'js-cookie'
 import { useHistory } from "react-router-dom";
-import Layout from '../components/Layout/Layout'
 import Auth from '../components/Auth/Auth'
 
-const AuthPage: React.FC<any> = () => {
+const AuthPage: React.FC = () => {
   let history = useHistory()
 
-  if (Cookies.get('token')) {
+  if (Cookies.getJSON('user')) {
     history.push('/')
   }
-  
-  return (
-    <Layout>
-      <Auth />
-    </Layout>
-  )
+
+  return <Auth />
 }
 
 export default AuthPage

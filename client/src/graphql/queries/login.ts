@@ -7,6 +7,9 @@ const LOGIN_QUERY = gql`
       token
       tokenExpiration
       roles
+      name
+      surname
+      patronymic
     }
   }
 `
