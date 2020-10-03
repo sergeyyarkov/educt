@@ -12,6 +12,9 @@ export interface IToken {
   roles: string[];
   token: string;
   tokenExpiration: number;
+  name: string;
+  surname: string;
+  patronymic: string;
 }
 
 export interface IUser extends Document {

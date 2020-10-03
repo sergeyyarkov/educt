@@ -34,6 +34,9 @@ const authResolver: IResolvers = {
           roles: user.roles,
           token,
           tokenExpiration: 1,
+          name: user.name,
+          surname: user.surname,
+          patronymic: user.patronymic
         };
       } catch (error) {
         throw error;

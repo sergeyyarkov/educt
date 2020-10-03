@@ -1,11 +1,10 @@
 import express, { Application, Request, Response } from 'express';
-import mongoose from 'mongoose';
 import path from 'path';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import depthLimit from 'graphql-depth-limit';
 import { ApolloServer } from 'apollo-server-express';
-
+import { connectDb } from './db'
 import schema from './graphql/schema';
 import Auth from './lib/Auth';
 
@@ -45,18 +44,6 @@ async function startServer(): Promise<void> {
   } catch (err) {
     console.log(`× Something went wrong: \n ${err}`);
   }
-}
-
-function connectDb(config: { uri: string }): Promise<any> {
-  mongoose.connection.on('connected', () =>
-    console.log('✔ Database connected!')
-  );
-  mongoose.connection.on('error', (error) => console.error(error));
-  return mongoose.connect(config.uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  });
 }
 
 startServer();

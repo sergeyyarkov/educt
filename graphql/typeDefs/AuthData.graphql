@@ -3,4 +3,7 @@ type AuthData {
   roles: [String]
   token: String!
   tokenExpiration: Int!
+  name: String
+  surname: String
+  patronymic: String
 }
