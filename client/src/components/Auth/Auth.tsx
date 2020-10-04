@@ -1,15 +1,14 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
 import { useMutation } from '@apollo/client'
-import { MdAccountCircle, MdVpnKey } from 'react-icons/md'
-import { Flex, Box, Heading, FormControl, FormLabel, InputGroup, Input, InputLeftElement, Button, useToast } from '@chakra-ui/core'
+import { MdAccountCircle, MdSchool, MdVpnKey } from 'react-icons/md'
+import { Flex, Box, FormControl, FormLabel, InputGroup, Input, InputLeftElement, Button, useToast } from '@chakra-ui/core'
 
-import LOGIN_QUERY from '../../graphql/queries/login'
-
+import LOGIN_MUTATION from '../../graphql/mutations/login'
 
 const Auth: React.FC = () => {
   const [authState, setAuthState] = React.useState({ login: '', password: '' })
-  const [login, result] = useMutation(LOGIN_QUERY, {
+  const [login, result] = useMutation(LOGIN_MUTATION, {
     onError: (error) => {
       toast({
         title: "❌ Ошибка авторизации!",
@@ -71,9 +70,11 @@ const Auth: React.FC = () => {
     <Flex minHeight='100vh' align='center' justifyContent='center'>
       <Box p={8} my={40} width='full' maxWidth="450px" borderWidth={1} borderRadius={8}>
         <Box textAlign='center'>
-          <Heading>Вход в Educt</Heading>
+          <Flex justifyContent='center'>
+            <Box as={MdSchool} color='blue.600' size='64px' />
+          </Flex>
         </Box>
-        <Box my={50}>
+        <Box my='30px'>
           <form onSubmit={handleLogin}>
             <FormControl isRequired={true}>
               <FormLabel>Логин</FormLabel>
@@ -89,7 +90,7 @@ const Auth: React.FC = () => {
                 <Input onChange={handleInputChange} value={authState.password} type="password" name='password' placeholder='********' />
               </InputGroup>
             </FormControl>
-            <Button isLoading={result.loading ? true : false} loadingText="Выполняется вход..." type='submit' variantColor="teal" variant="outline" width="full" mt={4}>
+            <Button isLoading={result.loading ? true : false} loadingText="Выполняется вход..." type='submit' variantColor="blue" variant="outline" width="full" mt={4}>
               Вход
             </Button>
           </form>

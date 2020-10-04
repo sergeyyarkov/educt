@@ -1,21 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
-import { MdSchool, MdNotifications, MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
-import { Flex, Box, Heading, Text, Avatar, Button, Popover, PopoverTrigger, PopoverHeader, PopoverContent, PopoverBody, PopoverArrow, PopoverCloseButton } from '@chakra-ui/core'
+import { MdSchool, MdNotifications, MdSettings, MdExitToApp } from 'react-icons/md'
+import { Flex, Box, Badge, Heading, Text, Avatar, Button, Menu, MenuButton, MenuList, MenuItem, MenuGroup, MenuDivider } from '@chakra-ui/core'
 
 const Header: React.FC = () => {
-  const [accountPopover, setAccountPopover] = React.useState(false)
-
-
-
   return (
     <Box as='header' position='fixed' top={0} left={0} right={0} borderBottomWidth={1} width='100%' height='4rem' zIndex={4}>
       <Flex justifyContent='space-between' width='100%' height='100%' alignItems='center' paddingLeft='1.5rem' paddingRight='1.5rem'>
         <Flex alignItems='center'>
-          <Box as={MdSchool} size={10} color='blue.700' marginRight={4} />
-          <Heading fontSize={32} color='gray.700'>
-            educt
-          </Heading>
+          <Box as={MdSchool} size={10} color='blue.600' marginRight={4} />
+          <Box lineHeight='12px'>
+            <Heading as='p' fontSize='2xl' color='gray.700'>
+              Educt
+            </Heading>
+            <Text as='small'>
+              Learn management system
+            </Text> 
+          </Box>
         </Flex>
         <Flex alignItems='center'>
           <Button 
@@ -27,22 +27,26 @@ const Header: React.FC = () => {
           >
             <Box as={MdNotifications} size='21px' />
           </Button>
-          <Popover isOpen={accountPopover} onOpen={() => setAccountPopover(true)} onClose={() => setAccountPopover(false)}>
-            <PopoverTrigger>
-              <Button rightIcon={accountPopover ? MdKeyboardArrowUp : MdKeyboardArrowDown}><Avatar size="sm" name="user" src="https://bit.ly/broken-link" marginRight={3} />User</Button>
-            </PopoverTrigger>
-            <PopoverContent border={0} zIndex={4} color="white" bg="blue.800" borderColor="blue.800">
-              <PopoverHeader pt={4} fontWeight="bold" border="0">
-                Что вы хотите сделать?
-              </PopoverHeader>
-              <PopoverArrow />
-              <PopoverCloseButton />
-              <PopoverBody border={0}>
-                <Text><Link to='/'>Редактировать аккаунт</Link></Text>
-                <Text color='red.500'><Link to='/'>Выход</Link></Text>
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
+          <Menu>
+            <MenuButton as={Button} pr={6}>
+              <Avatar size="sm" name="user" src="https://bit.ly/broken-link" marginRight={3} />
+              <Text as='span' mr={2}>User</Text>
+              <Badge variantColor="blue" variant="solid">Ученик</Badge>
+            </MenuButton>
+            <MenuList mr='1rem'>
+              <MenuGroup title="Username Surname Patronymic">
+                <MenuDivider />
+                <MenuItem>
+                  <Box as={MdSettings} mr={2} />
+                  Мой профиль
+                </MenuItem>
+                <MenuItem>
+                <Box as={MdExitToApp} mr={2} />
+                  Выход
+                </MenuItem>
+              </MenuGroup>
+            </MenuList>
+          </Menu>
         </Flex>
       </Flex>
     </Box>
