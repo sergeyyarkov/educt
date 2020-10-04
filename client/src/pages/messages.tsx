@@ -1,5 +1,5 @@
 import React from 'react';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, } from '@chakra-ui/core'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/core';
 import { PageProps } from '../interfaces';
 
 const MessagesPage: React.FC<PageProps> = ({ title }) => {
@@ -11,8 +11,7 @@ const MessagesPage: React.FC<PageProps> = ({ title }) => {
         </BreadcrumbItem>
       </Breadcrumb>
     </>
-  )
-}
+  );
+};
 
-export default MessagesPage
-
+export default MessagesPage;

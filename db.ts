@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 export function connectDb(config: { uri: string }): Promise<any> {
   mongoose.connection.on('connected', () =>

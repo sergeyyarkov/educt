@@ -12,7 +12,10 @@ const authResolver: IResolvers = {
         const user = await User.findOne({ $or: [{ login }, { email: login }] });
 
         if (!user) {
-          throw new ApolloError('Такого пользователя не существует!', '404 Not Found');
+          throw new ApolloError(
+            'Такого пользователя не существует!',
+            '404 Not Found'
+          );
         }
 
         const validate = await bcrypt.compare(password, user.password);
@@ -36,7 +39,7 @@ const authResolver: IResolvers = {
           tokenExpiration: 1,
           name: user.name,
           surname: user.surname,
-          patronymic: user.patronymic
+          patronymic: user.patronymic,
         };
       } catch (error) {
         throw error;

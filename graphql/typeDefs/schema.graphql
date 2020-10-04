@@ -15,10 +15,7 @@ type Query {
 }
 
 type Mutation {
-  login(
-    login: String!, 
-    password: String!
-  ): AuthData
+  login(login: String!, password: String!): AuthData
   createUser(
     name: String!
     surname: String!
@@ -28,18 +25,14 @@ type Mutation {
     password: String!
     roles: [String!]!
   ): User
-  deleteUser(
-    _id: ID!
-  ): User
+  deleteUser(_id: ID!): User
   createCourse(
     title: String!
     description: String!
     teacherId: ID!
     studentIds: [ID]!
   ): Course
-  deleteCourse(
-    _id: ID!
-  ): Course
+  deleteCourse(_id: ID!): Course
   createLesson(
     title: String!
     description: String!
@@ -47,7 +40,5 @@ type Mutation {
     content: String!
     courseId: ID!
   ): Lesson
-  deleteLesson(
-    _id: ID!
-  ): Lesson
+  deleteLesson(_id: ID!): Lesson
 }

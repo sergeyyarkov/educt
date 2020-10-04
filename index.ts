@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import depthLimit from 'graphql-depth-limit';
 import { ApolloServer } from 'apollo-server-express';
-import { connectDb } from './db'
+import { connectDb } from './db';
 import schema from './graphql/schema';
 import Auth from './lib/Auth';
 

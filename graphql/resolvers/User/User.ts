@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import Auth from '../../auth/index'
+import Auth from '../../auth/index';
 import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
@@ -9,7 +9,7 @@ const userResolver: IResolvers = {
   Query: {
     user: async (_, { slug }: IUser, context: IContext): Promise<IUser> => {
       try {
-        Auth.isAuthenticated(context)
+        Auth.isAuthenticated(context);
 
         const user = await User.findOne({ login: slug });
 
@@ -24,7 +24,7 @@ const userResolver: IResolvers = {
     },
     users: async (_, args, context: IContext): Promise<IUser[]> => {
       try {
-        Auth.isAuthenticated(context)
+        Auth.isAuthenticated(context);
 
         const users = await User.find({});
 
@@ -42,7 +42,7 @@ const userResolver: IResolvers = {
       context: IContext
     ): Promise<IUser> => {
       try {
-        Auth.isAdmin(context)
+        Auth.isAdmin(context);
 
         const candidate = await User.findOne({ email });
 
@@ -65,9 +65,13 @@ const userResolver: IResolvers = {
         throw error;
       }
     },
-    deleteUser: async (_, { _id }: IUser, context: IContext): Promise<IUser> => {
+    deleteUser: async (
+      _,
+      { _id }: IUser,
+      context: IContext
+    ): Promise<IUser> => {
       try {
-        Auth.isAdmin(context)
+        Auth.isAdmin(context);
 
         const user = await User.findByIdAndRemove(_id);
 
@@ -75,11 +79,11 @@ const userResolver: IResolvers = {
           throw new ApolloError('User does not exist!', '404 Not Found');
         }
 
-        return user
+        return user;
       } catch (error) {
         throw error;
       }
-    }
+    },
   },
 };
 

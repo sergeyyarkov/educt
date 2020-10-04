@@ -1,5 +1,5 @@
 import { ApolloError } from 'apollo-server-express';
-import Auth from '../../auth/index'
+import Auth from '../../auth/index';
 import { Course, Lesson, User } from '../../models/index';
 import { IResolvers } from 'graphql-tools';
 import { IContext, ICourse, ILesson } from '../../../interfaces';
@@ -12,7 +12,7 @@ const courseResolver: IResolvers = {
       context: IContext
     ): Promise<ICourse> => {
       try {
-        Auth.isAuthenticated(context)
+        Auth.isAuthenticated(context);
         const course = await Course.findById(_id);
 
         if (!course) {
@@ -26,7 +26,7 @@ const courseResolver: IResolvers = {
     },
     courses: async (_, args, context: IContext): Promise<ICourse[]> => {
       try {
-        Auth.isAuthenticated(context)
+        Auth.isAuthenticated(context);
         const courses = await Course.find({});
 
         return courses;
@@ -42,7 +42,7 @@ const courseResolver: IResolvers = {
       context: IContext
     ): Promise<ICourse> => {
       try {
-        Auth.isAdmin(context)
+        Auth.isAdmin(context);
 
         const teacher = await User.findById(teacherId);
         const students = await User.find().where('_id').in(studentIds).exec();
@@ -70,21 +70,25 @@ const courseResolver: IResolvers = {
         throw error;
       }
     },
-    deleteCourse: async (_, { _id }: ICourse, context: IContext): Promise<ICourse> => {
+    deleteCourse: async (
+      _,
+      { _id }: ICourse,
+      context: IContext
+    ): Promise<ICourse> => {
       try {
-        Auth.isAdmin(context)
+        Auth.isAdmin(context);
 
-        const course = await Course.findByIdAndRemove(_id)
+        const course = await Course.findByIdAndRemove(_id);
 
         if (!course) {
           throw new ApolloError('Course does not exist!', '404 Not Found');
         }
 
-        return course
+        return course;
       } catch (error) {
         throw error;
       }
-    }
+    },
   },
   Course: {
     lessons: ({ _id }) => Lesson.find({ courseId: _id }),

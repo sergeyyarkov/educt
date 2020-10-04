@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
 
 const LOGIN_QUERY = gql`
   mutation Login($login: String!, $password: String!) {
@@ -12,6 +12,6 @@ const LOGIN_QUERY = gql`
       patronymic
     }
   }
-`
+`;
 
-export default LOGIN_QUERY
+export default LOGIN_QUERY;
