@@ -1,12 +1,10 @@
 import React from 'react';
 import Cookies from 'js-cookie'
 import Helmet from 'react-helmet'
-import { useHistory } from "react-router-dom";
 import Auth from '../components/Auth/Auth'
+import { RouteComponentProps } from 'react-router-dom';
 
-const AuthPage: React.FC = () => {
-  let history = useHistory()
-
+const AuthPage: React.FC<RouteComponentProps> = ({ history }) => {
   if (Cookies.getJSON('user')) {
     history.push('/')
   }
@@ -14,7 +12,7 @@ const AuthPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Вход в Educt</title>
+        <title>Авторизация</title>
       </Helmet>
       <Auth />
     </>

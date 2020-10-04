@@ -1,4 +1,5 @@
 import React from 'react';
+import AuthenticationService from '../../services/authentication.service'
 import { useHistory } from "react-router-dom";
 import { useMutation } from '@apollo/client'
 import { MdAccountCircle, MdSchool, MdVpnKey } from 'react-icons/md'
@@ -21,8 +22,7 @@ const Auth: React.FC = () => {
   })
 
   const toast = useToast()
-
-  let history = useHistory()
+  const history = useHistory()
 
   const handleLogin = async (e: any) => {
     e.preventDefault()
@@ -52,7 +52,8 @@ const Auth: React.FC = () => {
   React.useEffect(() => {
     if (result.data) {
       const user = result.data.login
-      
+
+      AuthenticationService.currentUserSubject.next(user)
       document.cookie = `user=${JSON.stringify(user)}`
       history.push('/')
 

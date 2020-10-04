@@ -1,4 +1,3 @@
-import { from } from '@apollo/client'
 import { RouteProps } from 'react-router-dom'
 import { IconType } from 'react-icons'
 
@@ -9,6 +8,10 @@ export interface PageProps {
 export interface PrivateRouteProps extends RouteProps {
   component: React.FC<any>;
   title?: string;
+}
+
+export interface ArticlesProps {
+  articles: any[]
 }
 
 export interface NavLinksProps {
