@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box, PseudoBox } from '@chakra-ui/core';
 import { useHistory } from 'react-router-dom';
-import { NavLinksProps } from '../../interfaces';
+import { INavLinksProps } from '../../interfaces';
 
-const NavLinks: React.FC<NavLinksProps> = ({ links }) => {
+const NavLinks: React.FC<INavLinksProps> = ({ links }) => {
   const history = useHistory();
 
   return (

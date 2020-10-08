@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Flex, Box, Badge, Heading, Text, Button } from '@chakra-ui/core';
-import { ArticlesProps } from '../../interfaces';
+import { IArticlesProps } from '../../interfaces';
 
-const Articles: React.FC<ArticlesProps> = ({ articles }) => {
+const Articles: React.FC<IArticlesProps> = ({ articles }) => {
   return (
     <Flex marginTop={10} flexDirection="column">
       {articles.map((n, i) => (

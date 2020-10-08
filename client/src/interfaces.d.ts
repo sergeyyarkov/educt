@@ -1,20 +1,21 @@
 import { RouteProps } from 'react-router-dom';
 import { IconType } from 'react-icons';
+import { MutationResult } from '@apollo/client';
 
-export interface PageProps {
+export interface IPageProps {
   title?: string;
 }
 
-export interface PrivateRouteProps extends RouteProps {
+export interface IPrivateRouteProps extends RouteProps {
   component: React.FC<any>;
   title?: string;
 }
 
-export interface ArticlesProps {
+export interface IArticlesProps {
   articles: any[];
 }
 
-export interface NavLinksProps {
+export interface INavLinksProps {
   links: {
     location: string;
     title: string;

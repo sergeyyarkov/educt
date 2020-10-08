@@ -8,9 +8,9 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
 } from '@chakra-ui/core';
-import { PageProps } from '../interfaces';
+import { IPageProps } from '../interfaces';
 
-const MainPage: React.FC<PageProps> = ({ title }) => {
+const MainPage: React.FC<IPageProps> = ({ title }) => {
   return (
     <>
       <Breadcrumb fontWeight="medium" fontSize="sm">

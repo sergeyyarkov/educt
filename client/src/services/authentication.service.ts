@@ -24,6 +24,12 @@ class AuthenticationService {
   public getCurrentUserValue() {
     return this.currentUserSubject.value;
   }
+
+  public setUserValue(userData: any) {
+    this.currentUserSubject.next(userData)
+    document.cookie = `user=${JSON.stringify(userData)}`;
+    console.log(userData)
+  }
 }
 
 const currentUserSubject = new BehaviorSubject(Cookies.getJSON('user'));

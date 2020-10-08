@@ -60,13 +60,9 @@ const Auth: React.FC = () => {
   };
 
   React.useEffect(() => {
-    if (result.data) {
-      const user = result.data.login;
-
-      AuthenticationService.currentUserSubject.next(user);
-      document.cookie = `user=${JSON.stringify(user)}`;
+    if (result.data) { 
+      AuthenticationService.setUserValue(result.data.login)
       history.push('/');
-
       toast({
         title: `👋 Приветствуем вас, ${result.data.login.name}`,
         description: 'Вы были успешно авторизованы.',

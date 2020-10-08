@@ -3,9 +3,9 @@ import Cookies from 'js-cookie';
 import Helmet from 'react-helmet';
 import Layout from '../Layout/Layout';
 import { Route, Redirect } from 'react-router-dom';
-import { PrivateRouteProps } from '../../interfaces';
+import { IPrivateRouteProps } from '../../interfaces';
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({
+const PrivateRoute: React.FC<IPrivateRouteProps> = ({
   children,
   component: Component,
   title,
