@@ -1,10 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApolloClient } from '@apollo/client';
+import { IAuthenticationService } from '../interfaces';
 import Cookies from 'js-cookie';
-
-interface IAuthenticationService {
-  currentUserSubject: BehaviorSubject<any>;
-}
 
 class AuthenticationService {
   public currentUserSubject: BehaviorSubject<any>;
@@ -13,6 +10,10 @@ class AuthenticationService {
   public constructor({ currentUserSubject }: IAuthenticationService) {
     this.currentUserSubject = currentUserSubject;
     this.currentUser = currentUserSubject.asObservable();
+  }
+
+  public isAuthenticated() {
+    return Boolean(Cookies.getJSON('user'))
   }
 
   public logout(client: ApolloClient<object>) {
@@ -28,7 +29,6 @@ class AuthenticationService {
   public setUserValue(userData: any) {
     this.currentUserSubject.next(userData)
     document.cookie = `user=${JSON.stringify(userData)}`;
-    console.log(userData)
   }
 }
 

@@ -1,6 +1,7 @@
 import { RouteProps } from 'react-router-dom';
 import { IconType } from 'react-icons';
 import { MutationResult } from '@apollo/client';
+import { BehaviorSubject } from 'rxjs';
 
 export interface IPageProps {
   title?: string;
@@ -21,4 +22,8 @@ export interface INavLinksProps {
     title: string;
     icon: IconType;
   }[];
+}
+
+export interface IAuthenticationService {
+  currentUserSubject: BehaviorSubject<any>;
 }

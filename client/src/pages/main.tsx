@@ -8,9 +8,12 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
 } from '@chakra-ui/core';
+import { UserContext } from '../context/user.context'
 import { IPageProps } from '../interfaces';
 
 const MainPage: React.FC<IPageProps> = ({ title }) => {
+  const [{ user }]: any = React.useContext(UserContext)
+
   return (
     <>
       <Breadcrumb fontWeight="medium" fontSize="sm">
@@ -29,7 +32,7 @@ const MainPage: React.FC<IPageProps> = ({ title }) => {
             <span role="img" aria-label="hello-emoji">
               👋
             </span>{' '}
-            Приветствуем вас, user!
+            Приветствуем вас, {user.name}
           </Text>
           <Heading as="h1">Последние новости</Heading>
         </Box>

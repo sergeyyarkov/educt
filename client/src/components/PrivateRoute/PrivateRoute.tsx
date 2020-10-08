@@ -1,9 +1,9 @@
 import React from 'react';
-import Cookies from 'js-cookie';
 import Helmet from 'react-helmet';
 import Layout from '../Layout/Layout';
 import { Route, Redirect } from 'react-router-dom';
 import { IPrivateRouteProps } from '../../interfaces';
+import authenticationService from '../../services/authentication.service';
 
 const PrivateRoute: React.FC<IPrivateRouteProps> = ({
   children,
@@ -15,7 +15,7 @@ const PrivateRoute: React.FC<IPrivateRouteProps> = ({
     <Route
       {...options}
       render={(props) =>
-        Cookies.getJSON('user') ? (
+        authenticationService.isAuthenticated() ? (
           <Layout>
             <Helmet>
               <title>{title} • Educt </title>

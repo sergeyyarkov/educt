@@ -1,11 +1,11 @@
 import React from 'react';
-import Cookies from 'js-cookie';
 import Helmet from 'react-helmet';
 import Auth from '../components/Auth/Auth';
+import authenticationService from '../services/authentication.service';
 import { RouteComponentProps } from 'react-router-dom';
 
 const AuthPage: React.FC<RouteComponentProps> = ({ history }) => {
-  if (Cookies.getJSON('user')) {
+  if (authenticationService.isAuthenticated()) {
     history.push('/');
   }
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import AuthenticationService from '../../services/authentication.service';
+import authenticationService from '../../services/authentication.service';
+import { UserContext } from '../../context/user.context'
 import { useHistory } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { MdAccountCircle, MdSchool, MdVpnKey } from 'react-icons/md';
@@ -18,6 +19,7 @@ import {
 import LOGIN_MUTATION from '../../graphql/mutations/login';
 
 const Auth: React.FC = () => {
+  const [, setUserContext]: any = React.useContext(UserContext)
   const [authState, setAuthState] = React.useState({ login: '', password: '' });
   const [login, result] = useMutation(LOGIN_MUTATION, {
     onError: (error) => {
@@ -61,17 +63,20 @@ const Auth: React.FC = () => {
 
   React.useEffect(() => {
     if (result.data) { 
-      AuthenticationService.setUserValue(result.data.login)
+      const user = result.data.login
+
+      authenticationService.setUserValue(user)
+      setUserContext({ user })
       history.push('/');
       toast({
-        title: `👋 Приветствуем вас, ${result.data.login.name}`,
+        title: `👋 Приветствуем вас, ${user.name}`,
         description: 'Вы были успешно авторизованы.',
         status: 'success',
         duration: 4000,
         isClosable: true,
       });
     }
-  }, [result.data, history, toast]);
+  }, [result.data, history, setUserContext, toast]);
 
   return (
     <Flex minHeight="100vh" align="center" justifyContent="center">
