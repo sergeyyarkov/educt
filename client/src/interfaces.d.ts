@@ -25,14 +25,15 @@ export interface INavLinksProps {
 }
 
 export interface IUserData {
+  _id: string;
   name: string;
   surname: string;
   patronymic: string;
   roles: string[];
   token: string;
   tokenExpiration: number;
-  userId: string;
   __typename: string;
+  loading: boolean | undefined;
 }
 
 export interface IAuthenticationService {
