@@ -21,12 +21,16 @@ import {
   MenuItem,
   MenuGroup,
   MenuDivider,
+  Skeleton,
 } from '@chakra-ui/core';
 import { useApolloClient } from '@apollo/client';
+import { Query } from '@apollo/react-components'
+
+import GET_CURRENT_USER from '../../graphql/queries/getCurrentUserData'
 
 const Header: React.FC = () => {
   const history = useHistory();
-  const client = useApolloClient();
+  const client = useApolloClient(); 
 
   const handleLogout = () => {
     authenticationService.logout(client);
@@ -74,58 +78,83 @@ const Header: React.FC = () => {
           </Box>
         </Flex>
         <Flex alignItems="center">
-          <Button
-            marginRight={3}
-            variant="solid"
-            outline="none"
-            border="none"
-            _after={{
-              content: '"2"',
-              display: 'block',
-              position: 'absolute',
-              top: '8px',
-              right: '10px',
-              background: '#E53E3E',
-              color: '#fff',
-              fontSize: '11px',
-              width: '15px',
-              height: '15px',
-              borderRadius: '100%',
+          <Query query={GET_CURRENT_USER} variables={{ token: authenticationService.getCurrentTokenValue() }}>
+            {({ loading, error, data }: any) => {
+
+              if (error) {
+                console.log(error)
+                return null
+              }
+
+              if (loading) {
+                return (
+                  <> 
+                    <Skeleton width='53px' height='40px' marginRight={3} />
+                    <Skeleton width='180px' height='40px' />
+                  </>
+                )
+              }
+
+              const { name, surname, patronymic } = data.getCurrentUserData
+
+              return (
+                <>
+                  <Button
+                    marginRight={3}
+                    variant="solid"
+                    outline="none"
+                    border="none"
+                    _after={{
+                      content: '"2"',
+                      display: 'block',
+                      position: 'absolute',
+                      top: '8px',
+                      right: '10px',
+                      background: '#E53E3E',
+                      color: '#fff',
+                      fontSize: '11px',
+                      width: '15px',
+                      height: '15px',
+                      borderRadius: '100%',
+                    }}
+                  >
+                    <Box as={MdNotifications} size="21px" />
+                  </Button>
+                  <Menu>
+                    <MenuButton as={Button} pr={6}>
+                      <Avatar
+                        size="sm"
+                        name={name}
+                        src="https://bit.ly/broken-link"
+                        marginRight={3}
+                      />
+                      <Text as="span" mr={2}>
+                        {name}
+                      </Text>
+                      <Badge variantColor="blue" variant="solid">
+                        Ученик
+                      </Badge>
+                    </MenuButton>
+                    <MenuList mr="1rem">
+                      <MenuGroup title={`${name} ${surname} ${patronymic}`}>
+                        <MenuDivider />
+                        <Link to="/profile">
+                          <MenuItem>
+                            <Box as={MdSettings} mr={2} />
+                            Мой профиль
+                          </MenuItem>
+                        </Link>
+                        <MenuItem onClick={handleLogout}>
+                          <Box as={MdExitToApp} mr={2} />
+                          Выход
+                        </MenuItem>
+                      </MenuGroup>
+                    </MenuList>
+                  </Menu>
+                </>
+              )
             }}
-          >
-            <Box as={MdNotifications} size="21px" />
-          </Button>
-          <Menu>
-            <MenuButton as={Button} pr={6}>
-              <Avatar
-                size="sm"
-                name='User'
-                src="https://bit.ly/broken-link"
-                marginRight={3}
-              />
-              <Text as="span" mr={2}>
-                User
-              </Text>
-              <Badge variantColor="blue" variant="solid">
-                Ученик
-              </Badge>
-            </MenuButton>
-            <MenuList mr="1rem">
-              <MenuGroup title={`. . .`}>
-                <MenuDivider />
-                <Link to="/profile">
-                  <MenuItem>
-                    <Box as={MdSettings} mr={2} />
-                    Мой профиль
-                  </MenuItem>
-                </Link>
-                <MenuItem onClick={handleLogout}>
-                  <Box as={MdExitToApp} mr={2} />
-                  Выход
-                </MenuItem>
-              </MenuGroup>
-            </MenuList>
-          </Menu>
+          </Query>
         </Flex>
       </Flex>
     </Box>

@@ -20,7 +20,7 @@ import { IUserData } from '../../interfaces';
 
 const Auth: React.FC = () => {
   const [authState, setAuthState] = React.useState({ login: '', password: '' });
-  const [login, result] = useMutation(LOGIN_MUTATION, {
+  const [login, { data, loading }] = useMutation(LOGIN_MUTATION, {
     onError: (error) => {
       toast({
         title: '❌ Ошибка авторизации!',
@@ -29,6 +29,10 @@ const Auth: React.FC = () => {
         duration: 4000,
         isClosable: true,
       });
+    },
+    onCompleted: (data) => {
+      const user: IUserData = data.login
+      authenticationService.setTokenValue(user.token)
     }
   });
   const toast = useToast();
@@ -60,20 +64,17 @@ const Auth: React.FC = () => {
   };
 
   React.useEffect(() => {
-    if (result.data) { 
-      const user: IUserData = result.data.login
-    
-      authenticationService.setTokenValue(user.token)
+    if (data && data.login) {
       history.push('/');
       toast({
-        title: `👋 Приветствуем вас, ${user.name}`,
+        title: `👋 Приветствуем вас, ${data.login.name}`,
         description: 'Вы были успешно авторизованы.',
         status: 'success',
         duration: 4000,
         isClosable: true,
       });
     }
-  }, [result.data, history, toast]);
+  }, [data, history, toast]);
 
   return (
     <Flex minHeight="100vh" align="center" justifyContent="center">
@@ -119,7 +120,7 @@ const Auth: React.FC = () => {
               </InputGroup>
             </FormControl>
             <Button
-              isLoading={result.loading ? true : false}
+              isLoading={loading ? true : false}
               loadingText="Выполняется вход..."
               type="submit"
               variantColor="blue"
