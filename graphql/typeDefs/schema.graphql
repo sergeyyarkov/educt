@@ -6,6 +6,7 @@
 scalar Date
 
 type Query {
+  getCurrentUserData(token: String!): User
   user(slug: String): User
   users: [User]
   lesson(_id: ID!): Lesson

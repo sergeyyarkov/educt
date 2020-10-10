@@ -21,5 +21,5 @@ export default ({ req }: { req: Request }): IContext => {
 
   if (!decodeToken) return { isAuth: false };
 
-  return { isAuth: true, userId: decodeToken.userId, roles: decodeToken.roles };
+  return { isAuth: true, roles: decodeToken.roles };
 };

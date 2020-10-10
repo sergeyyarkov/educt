@@ -3,18 +3,27 @@ import { Document, DocumentQuery } from 'mongoose';
 
 export interface IContext extends ApolloServerExpressConfig {
   isAuth: boolean;
-  userId?: string;
   roles?: string[];
 }
 
 export interface IToken {
-  userId: string;
+  _id: string;
   roles: string[];
   token: string;
   tokenExpiration: number;
   name: string;
   surname: string;
   patronymic: string;
+}
+
+export interface ISignedUserData {
+  _id: string;
+  name: string;
+  surname: string;
+  patronymic: string;
+  login: string;
+  email: string;
+  roles: string[];
 }
 
 export interface IUser extends Document {

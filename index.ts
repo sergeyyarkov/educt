@@ -6,7 +6,7 @@ import depthLimit from 'graphql-depth-limit';
 import { ApolloServer } from 'apollo-server-express';
 import { connectDb } from './db';
 import schema from './graphql/schema';
-import Auth from './lib/Auth';
+import Auth from './context/Auth';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: `${__dirname}/.env` });
