@@ -23,17 +23,13 @@ import {
   MenuDivider,
 } from '@chakra-ui/core';
 import { useApolloClient } from '@apollo/client';
-import { UserContext } from '../../context/user.context'
 
 const Header: React.FC = () => {
-  const [{ user }, setUserContext]: any = React.useContext(UserContext)
-
   const history = useHistory();
   const client = useApolloClient();
 
   const handleLogout = () => {
     authenticationService.logout(client);
-    setUserContext({ user: {} })
     history.push('/auth');
   };
 
@@ -103,19 +99,19 @@ const Header: React.FC = () => {
             <MenuButton as={Button} pr={6}>
               <Avatar
                 size="sm"
-                name={user.name}
+                name='User'
                 src="https://bit.ly/broken-link"
                 marginRight={3}
               />
               <Text as="span" mr={2}>
-                {user.name}
+                User
               </Text>
               <Badge variantColor="blue" variant="solid">
                 Ученик
               </Badge>
             </MenuButton>
             <MenuList mr="1rem">
-              <MenuGroup title={`${user.name} ${user.surname} ${user.patronymic}`}>
+              <MenuGroup title={`. . .`}>
                 <MenuDivider />
                 <Link to="/profile">
                   <MenuItem>

@@ -1,37 +1,43 @@
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ApolloClient } from '@apollo/client';
+import { ApolloClient, FetchResult, MutationFunctionOptions } from '@apollo/client';
 import { IAuthenticationService } from '../interfaces';
 import Cookies from 'js-cookie';
 
 class AuthenticationService {
-  public currentUserSubject: BehaviorSubject<any>;
-  public currentUser: Observable<any>;
+  public currentTokenSubject: BehaviorSubject<any>;
+  public currentToken: Observable<any>;
 
-  public constructor({ currentUserSubject }: IAuthenticationService) {
-    this.currentUserSubject = currentUserSubject;
-    this.currentUser = currentUserSubject.asObservable();
+  public constructor({ currentTokenSubject }: IAuthenticationService) {
+    this.currentTokenSubject = currentTokenSubject;
+    this.currentToken = currentTokenSubject.asObservable();
   }
 
-  public isAuthenticated() {
-    return Boolean(Cookies.getJSON('user'))
+  public isAuthenticated(): boolean {
+    return Boolean(Cookies.get('token'))
   }
 
-  public logout(client: ApolloClient<object>) {
-    Cookies.remove('user');
-    currentUserSubject.next(null);
+  public logout(client: ApolloClient<object>): void {
+    Cookies.remove('token');
+    currentTokenSubject.next(null)
     client.resetStore();
   }
 
-  public getCurrentUserValue() {
-    return this.currentUserSubject.value;
+  public async login(login: (options: MutationFunctionOptions<any, Record<string, any>>) => Promise<FetchResult<any>>, options: MutationFunctionOptions<any, Record<string, any>>) {
+    const loginData = await login(options)
+    
+    return loginData
   }
 
-  public setUserValue(userData: any) {
-    this.currentUserSubject.next(userData)
-    document.cookie = `user=${JSON.stringify(userData)}`;
+  public getCurrentTokenValue(): string {
+    return this.currentTokenSubject.value;
+  }
+
+  public setTokenValue(token: string) {
+    this.currentTokenSubject.next(token)
+    document.cookie = `token=${token}`
   }
 }
 
-const currentUserSubject = new BehaviorSubject(Cookies.getJSON('user'));
+const currentTokenSubject: BehaviorSubject<any> = new BehaviorSubject(Cookies.get('token'))
 
-export default new AuthenticationService({ currentUserSubject });
+export default new AuthenticationService({ currentTokenSubject });

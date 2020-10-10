@@ -1,6 +1,5 @@
 import React from 'react';
 import authenticationService from '../../services/authentication.service';
-import { UserContext } from '../../context/user.context'
 import { useHistory } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { MdAccountCircle, MdSchool, MdVpnKey } from 'react-icons/md';
@@ -17,9 +16,9 @@ import {
 } from '@chakra-ui/core';
 
 import LOGIN_MUTATION from '../../graphql/mutations/login';
+import { IUserData } from '../../interfaces';
 
 const Auth: React.FC = () => {
-  const [, setUserContext]: any = React.useContext(UserContext)
   const [authState, setAuthState] = React.useState({ login: '', password: '' });
   const [login, result] = useMutation(LOGIN_MUTATION, {
     onError: (error) => {
@@ -30,22 +29,21 @@ const Auth: React.FC = () => {
         duration: 4000,
         isClosable: true,
       });
-    },
+    }
   });
-
   const toast = useToast();
   const history = useHistory();
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
-
+    
     try {
-      await login({
+      await authenticationService.login(login, {
         variables: {
           login: authState.login,
           password: authState.password,
         },
-      });
+      })
       setAuthState({ login: '', password: '' });
     } catch (error) {
       console.log(error);
@@ -63,10 +61,9 @@ const Auth: React.FC = () => {
 
   React.useEffect(() => {
     if (result.data) { 
-      const user = result.data.login
-
-      authenticationService.setUserValue(user)
-      setUserContext({ user })
+      const user: IUserData = result.data.login
+    
+      authenticationService.setTokenValue(user.token)
       history.push('/');
       toast({
         title: `👋 Приветствуем вас, ${user.name}`,
@@ -76,7 +73,7 @@ const Auth: React.FC = () => {
         isClosable: true,
       });
     }
-  }, [result.data, history, setUserContext, toast]);
+  }, [result.data, history, toast]);
 
   return (
     <Flex minHeight="100vh" align="center" justifyContent="center">

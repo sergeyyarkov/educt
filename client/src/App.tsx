@@ -12,16 +12,16 @@ import ProfilePage from './pages/profile';
 import AuthPage from './pages/auth';
 import NotFoundPage from './pages/404';
 import { ThemeProvider, CSSReset } from '@chakra-ui/core';
-import authenticationService from './services/authentication.service';
+// import authenticationService from './services/authentication.service';
 
 const App: React.FC = () => {
   const [userContext, setUserContext] = React.useState({ user: {} })
 
-  React.useEffect(() => {
-    if (authenticationService.isAuthenticated()) {
-      setUserContext({ user: authenticationService.getCurrentUserValue() })
-    }
-  }, [setUserContext])
+  // React.useEffect(() => {
+  //   if (authenticationService.isAuthenticated()) {
+  //     setUserContext({ user: authenticationService.getCurrentUserValue() })
+  //   }
+  // }, [setUserContext])
 
   return (
     <ApolloProvider client={client}>

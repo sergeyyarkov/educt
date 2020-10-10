@@ -24,6 +24,17 @@ export interface INavLinksProps {
   }[];
 }
 
+export interface IUserData {
+  name: string;
+  surname: string;
+  patronymic: string;
+  roles: string[];
+  token: string;
+  tokenExpiration: number;
+  userId: string;
+  __typename: string;
+}
+
 export interface IAuthenticationService {
-  currentUserSubject: BehaviorSubject<any>;
+  currentTokenSubject: BehaviorSubject<any>;
 }

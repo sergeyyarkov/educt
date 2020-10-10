@@ -1,15 +1,13 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import AuthenticationService from './services/authentication.service';
 
-const httpLink = createHttpLink({ uri: 'http://localhost:4000/graphql' });
+const httpLink: ApolloLink = createHttpLink({ uri: 'http://localhost:4000/graphql' });
 
-const authLink = setContext((_, { headers }) => {
-  const user = AuthenticationService.getCurrentUserValue();
+const authLink: ApolloLink = setContext((_, { headers }) => {
+  const token = AuthenticationService.getCurrentTokenValue()
 
-  if (user) {
-    const token = user.token;
-
+  if (token) {
     return {
       headers: {
         ...headers,
@@ -19,7 +17,7 @@ const authLink = setContext((_, { headers }) => {
   }
 });
 
-const client = new ApolloClient({
+const client: ApolloClient<any> = new ApolloClient({
   cache: new InMemoryCache(),
   link: authLink.concat(httpLink),
 });
