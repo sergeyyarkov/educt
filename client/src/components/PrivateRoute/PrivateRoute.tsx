@@ -17,7 +17,7 @@ const PrivateRoute: React.FC<IPrivateRouteProps> = ({
       {...options}
       render={(props) =>
         authenticationService.isAuthenticated() ? (
-          <UserProvider token={authenticationService.getCurrentTokenValue()}>
+          <UserProvider>
             <Layout>
               <Helmet>
                 <title>{title} • Educt </title>

@@ -7,8 +7,8 @@ import { IUserData } from '../interfaces';
 
 const UserContext = React.createContext({});
 
-export const UserProvider: React.FC<{ token: string; }> = ({ token, children }) => {
-  const { loading, error, data } = useQuery(GET_CURRENT_USER, { variables: { token } });
+export const UserProvider: React.FC = ({ children }) => {
+  const { loading, error, data } = useQuery(GET_CURRENT_USER);
 
   if (error) {
     return <Heading as='h1' fontSize='2xl'>Error: {error.message}</Heading>

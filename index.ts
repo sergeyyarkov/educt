@@ -6,7 +6,7 @@ import depthLimit from 'graphql-depth-limit';
 import { ApolloServer } from 'apollo-server-express';
 import { connectDb } from './db';
 import schema from './graphql/schema';
-import Auth from './context/Auth';
+import context from './graphql/context';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: `${__dirname}/.env` });
@@ -22,7 +22,7 @@ async function startServer(): Promise<void> {
       schema,
       validationRules: [depthLimit(10)],
       playground: true,
-      context: Auth,
+      context,
     });
 
     await connectDb({

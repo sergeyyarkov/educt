@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 const GET_CURRENT_USER_DATA = gql`
-  query getCurrentUserData($token: String!) {
-    getCurrentUserData(token: $token) {
+  query getCurrentUserData {
+    getCurrentUserData {
       _id
       roles
       name

@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
-import { IUser, IToken, ISignedUserData } from '../../../interfaces';
+import { IUser, IToken } from '../../../interfaces';
 
 const authResolver: IResolvers = {
   Mutation: {
@@ -24,8 +24,7 @@ const authResolver: IResolvers = {
           throw new ApolloError('Неверный пароль!', '403 Forbidden');
         }
 
-        const signedData: ISignedUserData = { _id: user._id, name: user.name, surname: user.surname, patronymic: user.patronymic, login: user.login, email: user.email, roles: user.roles }
-        const token = jwt.sign(signedData, process.env.SECRET_KEY as string, { expiresIn: '1h', });
+        const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY as string, { expiresIn: '1h', });
 
         return {
           _id: user._id,
