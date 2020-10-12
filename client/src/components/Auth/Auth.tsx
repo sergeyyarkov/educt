@@ -65,9 +65,11 @@ const Auth: React.FC = () => {
 
   React.useEffect(() => {
     if (data && data.login) {
+      const { name } = data.login
+      
       history.push('/');
       toast({
-        title: `👋 Приветствуем вас, ${data.login.name}`,
+        title: `👋 Приветствуем вас, ${name}`,
         description: 'Вы были успешно авторизованы.',
         status: 'success',
         duration: 4000,

@@ -1,6 +1,5 @@
 import bcrypt from 'bcryptjs';
 import Auth from '../../auth/index';
-import jwt from 'jsonwebtoken'
 import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
@@ -25,7 +24,7 @@ const userResolver: IResolvers = {
     },
     users: async (_, args, context: IContext): Promise<IUser[]> => {
       try {
-        Auth.isAuthenticated(context);
+        Auth.isAuthenticated(context)
 
         const users = await User.find({});
 
@@ -34,7 +33,7 @@ const userResolver: IResolvers = {
         throw error;
       }
     },
-    getCurrentUserData: (_, args, context: IContext): void => {
+    getCurrentUserData: (_, args, context: IContext) => {
       try {
         Auth.isAuthenticated(context);
         return context.currentUser

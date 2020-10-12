@@ -4,8 +4,8 @@ import { User } from '../graphql/models/index'
 import { IContext, IUser } from '../interfaces';
 
 async function getCurrentUser(token: string): Promise<any> {
-  const decodeToken: any = jwt.verify(token, process.env.SECRET_KEY as string); // getting _id of user in jwt signed token
-  const currentUser: IUser | null = await User.findById(decodeToken._id)
+  const decodeToken: any = jwt.verify(token, process.env.SECRET_KEY as string);
+  const currentUser = await User.findById(decodeToken._id)
 
   return currentUser
 }
@@ -18,7 +18,7 @@ export default async ({ req }: { req: Request }): Promise<IContext> => {
   const token: string = header.split(' ')[1];
 
   if (token) {
-    let currentUser: any;
+    let currentUser: IUser | null;
 
     try {
       currentUser = await getCurrentUser(token)
@@ -27,7 +27,7 @@ export default async ({ req }: { req: Request }): Promise<IContext> => {
     }
   
     if (currentUser) {
-      return { isAuth: true, roles: currentUser.roles, currentUser };
+      return { isAuth: true, currentUser };
     } else {
       return { isAuth: false }
     }

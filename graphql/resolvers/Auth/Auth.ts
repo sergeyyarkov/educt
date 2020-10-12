@@ -3,11 +3,11 @@ import jwt from 'jsonwebtoken';
 import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
-import { IUser, IToken } from '../../../interfaces';
+import { IUser, IAuthData } from '../../../interfaces';
 
 const authResolver: IResolvers = {
   Mutation: {
-    login: async (_, { login, password }: IUser): Promise<IToken> => {
+    login: async (_, { login, password }: IUser): Promise<IAuthData> => {
       try {
         const user = await User.findOne({ $or: [{ login }, { email: login }] });
 
@@ -28,12 +28,11 @@ const authResolver: IResolvers = {
 
         return {
           _id: user._id,
-          roles: user.roles,
-          token,
-          tokenExpiration: 1,
           name: user.name,
           surname: user.surname,
           patronymic: user.patronymic,
+          token,
+          tokenExpiration: 1,
         };
       } catch (error) {
         throw error;

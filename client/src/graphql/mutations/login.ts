@@ -6,7 +6,6 @@ const LOGIN_QUERY = gql`
       _id
       token
       tokenExpiration
-      roles
       name
       surname
       patronymic

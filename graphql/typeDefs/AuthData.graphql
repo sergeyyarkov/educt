@@ -1,9 +1,8 @@
 type AuthData {
   _id: ID!
-  roles: [String]
   token: String!
   tokenExpiration: Int!
-  name: String
-  surname: String
-  patronymic: String
+  name: String!
+  surname: String!
+  patronymic: String!
 }

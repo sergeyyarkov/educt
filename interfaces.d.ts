@@ -1,11 +1,29 @@
 import { ApolloServerExpressConfig } from 'apollo-server-express';
 import { Document, DocumentQuery } from 'mongoose';
 
-/*
- * 
- * Mongoose schema types
- * 
- */
+export interface IContext extends ApolloServerExpressConfig {
+  isAuth: boolean;
+  currentUser?: IUser;
+}
+
+export interface IAuthData {
+  _id: string;
+  token: string;
+  tokenExpiration: number;
+  name: string;
+  surname: string;
+  patronymic: string;
+}
+
+export interface ISignedUserData {
+  _id: string;
+  name: string;
+  surname: string;
+  patronymic: string;
+  login: string;
+  email: string;
+  roles: string[];
+}
 
 export interface IUser extends Document {
   slug: string;
@@ -36,22 +54,4 @@ export interface ICourse extends Document {
   teacherId: string;
   publishedAt: Date;
   updatedAt: Date;
-}
-
-
-
-export interface IContext extends ApolloServerExpressConfig {
-  isAuth: boolean;
-  roles?: string[];
-  currentUser?: any;
-}
-
-export interface IToken {
-  _id: string;
-  roles: string[];
-  token: string;
-  tokenExpiration: number;
-  name: string;
-  surname: string;
-  patronymic: string;
 }
