@@ -1,4 +1,4 @@
-import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import AuthenticationService from './services/authentication.service';
 
@@ -17,8 +17,10 @@ const authLink: ApolloLink = setContext((_, { headers }) => {
   }
 });
 
-const client: ApolloClient<any> = new ApolloClient({
-  cache: new InMemoryCache(),
+const cache = new InMemoryCache();
+
+const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
+  cache,
   link: authLink.concat(httpLink),
 });
 

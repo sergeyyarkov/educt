@@ -3,13 +3,16 @@ import jwt from 'jsonwebtoken';
 import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
-import { IUser, IAuthData } from '../../../interfaces';
+import { IAuthData } from '../../../interfaces';
 
 const authResolver: IResolvers = {
   Mutation: {
-    login: async (_, { login, password }: IUser): Promise<IAuthData> => {
+    login: async (_, args: {
+      login: string;
+      password: string;
+    }): Promise<IAuthData> => {
       try {
-        const user = await User.findOne({ $or: [{ login }, { email: login }] });
+        const user = await User.findOne({ $or: [{ login: args.login }, { email: args.login }] });
 
         if (!user) {
           throw new ApolloError(
@@ -18,7 +21,7 @@ const authResolver: IResolvers = {
           );
         }
 
-        const validate = await bcrypt.compare(password, user.password);
+        const validate = await bcrypt.compare(args.password, user.password);
 
         if (!validate) {
           throw new ApolloError('Неверный пароль!', '403 Forbidden');

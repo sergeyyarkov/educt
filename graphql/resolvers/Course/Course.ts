@@ -2,18 +2,18 @@ import { ApolloError } from 'apollo-server-express';
 import Auth from '../../auth/index';
 import { Course, Lesson, User } from '../../models/index';
 import { IResolvers } from 'graphql-tools';
-import { IContext, ICourse, ILesson } from '../../../interfaces';
+import { IContext, ICourse, ILesson, IUser } from '../../../interfaces';
 
 const courseResolver: IResolvers = {
   Query: {
     course: async (
       _,
-      { _id }: ILesson,
+      args: { _id: string },
       context: IContext
     ): Promise<ICourse> => {
       try {
         Auth.isAuthenticated(context);
-        const course = await Course.findById(_id);
+        const course = await Course.findById(args._id);
 
         if (!course) {
           throw new ApolloError('Course does not exist!', '404 Not Found');
@@ -38,20 +38,25 @@ const courseResolver: IResolvers = {
   Mutation: {
     createCourse: async (
       _,
-      { title, description, teacherId, studentIds }: ICourse,
+      args: {
+        title: string; 
+        description: string;
+        teacherId: string;
+        studentIds: string[];
+      },
       context: IContext
     ): Promise<ICourse> => {
       try {
         Auth.isAdmin(context);
 
-        const teacher = await User.findById(teacherId);
-        const students = await User.find().where('_id').in(studentIds).exec();
+        const teacher = await User.findById(args.teacherId);
+        const students = await User.find().where('_id').in(args.studentIds).exec();
 
         if (!teacher) {
           throw new ApolloError('Teacher does not exist!', '404 Not Found');
         }
 
-        if (students.length < studentIds.length) {
+        if (students.length < args.studentIds.length) {
           throw new ApolloError(
             'Some student does not exist!',
             '404 Not Found'
@@ -59,10 +64,10 @@ const courseResolver: IResolvers = {
         }
 
         return new Course({
-          title,
-          description,
-          teacherId,
-          studentIds,
+          title: args.title,
+          description: args.description,
+          teacherId: args.teacherId,
+          studentIds: args.studentIds,
           publishedAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         }).save();
@@ -72,13 +77,13 @@ const courseResolver: IResolvers = {
     },
     deleteCourse: async (
       _,
-      { _id }: ICourse,
+      args: { _id: string; },
       context: IContext
     ): Promise<ICourse> => {
       try {
         Auth.isAdmin(context);
 
-        const course = await Course.findByIdAndRemove(_id);
+        const course = await Course.findByIdAndRemove(args._id);
 
         if (!course) {
           throw new ApolloError('Course does not exist!', '404 Not Found');
@@ -91,10 +96,40 @@ const courseResolver: IResolvers = {
     },
   },
   Course: {
-    lessons: ({ _id }) => Lesson.find({ courseId: _id }),
-    teacher: ({ teacherId }) => User.findById(teacherId),
-    students: ({ studentIds }) =>
-      User.find().where('_id').in(studentIds).exec(),
+    lessons: async (parent: { _id: string; }, args, context: IContext): Promise<ILesson[]> => {
+      try {
+        Auth.isAuthenticated(context)
+        const lessons = await Lesson.find({ courseId: parent._id })
+
+        return lessons
+      } catch (error) {
+        throw error
+      }
+    },
+    teacher: async (parent: { teacherId: string }, args, context: IContext): Promise<IUser> => {
+      try {
+        Auth.isAuthenticated(context)
+        const teacher = await User.findById(parent.teacherId);
+
+        if (!teacher) {
+          throw new ApolloError('Teacher does not exist!', '404 Not Found');
+        }
+
+        return teacher;
+      } catch (error) {
+        throw error
+      }
+    },
+    students: async (parent: { studentIds: string[] }, args, context: IContext): Promise<IUser[]> => {
+      try {
+        Auth.isAuthenticated(context)
+        const students = await User.find().where('_id').in(parent.studentIds).exec()
+
+        return students
+      } catch (error) {
+        throw error
+      }
+    }
   },
 };
 

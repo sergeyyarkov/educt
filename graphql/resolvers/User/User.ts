@@ -7,11 +7,10 @@ import { IUser, IContext } from '../../../interfaces';
 
 const userResolver: IResolvers = {
   Query: {
-    user: async (_, { slug }: IUser, context: IContext): Promise<IUser> => {
+    user: async (_, args: { slug: string; }, context: IContext): Promise<IUser> => {
       try {
         Auth.isAuthenticated(context);
-
-        const user = await User.findOne({ login: slug });
+        const user = await User.findOne({ login: args.slug });
 
         if (!user) {
           throw new ApolloError('User does not exist!', '404 Not Found');
@@ -46,28 +45,35 @@ const userResolver: IResolvers = {
   Mutation: {
     createUser: async (
       _,
-      { name, surname, patronymic, login, email, password, roles }: IUser,
+      args: {
+        name: string; 
+        surname: string; 
+        patronymic: string; 
+        login: string; 
+        email: string; 
+        password: string; 
+        roles: string[];
+      },
       context: IContext
     ): Promise<IUser> => {
       try {
         Auth.isAdmin(context);
-
-        const candidate = await User.findOne({ email });
+        const candidate = await User.findOne({ email: args.email });
 
         if (candidate) {
           throw new ApolloError('User exists already!', '409 Conflict');
         }
 
-        const hashedPassword = bcrypt.hashSync(password, 10);
+        const hashedPassword = bcrypt.hashSync(args.password, 10);
 
         return new User({
-          name,
-          surname,
-          patronymic,
-          login,
-          email,
+          name: args.name,
+          surname: args.surname,
+          patronymic: args.patronymic,
+          login: args.login,
+          email: args.email,
           password: hashedPassword,
-          roles,
+          roles: args.roles,
         }).save();
       } catch (error) {
         throw error;
@@ -75,13 +81,12 @@ const userResolver: IResolvers = {
     },
     deleteUser: async (
       _,
-      { _id }: IUser,
+      args: { _id: string; },
       context: IContext
     ): Promise<IUser> => {
       try {
         Auth.isAdmin(context);
-
-        const user = await User.findByIdAndRemove(_id);
+        const user = await User.findByIdAndRemove(args._id);
 
         if (!user) {
           throw new ApolloError('User does not exist!', '404 Not Found');
