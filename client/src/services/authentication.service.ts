@@ -1,6 +1,10 @@
 import Cookies from 'js-cookie';
-import { ApolloClient, FetchResult, MutationFunctionOptions } from '@apollo/client';
-import { isLoggedInVar, tokenVar } from '../cache'
+import {
+  ApolloClient,
+  FetchResult,
+  MutationFunctionOptions,
+} from '@apollo/client';
+import { isLoggedInVar, tokenVar } from '../cache';
 
 class AuthenticationService {
   public currentToken: string | undefined | null;
@@ -16,13 +20,18 @@ class AuthenticationService {
     client.resetStore();
   }
 
-  public async login(login: (options: MutationFunctionOptions<any, Record<string, any>>) => Promise<FetchResult<any>>, options: MutationFunctionOptions<any, Record<string, any>>) {
-    return await login(options)
+  public async login(
+    login: (
+      options: MutationFunctionOptions<any, Record<string, any>>
+    ) => Promise<FetchResult<any>>,
+    options: MutationFunctionOptions<any, Record<string, any>>
+  ) {
+    return await login(options);
   }
 
   public setTokenValue(token: string) {
     document.cookie = `token=${token}`;
-    isLoggedInVar(true)
+    isLoggedInVar(true);
     tokenVar(token);
     this.currentToken = token;
   }

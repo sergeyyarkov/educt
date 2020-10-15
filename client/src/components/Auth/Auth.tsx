@@ -14,13 +14,13 @@ import {
   Button,
   useToast,
 } from '@chakra-ui/core';
-import { isLoggedInVar } from '../../cache'
+import { isLoggedInVar } from '../../cache';
 import { IAuthData } from '../../interfaces';
 
 import LOGIN_MUTATION from '../../graphql/mutations/login';
 
 const Auth: React.FC = () => {
-  const isLoggedIn = isLoggedInVar()
+  const isLoggedIn = isLoggedInVar();
   const [authState, setAuthState] = React.useState({ login: '', password: '' });
   const [login, { data, loading }] = useMutation(LOGIN_MUTATION, {
     onError: (error) => {
@@ -33,24 +33,24 @@ const Auth: React.FC = () => {
       });
     },
     onCompleted: (data) => {
-      const user: IAuthData = data.login
+      const user: IAuthData = data.login;
 
-      authenticationService.setTokenValue(user.token)
-    }
+      authenticationService.setTokenValue(user.token);
+    },
   });
   const toast = useToast();
   const history = useHistory();
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
-    
+
     try {
       await authenticationService.login(login, {
         variables: {
           login: authState.login,
           password: authState.password,
         },
-      })
+      });
       setAuthState({ login: '', password: '' });
     } catch (error) {
       console.log(error);
@@ -68,9 +68,9 @@ const Auth: React.FC = () => {
 
   React.useEffect(() => {
     if (data && data.login && isLoggedIn) {
-      const { name } = data.login
-      
-      history.push('/')
+      const { name } = data.login;
+
+      history.push('/');
       toast({
         title: `👋 Приветствуем вас, ${name}`,
         description: 'Вы были успешно авторизованы.',

@@ -31,9 +31,9 @@ import GET_CURRENT_USER_DATA from '../../graphql/queries/currentUserData';
 
 const Header: React.FC = () => {
   const client = useApolloClient();
-  const currentUser = useQuery<IUserQueryData>(GET_CURRENT_USER_DATA)
+  const currentUser = useQuery<IUserQueryData>(GET_CURRENT_USER_DATA);
 
-  const handleLogout = () => authenticationService.logout(client)
+  const handleLogout = () => authenticationService.logout(client);
 
   return (
     <Box
@@ -77,9 +77,9 @@ const Header: React.FC = () => {
         </Flex>
         <Flex alignItems="center">
           {currentUser.loading ? (
-            <> 
-              <Skeleton width='53px' height='40px' marginRight={3} />
-              <Skeleton width='180px' height='40px' />
+            <>
+              <Skeleton width="53px" height="40px" marginRight={3} />
+              <Skeleton width="180px" height="40px" />
             </>
           ) : (
             <>
@@ -103,44 +103,46 @@ const Header: React.FC = () => {
                 }}
               >
                 <Box as={MdNotifications} size="21px" />
-                </Button>
-                <Menu>
-                  <MenuButton as={Button} pr={6}>
-                    <Avatar
-                      size="sm"
-                      name={currentUser.data?.me.name}
-                      src="https://bit.ly/broken-link"
-                      marginRight={3}
-                    />
-                    <Text as="span" mr={2}>
-                      {currentUser.data?.me.name}
-                    </Text>
-                    {currentUser.data?.me.roles.includes('ADMIN') ? (
-                      <Badge variantColor="purple" variant="solid">
-                        Преподаватель
-                      </Badge>
-                    ) : (
-                      <Badge variantColor="blue" variant="solid">
-                        Ученик
-                      </Badge>
-                    )}
-                  </MenuButton>
-                  <MenuList mr="1rem">
-                    <MenuGroup title={`${currentUser.data?.me.name} ${currentUser.data?.me.surname} ${currentUser.data?.me.patronymic}`}>
-                      <MenuDivider />
-                      <Link to="/profile">
-                        <MenuItem>
-                          <Box as={MdSettings} mr={2} />
-                          Мой профиль
-                        </MenuItem>
-                      </Link>
-                      <MenuItem onClick={handleLogout}>
-                        <Box as={MdExitToApp} mr={2} />
-                        Выход
+              </Button>
+              <Menu>
+                <MenuButton as={Button} pr={6}>
+                  <Avatar
+                    size="sm"
+                    name={currentUser.data?.me.name}
+                    src="https://bit.ly/broken-link"
+                    marginRight={3}
+                  />
+                  <Text as="span" mr={2}>
+                    {currentUser.data?.me.name}
+                  </Text>
+                  {currentUser.data?.me.roles.includes('ADMIN') ? (
+                    <Badge variantColor="purple" variant="solid">
+                      Преподаватель
+                    </Badge>
+                  ) : (
+                    <Badge variantColor="blue" variant="solid">
+                      Ученик
+                    </Badge>
+                  )}
+                </MenuButton>
+                <MenuList mr="1rem">
+                  <MenuGroup
+                    title={`${currentUser.data?.me.name} ${currentUser.data?.me.surname} ${currentUser.data?.me.patronymic}`}
+                  >
+                    <MenuDivider />
+                    <Link to="/profile">
+                      <MenuItem>
+                        <Box as={MdSettings} mr={2} />
+                        Мой профиль
                       </MenuItem>
-                    </MenuGroup>
-                  </MenuList>
-                </Menu>
+                    </Link>
+                    <MenuItem onClick={handleLogout}>
+                      <Box as={MdExitToApp} mr={2} />
+                      Выход
+                    </MenuItem>
+                  </MenuGroup>
+                </MenuList>
+              </Menu>
             </>
           )}
         </Flex>

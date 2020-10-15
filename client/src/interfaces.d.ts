@@ -35,7 +35,7 @@ export interface IUserQueryData {
     password: string;
     roles: string[];
     __typename: string;
-  }
+  };
 }
 
 export interface IAuthData {

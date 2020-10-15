@@ -14,33 +14,33 @@ const App: React.FC = () => {
   return (
     <ThemeProvider>
       <CSSReset />
-        <Router>
-          <Switch>
-            <PrivateRoute exact path="/" component={MainPage} title="Главная" />
-            <PrivateRoute
-              path="/courses"
-              component={CoursesPage}
-              title="Список курсов"
-            />
-            <PrivateRoute
-              path="/homeworks"
-              component={HomeworksPage}
-              title="Домашние задания"
-            />
-            <PrivateRoute
-              path="/messages"
-              component={MessagesPage}
-              title="Мои сообщения"
-            />
-            <PrivateRoute
-              path="/profile"
-              component={ProfilePage}
-              title="Мой профиль"
-            />
-            <Route path="/auth" component={AuthPage} title="Авторизация" />
-            <Route component={NotFoundPage} title="Ошибка 404" />
-          </Switch>
-        </Router>
+      <Router>
+        <Switch>
+          <PrivateRoute exact path="/" component={MainPage} title="Главная" />
+          <PrivateRoute
+            path="/courses"
+            component={CoursesPage}
+            title="Список курсов"
+          />
+          <PrivateRoute
+            path="/homeworks"
+            component={HomeworksPage}
+            title="Домашние задания"
+          />
+          <PrivateRoute
+            path="/messages"
+            component={MessagesPage}
+            title="Мои сообщения"
+          />
+          <PrivateRoute
+            path="/profile"
+            component={ProfilePage}
+            title="Мой профиль"
+          />
+          <Route path="/auth" component={AuthPage} title="Авторизация" />
+          <Route component={NotFoundPage} title="Ошибка 404" />
+        </Switch>
+      </Router>
     </ThemeProvider>
   );
 };

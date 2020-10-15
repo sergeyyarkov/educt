@@ -7,7 +7,11 @@ import { IUser, IContext } from '../../../interfaces';
 
 const userResolver: IResolvers = {
   Query: {
-    user: async (_, args: { slug: string; }, context: IContext): Promise<IUser> => {
+    user: async (
+      _,
+      args: { slug: string },
+      context: IContext
+    ): Promise<IUser> => {
       try {
         Auth.isAuthenticated(context);
         const user = await User.findOne({ login: args.slug });
@@ -23,7 +27,7 @@ const userResolver: IResolvers = {
     },
     users: async (_, args, context: IContext): Promise<IUser[]> => {
       try {
-        Auth.isAuthenticated(context)
+        Auth.isAuthenticated(context);
 
         const users = await User.find({});
 
@@ -35,23 +39,23 @@ const userResolver: IResolvers = {
     me: (_, args, context: IContext) => {
       try {
         Auth.isAuthenticated(context);
-        return context.currentUser
+        return context.currentUser;
       } catch (error) {
         throw error;
       }
-    }
+    },
   },
 
   Mutation: {
     createUser: async (
       _,
       args: {
-        name: string; 
-        surname: string; 
-        patronymic: string; 
-        login: string; 
-        email: string; 
-        password: string; 
+        name: string;
+        surname: string;
+        patronymic: string;
+        login: string;
+        email: string;
+        password: string;
         roles: string[];
       },
       context: IContext
@@ -81,7 +85,7 @@ const userResolver: IResolvers = {
     },
     deleteUser: async (
       _,
-      args: { _id: string; },
+      args: { _id: string },
       context: IContext
     ): Promise<IUser> => {
       try {

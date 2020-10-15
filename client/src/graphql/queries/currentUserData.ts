@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
 
 const GET_CURRENT_USER_DATA = gql`
   query currentUserData {
@@ -13,6 +13,6 @@ const GET_CURRENT_USER_DATA = gql`
       roles
     }
   }
-`
+`;
 
-export default GET_CURRENT_USER_DATA
+export default GET_CURRENT_USER_DATA;

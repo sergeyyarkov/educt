@@ -39,7 +39,7 @@ const courseResolver: IResolvers = {
     createCourse: async (
       _,
       args: {
-        title: string; 
+        title: string;
         description: string;
         teacherId: string;
         studentIds: string[];
@@ -50,7 +50,10 @@ const courseResolver: IResolvers = {
         Auth.isAdmin(context);
 
         const teacher = await User.findById(args.teacherId);
-        const students = await User.find().where('_id').in(args.studentIds).exec();
+        const students = await User.find()
+          .where('_id')
+          .in(args.studentIds)
+          .exec();
 
         if (!teacher) {
           throw new ApolloError('Teacher does not exist!', '404 Not Found');
@@ -77,7 +80,7 @@ const courseResolver: IResolvers = {
     },
     deleteCourse: async (
       _,
-      args: { _id: string; },
+      args: { _id: string },
       context: IContext
     ): Promise<ICourse> => {
       try {
@@ -96,19 +99,27 @@ const courseResolver: IResolvers = {
     },
   },
   Course: {
-    lessons: async (parent: { _id: string; }, args, context: IContext): Promise<ILesson[]> => {
+    lessons: async (
+      parent: { _id: string },
+      args,
+      context: IContext
+    ): Promise<ILesson[]> => {
       try {
-        Auth.isAuthenticated(context)
-        const lessons = await Lesson.find({ courseId: parent._id })
+        Auth.isAuthenticated(context);
+        const lessons = await Lesson.find({ courseId: parent._id });
 
-        return lessons
+        return lessons;
       } catch (error) {
-        throw error
+        throw error;
       }
     },
-    teacher: async (parent: { teacherId: string }, args, context: IContext): Promise<IUser> => {
+    teacher: async (
+      parent: { teacherId: string },
+      args,
+      context: IContext
+    ): Promise<IUser> => {
       try {
-        Auth.isAuthenticated(context)
+        Auth.isAuthenticated(context);
         const teacher = await User.findById(parent.teacherId);
 
         if (!teacher) {
@@ -117,19 +128,26 @@ const courseResolver: IResolvers = {
 
         return teacher;
       } catch (error) {
-        throw error
+        throw error;
       }
     },
-    students: async (parent: { studentIds: string[] }, args, context: IContext): Promise<IUser[]> => {
+    students: async (
+      parent: { studentIds: string[] },
+      args,
+      context: IContext
+    ): Promise<IUser[]> => {
       try {
-        Auth.isAuthenticated(context)
-        const students = await User.find().where('_id').in(parent.studentIds).exec()
+        Auth.isAuthenticated(context);
+        const students = await User.find()
+          .where('_id')
+          .in(parent.studentIds)
+          .exec();
 
-        return students
+        return students;
       } catch (error) {
-        throw error
+        throw error;
       }
-    }
+    },
   },
 };
 

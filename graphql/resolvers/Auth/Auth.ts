@@ -7,12 +7,17 @@ import { IAuthData } from '../../../interfaces';
 
 const authResolver: IResolvers = {
   Mutation: {
-    login: async (_, args: {
-      login: string;
-      password: string;
-    }): Promise<IAuthData> => {
+    login: async (
+      _,
+      args: {
+        login: string;
+        password: string;
+      }
+    ): Promise<IAuthData> => {
       try {
-        const user = await User.findOne({ $or: [{ login: args.login }, { email: args.login }] });
+        const user = await User.findOne({
+          $or: [{ login: args.login }, { email: args.login }],
+        });
 
         if (!user) {
           throw new ApolloError(
@@ -27,7 +32,11 @@ const authResolver: IResolvers = {
           throw new ApolloError('Неверный пароль!', '403 Forbidden');
         }
 
-        const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY as string, { expiresIn: '1h', });
+        const token = jwt.sign(
+          { _id: user._id },
+          process.env.SECRET_KEY as string,
+          { expiresIn: '1h' }
+        );
 
         return {
           _id: user._id,

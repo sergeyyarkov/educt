@@ -14,8 +14,8 @@ import GET_CURRENT_USER_DATA from '../graphql/queries/currentUserData';
 import { useQuery } from '@apollo/react-components';
 
 const MainPage: React.FC<IPageProps> = ({ title }) => {
-  const currentUser = useQuery<IUserQueryData>(GET_CURRENT_USER_DATA)
- 
+  const currentUser = useQuery<IUserQueryData>(GET_CURRENT_USER_DATA);
+
   return (
     <>
       <Breadcrumb fontWeight="medium" fontSize="sm">
@@ -26,7 +26,7 @@ const MainPage: React.FC<IPageProps> = ({ title }) => {
       <Box marginTop={10}>
         <Box>
           {currentUser.loading ? (
-            <Skeleton width='300px' height='24px' />
+            <Skeleton width="300px" height="24px" />
           ) : (
             <Text
               fontWeight={600}
@@ -38,7 +38,7 @@ const MainPage: React.FC<IPageProps> = ({ title }) => {
                 👋
               </span>{' '}
               Приветствуем вас, {currentUser.data?.me.name}
-          </Text>
+            </Text>
           )}
           <Heading as="h1">Последние новости</Heading>
         </Box>

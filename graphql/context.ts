@@ -1,13 +1,13 @@
 import { Request } from 'express';
 import jwt from 'jsonwebtoken';
-import { User } from '../graphql/models/index'
+import { User } from '../graphql/models/index';
 import { IContext, IUser } from '../interfaces';
 
 async function getCurrentUser(token: string): Promise<any> {
   const decodeToken: any = jwt.verify(token, process.env.SECRET_KEY as string);
-  const currentUser = await User.findById(decodeToken._id)
+  const currentUser = await User.findById(decodeToken._id);
 
-  return currentUser
+  return currentUser;
 }
 
 export default async ({ req }: { req: Request }): Promise<IContext> => {
@@ -21,15 +21,15 @@ export default async ({ req }: { req: Request }): Promise<IContext> => {
     let currentUser: IUser | null;
 
     try {
-      currentUser = await getCurrentUser(token)
+      currentUser = await getCurrentUser(token);
     } catch (err) {
       return { isAuth: false };
     }
-  
+
     if (currentUser) {
       return { isAuth: true, currentUser };
     } else {
-      return { isAuth: false }
+      return { isAuth: false };
     }
   } else {
     return { isAuth: false };

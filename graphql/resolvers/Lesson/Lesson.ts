@@ -39,7 +39,7 @@ const lessonResolver: IResolvers = {
   Mutation: {
     createLesson: async (
       _,
-      args: { 
+      args: {
         title: string;
         description: string;
         date: string;
@@ -71,7 +71,7 @@ const lessonResolver: IResolvers = {
     },
     deleteLesson: async (
       _,
-      args: { _id: string; },
+      args: { _id: string },
       context: IContext
     ): Promise<ILesson> => {
       try {
@@ -89,18 +89,22 @@ const lessonResolver: IResolvers = {
     },
   },
   Lesson: {
-    course: async (parent: { courseId: string; }, args, context: IContext): Promise<ICourse> => {
+    course: async (
+      parent: { courseId: string },
+      args,
+      context: IContext
+    ): Promise<ICourse> => {
       try {
-        Auth.isAuthenticated(context)
-        const course = await Course.findById(parent.courseId)
+        Auth.isAuthenticated(context);
+        const course = await Course.findById(parent.courseId);
 
         if (!course) {
           throw new ApolloError('Course does not exist!', '404 Not Found');
         }
 
-        return course
+        return course;
       } catch (error) {
-        throw error
+        throw error;
       }
     },
   },

@@ -1,12 +1,19 @@
-import { ApolloClient, ApolloLink, createHttpLink, NormalizedCacheObject } from '@apollo/client';
-import { cache } from './cache'
+import {
+  ApolloClient,
+  ApolloLink,
+  createHttpLink,
+  NormalizedCacheObject,
+} from '@apollo/client';
+import { cache } from './cache';
 import { setContext } from '@apollo/client/link/context';
 import authenticationService from './services/authentication.service';
 
-const httpLink: ApolloLink = createHttpLink({ uri: 'http://localhost:4000/graphql' });
+const httpLink: ApolloLink = createHttpLink({
+  uri: 'http://localhost:4000/graphql',
+});
 const authLink: ApolloLink = setContext((_, { headers }) => {
-  const token = authenticationService.currentToken
-  
+  const token = authenticationService.currentToken;
+
   if (token) {
     return {
       headers: {
@@ -23,4 +30,4 @@ const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   resolvers: {},
 });
 
-export default client
+export default client;

@@ -13,13 +13,13 @@ const PrivateRoute: React.FC<IPrivateRouteProps> = ({
   title,
   ...options
 }) => {
-  const isLoggedIn = useReactiveVar(isLoggedInVar)
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
 
   return (
     <Route
       {...options}
       render={(props) =>
-        isLoggedIn ? (    
+        isLoggedIn ? (
           <Layout>
             <Helmet>
               <title>{title} • Educt </title>
