@@ -24,7 +24,21 @@ export interface INavLinksProps {
   }[];
 }
 
-export interface IUserData {
+export interface IUserQueryData {
+  me: {
+    slug: string;
+    name: string;
+    surname: string;
+    patronymic: string;
+    login: string;
+    email: string;
+    password: string;
+    roles: string[];
+    __typename: string;
+  }
+}
+
+export interface IAuthData {
   _id: string;
   name: string;
   surname: string;
@@ -32,8 +46,8 @@ export interface IUserData {
   roles: string[];
   token: string;
   tokenExpiration: number;
-  __typename: string;
   loading: boolean | undefined;
+  __typename: string;
 }
 
 export interface IAuthenticationService {

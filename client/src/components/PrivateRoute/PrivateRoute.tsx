@@ -3,8 +3,9 @@ import Helmet from 'react-helmet';
 import Layout from '../Layout/Layout';
 import { Route, Redirect } from 'react-router-dom';
 import { IPrivateRouteProps } from '../../interfaces';
-import { UserProvider } from '../../context/user.context'
-import authenticationService from '../../services/authentication.service';
+import { useReactiveVar } from '@apollo/react-components';
+
+import { isLoggedInVar } from '../../cache';
 
 const PrivateRoute: React.FC<IPrivateRouteProps> = ({
   children,
@@ -12,19 +13,19 @@ const PrivateRoute: React.FC<IPrivateRouteProps> = ({
   title,
   ...options
 }) => {
+  const isLoggedIn = useReactiveVar(isLoggedInVar)
+
   return (
     <Route
       {...options}
       render={(props) =>
-        authenticationService.isAuthenticated() ? (
-          <UserProvider>
-            <Layout>
-              <Helmet>
-                <title>{title} • Educt </title>
-              </Helmet>
-              <Component {...props} title={title} />
-            </Layout>
-          </UserProvider>
+        isLoggedIn ? (    
+          <Layout>
+            <Helmet>
+              <title>{title} • Educt </title>
+            </Helmet>
+            <Component {...props} title={title} />
+          </Layout>
         ) : (
           <Redirect
             to={{ pathname: '/auth', state: { from: props.location } }}

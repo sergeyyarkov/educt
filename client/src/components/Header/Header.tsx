@@ -1,6 +1,6 @@
 import React from 'react';
 import authenticationService from '../../services/authentication.service';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   MdSchool,
   MdNotifications,
@@ -24,18 +24,16 @@ import {
   Skeleton,
 } from '@chakra-ui/core';
 import { useApolloClient } from '@apollo/client';
-import UserContext from '../../context/user.context'
-import { IUserData } from '../../interfaces';
+import { useQuery } from '@apollo/react-components';
+import { IUserQueryData } from '../../interfaces';
+
+import GET_CURRENT_USER_DATA from '../../graphql/queries/currentUserData';
 
 const Header: React.FC = () => {
-  const user: IUserData = React.useContext<any>(UserContext)
-  const history = useHistory();
-  const client = useApolloClient(); 
+  const client = useApolloClient();
+  const currentUser = useQuery<IUserQueryData>(GET_CURRENT_USER_DATA)
 
-  const handleLogout = () => {
-    authenticationService.logout(client);
-    history.push('/auth');
-  };
+  const handleLogout = () => authenticationService.logout(client)
 
   return (
     <Box
@@ -78,7 +76,7 @@ const Header: React.FC = () => {
           </Box>
         </Flex>
         <Flex alignItems="center">
-          {user.loading ? (
+          {currentUser.loading ? (
             <> 
               <Skeleton width='53px' height='40px' marginRight={3} />
               <Skeleton width='180px' height='40px' />
@@ -110,14 +108,14 @@ const Header: React.FC = () => {
                   <MenuButton as={Button} pr={6}>
                     <Avatar
                       size="sm"
-                      name={user.name}
+                      name={currentUser.data?.me.name}
                       src="https://bit.ly/broken-link"
                       marginRight={3}
                     />
                     <Text as="span" mr={2}>
-                      {user.name}
+                      {currentUser.data?.me.name}
                     </Text>
-                    {user.roles.includes('ADMIN') ? (
+                    {currentUser.data?.me.roles.includes('ADMIN') ? (
                       <Badge variantColor="purple" variant="solid">
                         Преподаватель
                       </Badge>
@@ -128,7 +126,7 @@ const Header: React.FC = () => {
                     )}
                   </MenuButton>
                   <MenuList mr="1rem">
-                    <MenuGroup title={`${user.name} ${user.surname} ${user.patronymic}`}>
+                    <MenuGroup title={`${currentUser.data?.me.name} ${currentUser.data?.me.surname} ${currentUser.data?.me.patronymic}`}>
                       <MenuDivider />
                       <Link to="/profile">
                         <MenuItem>

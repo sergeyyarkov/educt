@@ -14,11 +14,13 @@ import {
   Button,
   useToast,
 } from '@chakra-ui/core';
+import { isLoggedInVar } from '../../cache'
+import { IAuthData } from '../../interfaces';
 
 import LOGIN_MUTATION from '../../graphql/mutations/login';
-import { IUserData } from '../../interfaces';
 
 const Auth: React.FC = () => {
+  const isLoggedIn = isLoggedInVar()
   const [authState, setAuthState] = React.useState({ login: '', password: '' });
   const [login, { data, loading }] = useMutation(LOGIN_MUTATION, {
     onError: (error) => {
@@ -31,7 +33,8 @@ const Auth: React.FC = () => {
       });
     },
     onCompleted: (data) => {
-      const user: IUserData = data.login
+      const user: IAuthData = data.login
+
       authenticationService.setTokenValue(user.token)
     }
   });
@@ -64,10 +67,10 @@ const Auth: React.FC = () => {
   };
 
   React.useEffect(() => {
-    if (data && data.login) {
+    if (data && data.login && isLoggedIn) {
       const { name } = data.login
       
-      history.push('/');
+      history.push('/')
       toast({
         title: `👋 Приветствуем вас, ${name}`,
         description: 'Вы были успешно авторизованы.',
@@ -76,7 +79,7 @@ const Auth: React.FC = () => {
         isClosable: true,
       });
     }
-  }, [data, history, toast]);
+  }, [data, history, isLoggedIn, toast]);
 
   return (
     <Flex minHeight="100vh" align="center" justifyContent="center">

@@ -7,13 +7,15 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Skeleton,
 } from '@chakra-ui/core';
-import { IPageProps, IUserData } from '../interfaces';
-import UserContext from '../context/user.context'
+import { IPageProps, IUserQueryData } from '../interfaces';
+import GET_CURRENT_USER_DATA from '../graphql/queries/currentUserData';
+import { useQuery } from '@apollo/react-components';
 
 const MainPage: React.FC<IPageProps> = ({ title }) => {
-  const user: IUserData = React.useContext<any>(UserContext)
-
+  const currentUser = useQuery<IUserQueryData>(GET_CURRENT_USER_DATA)
+ 
   return (
     <>
       <Breadcrumb fontWeight="medium" fontSize="sm">
@@ -23,17 +25,21 @@ const MainPage: React.FC<IPageProps> = ({ title }) => {
       </Breadcrumb>
       <Box marginTop={10}>
         <Box>
-          <Text
-            fontWeight={600}
-            fontSize="md"
-            color="blue.600"
-            marginBottom={1}
-          >
-            <span role="img" aria-label="hello-emoji">
-              👋
-            </span>{' '}
-            Приветствуем вас, {user.name}
+          {currentUser.loading ? (
+            <Skeleton width='300px' height='24px' />
+          ) : (
+            <Text
+              fontWeight={600}
+              fontSize="md"
+              color="blue.600"
+              marginBottom={1}
+            >
+              <span role="img" aria-label="hello-emoji">
+                👋
+              </span>{' '}
+              Приветствуем вас, {currentUser.data?.me.name}
           </Text>
+          )}
           <Heading as="h1">Последние новости</Heading>
         </Box>
         <Articles articles={[1, 2, 3, 4]} />
