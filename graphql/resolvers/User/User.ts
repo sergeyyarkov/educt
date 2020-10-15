@@ -32,7 +32,7 @@ const userResolver: IResolvers = {
         throw error;
       }
     },
-    getCurrentUserData: (_, args, context: IContext) => {
+    me: (_, args, context: IContext) => {
       try {
         Auth.isAuthenticated(context);
         return context.currentUser
