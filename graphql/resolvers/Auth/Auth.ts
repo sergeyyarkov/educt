@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
-import { IAuthData } from '../../../interfaces';
+import { IAuthData, IContext } from '../../../interfaces';
 
 const authResolver: IResolvers = {
   Mutation: {
@@ -12,7 +12,8 @@ const authResolver: IResolvers = {
       args: {
         login: string;
         password: string;
-      }
+      },
+      context: IContext
     ): Promise<IAuthData> => {
       try {
         const user = await User.findOne({
@@ -37,6 +38,12 @@ const authResolver: IResolvers = {
           process.env.SECRET_KEY as string,
           { expiresIn: '1h' }
         );
+
+        context.res.cookie('token', token, {
+          httpOnly: true,
+          //secure: true, // https
+          //domain: 'example.com', // domain
+        })
 
         return {
           _id: user._id,

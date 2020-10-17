@@ -7,6 +7,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { connectDb } from './db';
 import schema from './graphql/schema';
 import context from './graphql/context';
+import cookieParser from 'cookie-parser';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: `${__dirname}/.env` });
@@ -29,10 +30,11 @@ async function startServer(): Promise<void> {
       uri: (process.env.DATABASE_URI as string) || 'http://localhost:27017',
     });
 
-    app.use('*', cors());
+    app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+    app.use(cookieParser())
     app.use(express.static(path.join(__dirname, 'client/build')));
 
-    server.applyMiddleware({ app });
+    server.applyMiddleware({ app, cors: false });
 
     app.get('*', (req: Request, res: Response) =>
       res.sendFile(path.join(__dirname, 'client/build', 'index.html'))

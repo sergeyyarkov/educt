@@ -4,19 +4,14 @@ import {
   FetchResult,
   MutationFunctionOptions,
 } from '@apollo/client';
-import { isLoggedInVar, tokenVar } from '../cache';
+import { isLoggedInVar } from '../cache';
 
 class AuthenticationService {
   public currentToken: string | undefined | null;
 
-  public constructor() {
-    this.currentToken = tokenVar();
-  }
-
   public logout(client: ApolloClient<object>): void {
-    Cookies.remove('token');
+    Cookies.remove('signedin');
     isLoggedInVar(false);
-    tokenVar(null);
     client.resetStore();
   }
 
@@ -30,9 +25,8 @@ class AuthenticationService {
   }
 
   public setTokenValue(token: string) {
-    document.cookie = `token=${token}`;
+    document.cookie = `signedin=true`;
     isLoggedInVar(true);
-    tokenVar(token);
     this.currentToken = token;
   }
 }

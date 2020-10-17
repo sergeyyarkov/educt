@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../graphql/models/index';
 import { IContext, IUser } from '../interfaces';
@@ -10,12 +10,8 @@ async function getCurrentUser(token: string): Promise<any> {
   return currentUser;
 }
 
-export default async ({ req }: { req: Request }): Promise<IContext> => {
-  const header = req.headers.authorization;
-
-  if (!header) return { isAuth: false };
-
-  const token: string = header.split(' ')[1];
+export default async ({ req, res }: { req: Request, res: Response }): Promise<IContext> => {
+  const token: string = req.cookies['token'] || ''
 
   if (token) {
     let currentUser: IUser | null;
@@ -23,15 +19,15 @@ export default async ({ req }: { req: Request }): Promise<IContext> => {
     try {
       currentUser = await getCurrentUser(token);
     } catch (err) {
-      return { isAuth: false };
+      return { isAuth: false, res, req };
     }
 
     if (currentUser) {
-      return { isAuth: true, currentUser };
+      return { isAuth: true, currentUser, res, req };
     } else {
-      return { isAuth: false };
+      return { isAuth: false, res, req };
     }
   } else {
-    return { isAuth: false };
+    return { isAuth: false, res, req };
   }
 };
