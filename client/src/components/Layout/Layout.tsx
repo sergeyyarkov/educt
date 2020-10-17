@@ -1,14 +1,15 @@
 import React from 'react';
-import { Box } from '@chakra-ui/core';
+import { Flex, Box } from '@chakra-ui/core';
 import Header from '../Header/Header';
+import Footer from '../Footer/Footer'
 import Nav from '../Nav/Nav';
 
 const Layout: React.FC = ({ children }) => {
   return (
-    <React.Fragment>
+    <Flex minHeight='100vh' flexDirection='column'>
       <Header />
       <Nav />
-      <Box paddingLeft="18rem" marginTop="4rem">
+      <Box paddingLeft="18rem" marginTop="4rem" flex='1 0 auto'>
         <Box
           as="main"
           marginRight="auto"
@@ -16,12 +17,14 @@ const Layout: React.FC = ({ children }) => {
           maxWidth="85rem"
           paddingLeft={5}
           paddingRight={5}
-          paddingTop="2rem"
+          paddingTop='2rem'
+          paddingBottom='2rem'
         >
           {children}
         </Box>
       </Box>
-    </React.Fragment>
+      <Footer />
+    </Flex>
   );
 };
 

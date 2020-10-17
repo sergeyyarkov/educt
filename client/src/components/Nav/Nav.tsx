@@ -1,7 +1,7 @@
 import React from 'react';
 import NavLinks from './NavLinks';
 import metaData from '../../metaData';
-import { Box } from '@chakra-ui/core';
+import { Flex, Box } from '@chakra-ui/core';
 
 const Nav: React.FC = () => {
   return (
@@ -16,9 +16,9 @@ const Nav: React.FC = () => {
       maxWidth="18rem"
     >
       <Box top="4rem" position="relative" overflowY="auto" borderRightWidth={1}>
-        <Box as="nav" height="calc(100vh - 4rem)" padding="1.5rem 1.2rem">
+        <Flex as="nav" flexDirection='column' alignItems='flex-start' textDecoration='none' height="calc(100vh - 4rem)" padding="1.5rem 1.2rem">
           <NavLinks links={metaData.links} />
-        </Box>
+        </Flex>
       </Box>
     </Box>
   );

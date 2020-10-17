@@ -64,16 +64,6 @@ const Header: React.FC = () => {
             </Heading>
             <Text as="small">Learn management system</Text>
           </Box>
-          <Box marginTop="auto" marginLeft={5}>
-            <iframe
-              src="https://ghbtns.com/github-btn.html?user=sergeyyarkov&repo=educt&type=star&count=true"
-              frameBorder="0"
-              scrolling="0"
-              width="150"
-              height="20"
-              title="GitHub"
-            />
-          </Box>
         </Flex>
         <Flex alignItems="center">
           {currentUser.loading ? (
