@@ -8,8 +8,6 @@ export interface IRequestData extends Request {
 }
 
 export interface IContext extends ApolloServerExpressConfig {
-  isAuth: boolean;
-  currentUser?: IUser;
   res: Response;
   req: IRequestData;
 }
