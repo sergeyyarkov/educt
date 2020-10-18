@@ -7,10 +7,10 @@ export const cache: InMemoryCache = new InMemoryCache({
       fields: {
         isLoggedIn() {
           return isLoggedInVar();
-        }
+        },
       },
     },
   },
 });
 
-export const isLoggedInVar = cache.makeVar<boolean>(!!Cookies.get('logged_in'));;
+export const isLoggedInVar = cache.makeVar<boolean>(!!Cookies.get('logged_in'));

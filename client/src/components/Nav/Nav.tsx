@@ -16,7 +16,14 @@ const Nav: React.FC = () => {
       maxWidth="18rem"
     >
       <Box top="4rem" position="relative" overflowY="auto" borderRightWidth={1}>
-        <Flex as="nav" flexDirection='column' alignItems='flex-start' textDecoration='none' height="calc(100vh - 4rem)" padding="1.5rem 1.2rem">
+        <Flex
+          as="nav"
+          flexDirection="column"
+          alignItems="flex-start"
+          textDecoration="none"
+          height="calc(100vh - 4rem)"
+          padding="1.5rem 1.2rem"
+        >
           <NavLinks links={metaData.links} />
         </Flex>
       </Box>

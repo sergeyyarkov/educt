@@ -9,8 +9,7 @@ import cookieParser from 'cookie-parser';
 import { connectDb } from './db';
 import { schema } from './graphql/schema';
 import { context } from './graphql/context';
-import { refreshToken } from './middlewares/refreshToken'
-
+import { refreshToken } from './middlewares/refreshToken';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: `${__dirname}/.env` });
@@ -32,10 +31,10 @@ async function startServer(): Promise<void> {
       uri: (process.env.DATABASE_URI as string) || 'http://localhost:27017',
     });
 
-    app.set("trust proxy", 1);
+    app.set('trust proxy', 1);
 
     app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
-    app.use(cookieParser())
+    app.use(cookieParser());
     app.use(express.static(path.join(__dirname, 'client/build')));
     app.use(refreshToken);
 

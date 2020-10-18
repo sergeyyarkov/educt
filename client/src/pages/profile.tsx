@@ -29,7 +29,7 @@ const ProfilePage: React.FC<IPageProps> = ({ title }) => {
   const currentUser = useQuery<IUserQueryData>(GET_CURRENT_USER_DATA);
 
   if (currentUser.error) {
-    console.log(currentUser.error)
+    console.log(currentUser.error);
   }
 
   return (
@@ -85,7 +85,7 @@ const ProfilePage: React.FC<IPageProps> = ({ title }) => {
             {currentUser.loading ? (
               <Skeleton width="160px" height="35px" />
             ) : (
-              <Button leftIcon={MdEdit} variantColor="blue" rounded='9999px'>
+              <Button leftIcon={MdEdit} variantColor="blue" rounded="9999px">
                 Редактировать
               </Button>
             )}
@@ -99,10 +99,9 @@ const ProfilePage: React.FC<IPageProps> = ({ title }) => {
           </TabList>
           <TabPanels>
             <TabPanel marginTop={5}>
-              <Flex alignItems='center'>
-                
-                  <Text>Логин</Text>
-                
+              <Flex alignItems="center">
+                <Text>Логин</Text>
+
                 {currentUser.loading ? null : (
                   <FormControl>
                     <Input isReadOnly value={currentUser.data?.me.login} />
@@ -111,9 +110,7 @@ const ProfilePage: React.FC<IPageProps> = ({ title }) => {
               </Flex>
             </TabPanel>
             <TabPanel>
-              <Box>
-
-              </Box>
+              <Box></Box>
             </TabPanel>
           </TabPanels>
         </Tabs>

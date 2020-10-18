@@ -1,17 +1,17 @@
-import { Request, Response } from 'express'
+import { Request, Response } from 'express';
 import { ApolloServerExpressConfig } from 'apollo-server-express';
 import { Document, DocumentQuery } from 'mongoose';
 
 export interface IRequestData extends Request {
-  userId?: string
-  userRoles?: string[]
+  userId?: string;
+  userRoles?: string[];
 }
 
 export interface IContext extends ApolloServerExpressConfig {
   isAuth: boolean;
   currentUser?: IUser;
-  res: Response,
-  req: IRequestData
+  res: Response;
+  req: IRequestData;
 }
 
 export interface IAuthData {

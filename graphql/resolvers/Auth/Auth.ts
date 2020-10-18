@@ -3,7 +3,7 @@ import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
 import { IAuthData, IContext } from '../../../interfaces';
-import { createTokens } from '../../auth/createTokens'
+import { createTokens } from '../../auth/createTokens';
 
 const authResolver: IResolvers = {
   Mutation: {
@@ -33,19 +33,19 @@ const authResolver: IResolvers = {
           throw new ApolloError('Неверный пароль!', '403 Forbidden');
         }
 
-        const tokens = createTokens(user)
+        const tokens = createTokens(user);
 
         context.res.cookie('access-token', tokens.accessToken, {
           httpOnly: true,
           //secure: true, // https
           //domain: 'example.com', // domain
-        })
+        });
 
         context.res.cookie('refresh-token', tokens.refreshToken, {
           httpOnly: true,
           //secure: true, // https
           //domain: 'example.com', // domain
-        })
+        });
 
         return {
           _id: user._id,

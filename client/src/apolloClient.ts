@@ -8,7 +8,7 @@ import { cache } from './cache';
 
 const httpLink: ApolloLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
-  credentials: 'include'
+  credentials: 'include',
 });
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({

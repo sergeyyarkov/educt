@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 import { IUser } from '../../interfaces';
 
 export const createTokens = (user: IUser) => {
@@ -6,7 +6,7 @@ export const createTokens = (user: IUser) => {
     { _id: user._id },
     process.env.REFRESH_TOKEN_SECRET as string,
     {
-      expiresIn: "7d"
+      expiresIn: '7d',
     }
   );
   const accessToken = jwt.sign(

@@ -38,13 +38,13 @@ const userResolver: IResolvers = {
     },
     me: async (_, args, context: any) => {
       try {
-        const user = await User.findById(context.req.userId)
+        const user = await User.findById(context.req.userId);
 
         if (!user) {
           throw new AuthenticationError('Unauthenticated');
         }
 
-        return user
+        return user;
       } catch (error) {
         throw error;
       }

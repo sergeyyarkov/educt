@@ -9,18 +9,12 @@ const Auth = {
   isAdmin: function (context: IContext): void {
     this.isAuthenticated(context);
 
-    if (
-      context.req.userId &&
-      !context.req.userRoles?.includes(Roles.ADMIN)
-    ) {
+    if (context.req.userId && !context.req.userRoles?.includes(Roles.ADMIN)) {
       throw Errors.permission;
     }
   },
   isOwner: function (context: IContext): void {
-    if (
-      context.req.userId &&
-      !context.req.userRoles?.includes(Roles.OWNER)
-    ) {
+    if (context.req.userId && !context.req.userRoles?.includes(Roles.OWNER)) {
       this.isAuthenticated(context);
 
       throw Errors.permission;
