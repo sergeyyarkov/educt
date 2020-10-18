@@ -4,22 +4,22 @@ import { IContext } from '../../interfaces';
 
 const Auth = {
   isAuthenticated: (context: IContext): void => {
-    if (!context.isAuth) throw Errors.aunthentication;
+    if (!context.req.userId) throw Errors.aunthentication;
   },
   isAdmin: function (context: IContext): void {
     this.isAuthenticated(context);
 
     if (
-      context.currentUser !== undefined &&
-      !context.currentUser.roles.includes(Roles.ADMIN)
+      context.req.userId &&
+      !context.req.userRoles?.includes(Roles.ADMIN)
     ) {
       throw Errors.permission;
     }
   },
   isOwner: function (context: IContext): void {
     if (
-      context.currentUser !== undefined &&
-      !context.currentUser.roles.includes(Roles.OWNER)
+      context.req.userId &&
+      !context.req.userRoles?.includes(Roles.OWNER)
     ) {
       this.isAuthenticated(context);
 

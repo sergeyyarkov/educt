@@ -15,7 +15,6 @@ import {
   useToast,
 } from '@chakra-ui/core';
 import { isLoggedInVar } from '../../cache';
-import { IAuthData } from '../../interfaces';
 
 import LOGIN_MUTATION from '../../graphql/mutations/login';
 
@@ -32,11 +31,7 @@ const Auth: React.FC = () => {
         isClosable: true,
       });
     },
-    onCompleted: (data) => {
-      const user: IAuthData = data.login;
-
-      authenticationService.setTokenValue(user.token);
-    },
+    onCompleted: () => authenticationService.setUserLoggedIn(),
   });
   const toast = useToast();
   const history = useHistory();

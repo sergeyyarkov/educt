@@ -1,9 +1,9 @@
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
 import { IAuthData, IContext } from '../../../interfaces';
+import { createTokens } from '../../auth/createTokens'
 
 const authResolver: IResolvers = {
   Mutation: {
@@ -33,13 +33,15 @@ const authResolver: IResolvers = {
           throw new ApolloError('Неверный пароль!', '403 Forbidden');
         }
 
-        const token = jwt.sign(
-          { _id: user._id },
-          process.env.SECRET_KEY as string,
-          { expiresIn: '1h' }
-        );
+        const tokens = createTokens(user)
 
-        context.res.cookie('token', token, {
+        context.res.cookie('access-token', tokens.accessToken, {
+          httpOnly: true,
+          //secure: true, // https
+          //domain: 'example.com', // domain
+        })
+
+        context.res.cookie('refresh-token', tokens.refreshToken, {
           httpOnly: true,
           //secure: true, // https
           //domain: 'example.com', // domain
@@ -50,7 +52,7 @@ const authResolver: IResolvers = {
           name: user.name,
           surname: user.surname,
           patronymic: user.patronymic,
-          token,
+          token: tokens.accessToken,
           tokenExpiration: 1,
         };
       } catch (error) {

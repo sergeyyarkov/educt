@@ -13,4 +13,4 @@ export const cache: InMemoryCache = new InMemoryCache({
   },
 });
 
-export const isLoggedInVar = cache.makeVar<boolean>(!!Cookies.get('signedin'));;
+export const isLoggedInVar = cache.makeVar<boolean>(!!Cookies.get('logged_in'));;

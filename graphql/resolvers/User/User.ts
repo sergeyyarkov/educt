@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import Auth from '../../auth/index';
-import { ApolloError } from 'apollo-server-express';
+import { ApolloError, AuthenticationError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
 import { IUser, IContext } from '../../../interfaces';
@@ -36,10 +36,15 @@ const userResolver: IResolvers = {
         throw error;
       }
     },
-    me: (_, args, context: IContext) => {
+    me: async (_, args, context: any) => {
       try {
-        Auth.isAuthenticated(context);
-        return context.currentUser;
+        const user = await User.findById(context.req.userId)
+
+        if (!user) {
+          throw new AuthenticationError('Unauthenticated');
+        }
+
+        return user
       } catch (error) {
         throw error;
       }

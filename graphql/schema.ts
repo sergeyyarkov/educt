@@ -16,4 +16,6 @@ const schemaWithResolvers: GraphQLSchema = addResolversToSchema({
   resolvers: mergeResolvers(resolvers),
 });
 
-export default schemaWithResolvers;
+export {
+  schemaWithResolvers as schema
+}

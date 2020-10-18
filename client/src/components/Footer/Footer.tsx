@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
         </Box>
         <Flex alignItems='center'>
           <Text>
-            &copy; Sergey Yarkov • Educt
+            &copy; 2020 • Sergey Yarkov • Educt
           </Text>
           <Box as={MdSchool} marginLeft={2} size='18px' />
         </Flex>

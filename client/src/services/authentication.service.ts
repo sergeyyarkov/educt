@@ -7,10 +7,8 @@ import {
 import { isLoggedInVar } from '../cache';
 
 class AuthenticationService {
-  public currentToken: string | undefined | null;
-
   public logout(client: ApolloClient<object>): void {
-    Cookies.remove('signedin');
+    Cookies.remove('logged_in');
     isLoggedInVar(false);
     client.resetStore();
   }
@@ -24,10 +22,9 @@ class AuthenticationService {
     return await login(options);
   }
 
-  public setTokenValue(token: string) {
-    document.cookie = `signedin=true`;
+  public setUserLoggedIn() {
+    document.cookie = `logged_in=true`;
     isLoggedInVar(true);
-    this.currentToken = token;
   }
 }
 
