@@ -24,14 +24,16 @@ import {
 } from '@chakra-ui/core';
 import { useApolloClient } from '@apollo/client';
 import { useQuery } from '@apollo/react-components';
-import UserBadge from '../UserBadge/UserBadge'
+import UserBadge from '../UserBadge/UserBadge';
 
 import GET_CURRENT_USER_DATA from '../../graphql/queries/currentUserData';
 import { currentUserData } from '../../graphql/queries/__generated__/currentUserData';
 
 const Header: React.FC = () => {
   const client = useApolloClient();
-  const { data, loading, error } = useQuery<currentUserData>(GET_CURRENT_USER_DATA);
+  const { data, loading, error } = useQuery<currentUserData>(
+    GET_CURRENT_USER_DATA
+  );
 
   const handleLogout = () => authenticationService.logout(client);
 
@@ -40,7 +42,7 @@ const Header: React.FC = () => {
   }
 
   if (data?.me === null) {
-    return null
+    return null;
   }
 
   return (

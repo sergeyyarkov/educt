@@ -17,11 +17,17 @@ import {
 import { isLoggedInVar } from '../../cache';
 
 import LOGIN_MUTATION from '../../graphql/mutations/login';
-import { Login, LoginVariables } from '../../graphql/mutations/__generated__/Login';
+import {
+  Login,
+  LoginVariables,
+} from '../../graphql/mutations/__generated__/Login';
 
 const Auth: React.FC = () => {
   const isLoggedIn = isLoggedInVar();
-  const [authState, setAuthState] = React.useState<LoginVariables>({ login: '', password: '' });
+  const [authState, setAuthState] = React.useState<LoginVariables>({
+    login: '',
+    password: '',
+  });
   const [login, { data, loading, error }] = useMutation<Login>(LOGIN_MUTATION, {
     onCompleted: () => authenticationService.setUserLoggedIn(),
     onError: (error) => {
@@ -32,7 +38,7 @@ const Auth: React.FC = () => {
         duration: 4000,
         isClosable: true,
       });
-    }
+    },
   });
   const toast = useToast();
   const history = useHistory();

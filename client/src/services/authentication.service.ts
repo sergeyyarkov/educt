@@ -5,7 +5,10 @@ import {
   MutationFunctionOptions,
 } from '@apollo/client';
 import { isLoggedInVar } from '../cache';
-import { Login, LoginVariables } from '../graphql/mutations/__generated__/Login';
+import {
+  Login,
+  LoginVariables,
+} from '../graphql/mutations/__generated__/Login';
 
 class AuthenticationService {
   public logout(client: ApolloClient<object>): void {
@@ -15,7 +18,9 @@ class AuthenticationService {
   }
 
   public async login(
-    login: (options: MutationFunctionOptions<any, Record<string, any>>) => Promise<FetchResult<Login>>,
+    login: (
+      options: MutationFunctionOptions<any, Record<string, any>>
+    ) => Promise<FetchResult<Login>>,
     variables: LoginVariables
   ) {
     return await login({ variables });
@@ -27,6 +32,6 @@ class AuthenticationService {
   }
 }
 
-const authenticationService = new AuthenticationService()
+const authenticationService = new AuthenticationService();
 
-export { authenticationService }
+export { authenticationService };

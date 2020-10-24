@@ -21,14 +21,16 @@ import ProfileForm from '../components/ProfileForm/ProfileForm';
 import ProfileInfo from '../components/ProfileInfo/ProfileInfo';
 
 const ProfilePage: React.FC<IPageProps> = ({ title }) => {
-  const { data, loading, error } = useQuery<currentUserData>(GET_CURRENT_USER_DATA);
+  const { data, loading, error } = useQuery<currentUserData>(
+    GET_CURRENT_USER_DATA
+  );
 
   if (error) {
     console.log(error);
   }
 
   if (data?.me === null) {
-    return null
+    return null;
   }
 
   return (
@@ -48,8 +50,8 @@ const ProfilePage: React.FC<IPageProps> = ({ title }) => {
             <Tab>Доступные курсы</Tab>
           </TabList>
           <TabPanels>
-            <TabPanel mt='30px'>
-              <Flex justifyContent='space-between'>
+            <TabPanel mt="30px">
+              <Flex justifyContent="space-between">
                 <ProfileForm data={data} loading={loading} />
               </Flex>
             </TabPanel>
