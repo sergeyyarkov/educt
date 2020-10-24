@@ -1,5 +1,5 @@
 import React from 'react';
-import authenticationService from '../../services/authentication.service';
+import { authenticationService } from '../../services/authentication.service';
 import { useHistory } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { MdAccountCircle, MdSchool, MdVpnKey } from 'react-icons/md';
@@ -17,11 +17,13 @@ import {
 import { isLoggedInVar } from '../../cache';
 
 import LOGIN_MUTATION from '../../graphql/mutations/login';
+import { Login, LoginVariables } from '../../graphql/mutations/__generated__/Login';
 
 const Auth: React.FC = () => {
   const isLoggedIn = isLoggedInVar();
-  const [authState, setAuthState] = React.useState({ login: '', password: '' });
-  const [login, { data, loading }] = useMutation(LOGIN_MUTATION, {
+  const [authState, setAuthState] = React.useState<LoginVariables>({ login: '', password: '' });
+  const [login, { data, loading, error }] = useMutation<Login>(LOGIN_MUTATION, {
+    onCompleted: () => authenticationService.setUserLoggedIn(),
     onError: (error) => {
       toast({
         title: '❌ Ошибка авторизации!',
@@ -30,8 +32,7 @@ const Auth: React.FC = () => {
         duration: 4000,
         isClosable: true,
       });
-    },
-    onCompleted: () => authenticationService.setUserLoggedIn(),
+    }
   });
   const toast = useToast();
   const history = useHistory();
@@ -41,19 +42,23 @@ const Auth: React.FC = () => {
 
     try {
       await authenticationService.login(login, {
-        variables: {
-          login: authState.login,
-          password: authState.password,
-        },
+        login: authState.login,
+        password: authState.password,
       });
       setAuthState({ login: '', password: '' });
     } catch (error) {
-      console.log(error);
+      toast({
+        title: '❌ Произошла ошибка!',
+        description: 'Повторите запрос позже',
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      });
       setAuthState({ login: '', password: '' });
     }
   };
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: any): void => {
     e.persist();
 
     setAuthState((prevState) => {
@@ -74,7 +79,7 @@ const Auth: React.FC = () => {
         isClosable: true,
       });
     }
-  }, [data, history, isLoggedIn, toast]);
+  }, [data, error, history, isLoggedIn, toast]);
 
   return (
     <Flex minHeight="100vh" align="center" justifyContent="center">

@@ -9,7 +9,7 @@ const Layout: React.FC = ({ children }) => {
     <Flex minHeight="100vh" flexDirection="column">
       <Header />
       <Nav />
-      <Box paddingLeft="18rem" marginTop="4rem" flex="1 0 auto">
+      <Box pl='18rem' mt="4rem" mb='4rem' flex="1 0 auto">
         <Box
           as="main"
           marginRight="auto"
