@@ -11,6 +11,10 @@ const GET_CURRENT_USER_DATA = gql`
       login
       email
       roles
+      contacts {
+        name
+        link
+      }
     }
   }
 `;

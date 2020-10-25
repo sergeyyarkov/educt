@@ -62,6 +62,7 @@ const userResolver: IResolvers = {
         email: string;
         password: string;
         roles: string[];
+        contacts: { name: string, link: string }[]
       },
       context: IContext
     ): Promise<IUser> => {
@@ -83,6 +84,7 @@ const userResolver: IResolvers = {
           email: args.email,
           password: hashedPassword,
           roles: args.roles,
+          contacts: args.contacts
         }).save();
       } catch (error) {
         throw error;

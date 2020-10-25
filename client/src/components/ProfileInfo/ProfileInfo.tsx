@@ -1,16 +1,15 @@
 import React from 'react';
-import { FaVk, FaTelegramPlane } from 'react-icons/fa';
 import {
   Flex,
   Box,
   Heading,
   Text,
-  Link,
   Avatar,
   Skeleton,
 } from '@chakra-ui/core';
 import UserBadge from '../UserBadge/UserBadge';
 import { currentUserData } from '../../graphql/queries/__generated__/currentUserData';
+import ProfileContacts from '../ProfileContacts/ProfileContacts';
 
 const ProfileInfo: React.FC<{
   loading: boolean;
@@ -34,8 +33,9 @@ const ProfileInfo: React.FC<{
         <Flex flexDirection="column">
           {loading ? (
             <>
-              <Skeleton width="500px" height="40px" marginBottom="5px" />
-              <Skeleton width="400px" height="24px" marginBottom="5px" />
+              <Skeleton width="500px" height="40px" mb="5px" />
+              <Skeleton width="400px" height="24px" mb="10px" />
+              <Skeleton width="200px" height="24px" mb="5px" />
             </>
           ) : (
             <>
@@ -46,23 +46,7 @@ const ProfileInfo: React.FC<{
                 <Text color="blue.500">{data?.me.email}&nbsp;-&nbsp;</Text>
                 <UserBadge roles={data?.me.roles} />
               </Flex>
-              <Flex>
-                <Link
-                  href="https://vk.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  mr="5px"
-                >
-                  <Box as={FaVk} size="18px"></Box>
-                </Link>
-                <Link
-                  href="https://telegram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Box as={FaTelegramPlane} size="18px"></Box>
-                </Link>
-              </Flex>
+              <ProfileContacts contacts={data?.me.contacts} />
             </>
           )}
         </Flex>

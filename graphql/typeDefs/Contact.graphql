@@ -1,0 +1,4 @@
+type Contact {
+  name: String
+  link: String
+}

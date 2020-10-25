@@ -50,7 +50,7 @@ const ProfilePage: React.FC<IPageProps> = ({ title }) => {
             <Tab>Доступные курсы</Tab>
           </TabList>
           <TabPanels>
-            <TabPanel mt="30px">
+            <TabPanel mt="20px">
               <Flex justifyContent="space-between">
                 <ProfileForm data={data} loading={loading} />
               </Flex>

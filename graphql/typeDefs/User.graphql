@@ -1,3 +1,5 @@
+# import Contact from './Contact.graphql'
+
 type User {
   _id: ID
   name: String
@@ -6,4 +8,5 @@ type User {
   login: String
   email: String
   roles: [String]
+  contacts: [Contact]
 }

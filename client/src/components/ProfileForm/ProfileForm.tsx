@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Flex,
@@ -18,19 +18,10 @@ const ProfileForm: React.FC<{
   loading: boolean;
   data: currentUserData | undefined;
 }> = ({ data, loading }) => {
-  const [telegram, setTelegram] = useState<string>('');
-  const [vk, setVk] = useState<string>('');
   const { register, handleSubmit, errors } = useForm<{
     telegram: string;
     vk: string;
   }>();
-
-  React.useEffect(() => {
-    if (data && data?.me) {
-      setTelegram(data.me.login || '');
-      setVk(data.me.email || '');
-    }
-  }, [data]);
 
   if (data?.me === null) {
     return null;
@@ -93,7 +84,7 @@ const ProfileForm: React.FC<{
               pattern: /.*\B@(?=\w{5,64}\b)[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*.*/gm,
               maxLength: 100,
             })}
-            defaultValue={''}
+            defaultValue={data?.me.contacts?.find(contact => contact?.name === 'telegram')?.link as string}
             name="telegram"
             id="telegram"
             placeholder="@tagname"
@@ -110,7 +101,7 @@ const ProfileForm: React.FC<{
               pattern: /^(https?:\/\/)?(www\.)?vk\.com\/(\w|\d)+?\/?$/,
               maxLength: 200,
             })}
-            defaultValue={''}
+            defaultValue={`${data?.me.contacts?.find(contact => contact?.name === 'vk')?.link || ''}`}
             name="vk"
             id="vk"
             placeholder="https://vk.com/id"

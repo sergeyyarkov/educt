@@ -21,16 +21,6 @@ export interface IAuthData {
   patronymic: string;
 }
 
-export interface ISignedUserData {
-  _id: string;
-  name: string;
-  surname: string;
-  patronymic: string;
-  login: string;
-  email: string;
-  roles: string[];
-}
-
 export interface IUser extends Document {
   slug: string;
   name: string;
@@ -40,6 +30,10 @@ export interface IUser extends Document {
   email: string;
   password: string;
   roles: string[];
+  contacts: {
+    name: string
+    link: string
+  }[] | null;
 }
 
 export interface ILesson extends Document {

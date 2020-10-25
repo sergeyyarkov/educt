@@ -1,9 +1,21 @@
 # import AuthData from './AuthData.graphql'
 # import User from './User.graphql'
+# import Contact from './Contact.graphql'
 # import Course from './Course.graphql'
 # import Lesson from './Lesson.graphql'
 
 scalar Date
+
+input ContactInput {
+  name: String!
+  link: String!
+}
+
+enum UserRoles {
+  ADMIN
+  USER
+  OWNER
+}
 
 type Query {
   me: User
@@ -24,7 +36,8 @@ type Mutation {
     login: String!
     email: String!
     password: String!
-    roles: [String!]!
+    roles: [UserRoles!]!
+    contacts: [ContactInput!]
   ): User
   deleteUser(_id: ID!): User
   createCourse(
