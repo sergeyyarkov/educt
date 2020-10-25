@@ -55,7 +55,7 @@ const Auth: React.FC = () => {
     } catch (error) {
       toast({
         title: '❌ Произошла ошибка!',
-        description: 'Повторите запрос позже',
+        description: 'Повторите запрос позже.',
         status: 'error',
         duration: 4000,
         isClosable: true,

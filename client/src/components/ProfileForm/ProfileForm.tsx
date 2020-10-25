@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Flex,
@@ -10,18 +10,44 @@ import {
   Heading,
   Button,
   Spinner,
+  useToast
 } from '@chakra-ui/core';
 import { MdAccountCircle, MdSave } from 'react-icons/md';
+import { useMutation } from '@apollo/client'
 import { currentUserData } from '../../graphql/queries/__generated__/currentUserData';
+
+import UPDATE_CONTACTS from '../../graphql/mutations/updateContacts'
+import { UpdateContacts, UpdateContactsVariables } from '../../graphql/mutations/__generated__/UpdateContacts';
 
 const ProfileForm: React.FC<{
   loading: boolean;
   data: currentUserData | undefined;
 }> = ({ data, loading }) => {
-  const { register, handleSubmit, errors } = useForm<{
-    telegram: string;
-    vk: string;
-  }>();
+  const { register, handleSubmit, errors } = useForm();
+  const [updateContacts, dataUpdatedContacts] = useMutation<UpdateContacts, UpdateContactsVariables>(UPDATE_CONTACTS, {
+    onError: () => {
+      toast({
+        title: '❌ Произошла ошибка!',
+        description: 'Повторите запрос позже.',
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      });
+    }
+  })
+  const toast = useToast();
+
+  useEffect(() => {
+    if (dataUpdatedContacts.data) {
+      toast({
+        title: `Информация обновлена!`,
+        description: 'Вы успешно изменили информацию о профиле.',
+        status: 'success',
+        duration: 2500,
+        isClosable: true,
+      });
+    }
+  }, [dataUpdatedContacts.data, toast])
 
   if (data?.me === null) {
     return null;
@@ -41,8 +67,19 @@ const ProfileForm: React.FC<{
     );
   }
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  if (dataUpdatedContacts.error) {
+    console.log(dataUpdatedContacts.error)
+  }
+
+  const onSubmit = handleSubmit(async (data) => {
+    const contacts = Object.keys(data).filter(contact => data[contact] !== '').map(contact => {
+      return {
+        name: contact,
+        link: data[contact]
+      }
+    })
+
+    await updateContacts({ variables: { contacts } })
   });
 
   return (
@@ -84,7 +121,7 @@ const ProfileForm: React.FC<{
               pattern: /.*\B@(?=\w{5,64}\b)[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*.*/gm,
               maxLength: 100,
             })}
-            defaultValue={data?.me.contacts?.find(contact => contact?.name === 'telegram')?.link as string}
+            defaultValue={`${data?.me.contacts?.find(contact => contact?.name === 'telegram')?.link || ''}`}
             name="telegram"
             id="telegram"
             placeholder="@tagname"
@@ -115,6 +152,7 @@ const ProfileForm: React.FC<{
       <Flex>
         <Button
           type="submit"
+          isLoading={dataUpdatedContacts.loading}
           loadingText="Сохранение..."
           ml="auto"
           leftIcon={MdSave}

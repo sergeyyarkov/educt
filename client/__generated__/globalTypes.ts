@@ -7,6 +7,11 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface ContactInput {
+  name: string;
+  link: string;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

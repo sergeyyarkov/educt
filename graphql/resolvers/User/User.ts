@@ -108,6 +108,46 @@ const userResolver: IResolvers = {
         throw error;
       }
     },
+    updateContacts: async (
+      _,
+      args: { contacts: { name: string, link: string }[] },
+      context: IContext
+    ) => {
+      try {
+        const user = await User.findById(context.req.userId);
+        const telegramContactArg = args.contacts.find(contact => contact.name === 'telegram')
+        const vkContactArg = args.contacts.find(contact => contact.name === 'vk')
+        const telegramPattern = /.*\B@(?=\w{5,64}\b)[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*.*/gm
+        const vkPattern = /^(https?:\/\/)?(www\.)?vk\.com\/(\w|\d)+?\/?$/
+        const isTelegramContactValid = () => telegramContactArg?.link.match(telegramPattern) && telegramContactArg.link.length <= 100
+        const isVkContactValid = () => vkContactArg?.link.match(vkPattern) && vkContactArg.link.length <= 200
+
+        if (!user) {
+          throw new AuthenticationError('Unauthenticated');
+        }
+
+        if (telegramContactArg && vkContactArg) {
+          if (isTelegramContactValid() && isVkContactValid()) {
+            await User.findByIdAndUpdate(context.req.userId, { contacts: args.contacts })
+            return args.contacts
+          }
+          throw new ApolloError('Invalid fields!', '400 Bad request');
+        }
+
+        if (telegramContactArg || vkContactArg) { 
+          if (isTelegramContactValid() || isVkContactValid()) {
+            await User.findByIdAndUpdate(context.req.userId, { contacts: args.contacts })
+            return args.contacts
+          }
+          throw new ApolloError('Invalid fields!', '400 Bad request');
+        }
+        
+        await User.findByIdAndUpdate(context.req.userId, { contacts: [] })
+        return []
+      } catch (error) {
+        throw error
+      }
+    }
   },
 };
 
