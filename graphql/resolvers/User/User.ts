@@ -128,22 +128,19 @@ const userResolver: IResolvers = {
 
         if (telegramContactArg && vkContactArg) {
           if (isTelegramContactValid() && isVkContactValid()) {
-            await User.findByIdAndUpdate(context.req.userId, { contacts: args.contacts })
-            return args.contacts
+            return await User.findByIdAndUpdate(context.req.userId, { contacts: args.contacts }, { new: true })
           }
           throw new ApolloError('Invalid fields!', '400 Bad request');
         }
 
         if (telegramContactArg || vkContactArg) { 
           if (isTelegramContactValid() || isVkContactValid()) {
-            await User.findByIdAndUpdate(context.req.userId, { contacts: args.contacts })
-            return args.contacts
+            return await User.findByIdAndUpdate(context.req.userId, { contacts: args.contacts }, { new: true })
           }
           throw new ApolloError('Invalid fields!', '400 Bad request');
         }
         
-        await User.findByIdAndUpdate(context.req.userId, { contacts: [] })
-        return []
+        return await User.findByIdAndUpdate(context.req.userId, { contacts: [] }, { new: true })
       } catch (error) {
         throw error
       }

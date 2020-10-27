@@ -39,7 +39,7 @@ type Mutation {
     roles: [UserRoles!]!
     contacts: [ContactInput!]
   ): User
-  updateContacts(contacts: [ContactInput!]): [Contact]
+  updateContacts(contacts: [ContactInput!]): User
   deleteUser(_id: ID!): User
   createCourse(
     title: String!

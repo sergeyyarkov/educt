@@ -17,6 +17,7 @@ import { useMutation } from '@apollo/client'
 import { currentUserData } from '../../graphql/queries/__generated__/currentUserData';
 
 import UPDATE_CONTACTS from '../../graphql/mutations/updateContacts'
+import GET_CURRENT_USER_DATA from '../../graphql/queries/currentUserData'
 import { UpdateContacts, UpdateContactsVariables } from '../../graphql/mutations/__generated__/UpdateContacts';
 
 const ProfileForm: React.FC<{
@@ -32,6 +33,17 @@ const ProfileForm: React.FC<{
         status: 'error',
         duration: 4000,
         isClosable: true,
+      });
+    },
+    update: (cache, { data }) => {
+      const user = cache.readQuery<currentUserData>({ query: GET_CURRENT_USER_DATA })
+      cache.modify({
+        id: `User:${user?.me?._id}`,
+        fields: {
+          contacts(){
+            return data?.user?.contacts
+          }
+        }
       });
     }
   })

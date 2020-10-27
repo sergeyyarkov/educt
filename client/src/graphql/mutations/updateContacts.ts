@@ -1,11 +1,13 @@
 import gql from 'graphql-tag';
 
 const UPDATE_CONTACTS = gql`
-  mutation UpdateContacts($contacts: [ContactInput!]!) {
-    contacts: updateContacts(contacts: $contacts) {
+  mutation UpdateContacts($contacts: [ContactInput!]) {
+  user: updateContacts(contacts: $contacts) {
+    contacts {
       name
       link
     }
+  }
 }
 `;
 
