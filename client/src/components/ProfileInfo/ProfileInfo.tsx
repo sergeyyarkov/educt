@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Flex,
-  Box,
-  Heading,
-  Text,
-  Avatar,
-  Skeleton,
-} from '@chakra-ui/core';
+import { Flex, Box, Heading, Text, Avatar, Skeleton } from '@chakra-ui/core';
 import UserBadge from '../UserBadge/UserBadge';
 import { currentUserData } from '../../graphql/queries/__generated__/currentUserData';
 import ProfileContacts from '../ProfileContacts/ProfileContacts';

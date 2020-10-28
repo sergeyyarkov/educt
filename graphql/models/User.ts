@@ -11,10 +11,12 @@ const User = mongoose.model<IUser>(
     email: String,
     password: String,
     roles: [String],
-    contacts: [{
-      name: String,
-      link: String
-    }]
+    contacts: [
+      {
+        name: String,
+        link: String,
+      },
+    ],
   })
 );
 

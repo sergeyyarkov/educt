@@ -62,7 +62,7 @@ const userResolver: IResolvers = {
         email: string;
         password: string;
         roles: string[];
-        contacts: { name: string, link: string }[]
+        contacts: { name: string; link: string }[];
       },
       context: IContext
     ): Promise<IUser> => {
@@ -84,7 +84,7 @@ const userResolver: IResolvers = {
           email: args.email,
           password: hashedPassword,
           roles: args.roles,
-          contacts: args.contacts
+          contacts: args.contacts,
         }).save();
       } catch (error) {
         throw error;
@@ -108,19 +108,27 @@ const userResolver: IResolvers = {
         throw error;
       }
     },
-    updateContacts: async (
+    updateProfile: async (
       _,
-      args: { contacts: { name: string, link: string }[] },
+      args: { contacts: { name: string; link: string }[] },
       context: IContext
     ) => {
       try {
         const user = await User.findById(context.req.userId);
-        const telegramContactArg = args.contacts.find(contact => contact.name === 'telegram')
-        const vkContactArg = args.contacts.find(contact => contact.name === 'vk')
-        const telegramPattern = /.*\B@(?=\w{5,64}\b)[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*.*/gm
-        const vkPattern = /^(https?:\/\/)?(www\.)?vk\.com\/(\w|\d)+?\/?$/
-        const isTelegramContactValid = () => telegramContactArg?.link.match(telegramPattern) && telegramContactArg.link.length <= 100
-        const isVkContactValid = () => vkContactArg?.link.match(vkPattern) && vkContactArg.link.length <= 200
+        const telegramContactArg = args.contacts.find(
+          (contact) => contact.name === 'telegram'
+        );
+        const vkContactArg = args.contacts.find(
+          (contact) => contact.name === 'vk'
+        );
+        const telegramPattern = /.*\B@(?=\w{5,64}\b)[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*.*/gm;
+        const vkPattern = /^(https?:\/\/)?(www\.)?vk\.com\/(\w|\d)+?\/?$/;
+        const isTelegramContactValid = () =>
+          telegramContactArg?.link.match(telegramPattern) &&
+          telegramContactArg.link.length <= 100;
+        const isVkContactValid = () =>
+          vkContactArg?.link.match(vkPattern) &&
+          vkContactArg.link.length <= 200;
 
         if (!user) {
           throw new AuthenticationError('Unauthenticated');
@@ -128,23 +136,35 @@ const userResolver: IResolvers = {
 
         if (telegramContactArg && vkContactArg) {
           if (isTelegramContactValid() && isVkContactValid()) {
-            return await User.findByIdAndUpdate(context.req.userId, { contacts: args.contacts }, { new: true })
+            return await User.findByIdAndUpdate(
+              context.req.userId,
+              { contacts: args.contacts },
+              { new: true }
+            );
           }
           throw new ApolloError('Invalid fields!', '400 Bad request');
         }
 
-        if (telegramContactArg || vkContactArg) { 
+        if (telegramContactArg || vkContactArg) {
           if (isTelegramContactValid() || isVkContactValid()) {
-            return await User.findByIdAndUpdate(context.req.userId, { contacts: args.contacts }, { new: true })
+            return await User.findByIdAndUpdate(
+              context.req.userId,
+              { contacts: args.contacts },
+              { new: true }
+            );
           }
           throw new ApolloError('Invalid fields!', '400 Bad request');
         }
-        
-        return await User.findByIdAndUpdate(context.req.userId, { contacts: [] }, { new: true })
+
+        return await User.findByIdAndUpdate(
+          context.req.userId,
+          { contacts: [] },
+          { new: true }
+        );
       } catch (error) {
-        throw error
+        throw error;
       }
-    }
+    },
   },
 };
 

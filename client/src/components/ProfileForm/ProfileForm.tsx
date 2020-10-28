@@ -10,22 +10,27 @@ import {
   Heading,
   Button,
   Spinner,
-  useToast
+  useToast,
 } from '@chakra-ui/core';
 import { MdAccountCircle, MdSave } from 'react-icons/md';
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client';
 import { currentUserData } from '../../graphql/queries/__generated__/currentUserData';
 
-import UPDATE_CONTACTS from '../../graphql/mutations/updateContacts'
-import GET_CURRENT_USER_DATA from '../../graphql/queries/currentUserData'
-import { UpdateContacts, UpdateContactsVariables } from '../../graphql/mutations/__generated__/UpdateContacts';
+import UPDATE_PROFILE from '../../graphql/mutations/updateProfile';
+import {
+  updateProfile,
+  updateProfileVariables,
+} from '../../graphql/mutations/__generated__/updateProfile';
 
 const ProfileForm: React.FC<{
   loading: boolean;
   data: currentUserData | undefined;
 }> = ({ data, loading }) => {
   const { register, handleSubmit, errors } = useForm();
-  const [updateContacts, dataUpdatedContacts] = useMutation<UpdateContacts, UpdateContactsVariables>(UPDATE_CONTACTS, {
+  const [mutateProfile, mutateProfileResult] = useMutation<
+    updateProfile,
+    updateProfileVariables
+  >(UPDATE_PROFILE, {
     onError: () => {
       toast({
         title: '❌ Произошла ошибка!',
@@ -35,22 +40,21 @@ const ProfileForm: React.FC<{
         isClosable: true,
       });
     },
-    update: (cache, { data }) => {
-      const user = cache.readQuery<currentUserData>({ query: GET_CURRENT_USER_DATA })
+    update: (cache, user) => {
       cache.modify({
-        id: `User:${user?.me?._id}`,
+        id: `User:${data?.me?._id}`,
         fields: {
-          contacts(){
-            return data?.user?.contacts
-          }
-        }
+          contacts() {
+            return user.data?.user?.contacts;
+          },
+        },
       });
-    }
-  })
+    },
+  });
   const toast = useToast();
 
   useEffect(() => {
-    if (dataUpdatedContacts.data) {
+    if (mutateProfileResult.data) {
       toast({
         title: `Информация обновлена!`,
         description: 'Вы успешно изменили информацию о профиле.',
@@ -59,7 +63,7 @@ const ProfileForm: React.FC<{
         isClosable: true,
       });
     }
-  }, [dataUpdatedContacts.data, toast])
+  }, [mutateProfileResult.data, toast]);
 
   if (data?.me === null) {
     return null;
@@ -79,19 +83,21 @@ const ProfileForm: React.FC<{
     );
   }
 
-  if (dataUpdatedContacts.error) {
-    console.log(dataUpdatedContacts.error)
+  if (mutateProfileResult.error) {
+    console.log(mutateProfileResult.error);
   }
 
   const onSubmit = handleSubmit(async (data) => {
-    const contacts = Object.keys(data).filter(contact => data[contact] !== '').map(contact => {
-      return {
-        name: contact,
-        link: data[contact]
-      }
-    })
+    const contacts = Object.keys(data)
+      .filter((contact) => data[contact] !== '')
+      .map((contact) => {
+        return {
+          name: contact,
+          link: data[contact],
+        };
+      });
 
-    await updateContacts({ variables: { contacts } })
+    await mutateProfile({ variables: { contacts } });
   });
 
   return (
@@ -133,7 +139,10 @@ const ProfileForm: React.FC<{
               pattern: /.*\B@(?=\w{5,64}\b)[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*.*/gm,
               maxLength: 100,
             })}
-            defaultValue={`${data?.me.contacts?.find(contact => contact?.name === 'telegram')?.link || ''}`}
+            defaultValue={`${
+              data?.me.contacts?.find((contact) => contact?.name === 'telegram')
+                ?.link || ''
+            }`}
             name="telegram"
             id="telegram"
             placeholder="@tagname"
@@ -150,7 +159,10 @@ const ProfileForm: React.FC<{
               pattern: /^(https?:\/\/)?(www\.)?vk\.com\/(\w|\d)+?\/?$/,
               maxLength: 200,
             })}
-            defaultValue={`${data?.me.contacts?.find(contact => contact?.name === 'vk')?.link || ''}`}
+            defaultValue={`${
+              data?.me.contacts?.find((contact) => contact?.name === 'vk')
+                ?.link || ''
+            }`}
             name="vk"
             id="vk"
             placeholder="https://vk.com/id"
@@ -164,7 +176,7 @@ const ProfileForm: React.FC<{
       <Flex>
         <Button
           type="submit"
-          isLoading={dataUpdatedContacts.loading}
+          isLoading={mutateProfileResult.loading}
           loadingText="Сохранение..."
           ml="auto"
           leftIcon={MdSave}

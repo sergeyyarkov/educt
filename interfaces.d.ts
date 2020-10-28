@@ -30,10 +30,12 @@ export interface IUser extends Document {
   email: string;
   password: string;
   roles: string[];
-  contacts: {
-    name: string
-    link: string
-  }[] | null;
+  contacts:
+    | {
+        name: string;
+        link: string;
+      }[]
+    | null;
 }
 
 export interface ILesson extends Document {

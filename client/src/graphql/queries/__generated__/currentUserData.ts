@@ -8,13 +8,13 @@
 // ====================================================
 
 export interface currentUserData_me_contacts {
-  __typename: "Contact";
+  __typename: 'Contact';
   name: string | null;
   link: string | null;
 }
 
 export interface currentUserData_me {
-  __typename: "User";
+  __typename: 'User';
   _id: string | null;
   roles: (string | null)[] | null;
   name: string | null;
