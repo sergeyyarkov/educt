@@ -26,7 +26,7 @@ const ProfileForm: React.FC<{
   loading: boolean;
   data: currentUserData | undefined;
 }> = ({ data, loading }) => {
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors } = useForm<{ telegram: string, vk: string, [key: string]: any }>();
   const [mutateProfile, mutateProfileResult] = useMutation<
     updateProfile,
     updateProfileVariables

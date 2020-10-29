@@ -19,6 +19,7 @@ import GET_CURRENT_USER_DATA from '../graphql/queries/currentUserData';
 import { currentUserData } from '../graphql/queries/__generated__/currentUserData';
 import ProfileForm from '../components/ProfileForm/ProfileForm';
 import ProfileInfo from '../components/ProfileInfo/ProfileInfo';
+import ChangePasswdForm from '../components/ChangePasswdForm/ChangePasswdForm';
 
 const ProfilePage: React.FC<IPageProps> = ({ title }) => {
   const { data, loading, error } = useQuery<currentUserData>(
@@ -49,14 +50,16 @@ const ProfilePage: React.FC<IPageProps> = ({ title }) => {
             <Tab>Изменить пароль</Tab>
             <Tab>Доступные курсы</Tab>
           </TabList>
-          <TabPanels>
-            <TabPanel mt="20px">
-              <Flex justifyContent="space-between">
+          <TabPanels mt="20px">
+            <TabPanel>
+              <Flex>
                 <ProfileForm data={data} loading={loading} />
               </Flex>
             </TabPanel>
             <TabPanel>
-              <Box></Box>
+              <Flex>
+                <ChangePasswdForm />
+              </Flex>
             </TabPanel>
           </TabPanels>
         </Tabs>
