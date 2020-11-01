@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface Login_login {
-  __typename: "AuthData";
+  __typename: 'AuthData';
   _id: string;
   token: string;
   tokenExpiration: number;

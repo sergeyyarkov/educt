@@ -26,7 +26,11 @@ const ProfileForm: React.FC<{
   loading: boolean;
   data: currentUserData | undefined;
 }> = ({ data, loading }) => {
-  const { register, handleSubmit, errors } = useForm<{ telegram: string, vk: string, [key: string]: any }>();
+  const { register, handleSubmit, errors } = useForm<{
+    telegram: string;
+    vk: string;
+    [key: string]: any;
+  }>();
   const [mutateProfile, mutateProfileResult] = useMutation<
     updateProfile,
     updateProfileVariables
@@ -90,17 +94,17 @@ const ProfileForm: React.FC<{
   const onSubmit = handleSubmit(async (data) => {
     try {
       const contacts = Object.keys(data)
-      .filter((contact) => data[contact] !== '')
-      .map((contact) => {
-        return {
-          name: contact,
-          link: data[contact],
-        };
-      });
+        .filter((contact) => data[contact] !== '')
+        .map((contact) => {
+          return {
+            name: contact,
+            link: data[contact],
+          };
+        });
 
-    await mutateProfile({ variables: { contacts } });
+      await mutateProfile({ variables: { contacts } });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   });
 
@@ -177,7 +181,7 @@ const ProfileForm: React.FC<{
           </FormErrorMessage>
         </FormControl>
       </Flex>
-      <Flex mt='15px'>
+      <Flex mt="15px">
         <Button
           type="submit"
           isLoading={mutateProfileResult.loading}

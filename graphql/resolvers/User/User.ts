@@ -165,11 +165,15 @@ const userResolver: IResolvers = {
         throw error;
       }
     },
-    changePassword: async (_, args: { input: { oldPasswd: string; newPasswd: string; } }, context: IContext): Promise<string> => {
+    changePassword: async (
+      _,
+      args: { input: { oldPasswd: string; newPasswd: string } },
+      context: IContext
+    ): Promise<string> => {
       try {
         Auth.isAuthenticated(context);
-        const user = await User.findById(context.req.userId)
-        const { oldPasswd, newPasswd } = args.input
+        const user = await User.findById(context.req.userId);
+        const { oldPasswd, newPasswd } = args.input;
         const hashedNewPassword = bcrypt.hashSync(newPasswd, 10);
 
         if (!user) {
@@ -192,13 +196,15 @@ const userResolver: IResolvers = {
           throw new ApolloError('Неверный пароль!', '403 Forbidden');
         }
 
-        await User.findByIdAndUpdate(context.req.userId, { password: hashedNewPassword });
+        await User.findByIdAndUpdate(context.req.userId, {
+          password: hashedNewPassword,
+        });
 
-        return hashedNewPassword
+        return hashedNewPassword;
       } catch (error) {
         throw error;
       }
-    }
+    },
   },
 };
 

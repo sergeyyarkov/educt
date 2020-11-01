@@ -1,13 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { useMutation } from '@apollo/client'
-import { MdLock, MdReplay } from 'react-icons/md'
-import { Flex, Box, Heading, FormControl, FormLabel, FormErrorMessage, Button, Input, InputGroup, InputRightElement, useToast } from '@chakra-ui/core';
+import { useMutation } from '@apollo/client';
+import { MdLock, MdReplay } from 'react-icons/md';
+import {
+  Flex,
+  Box,
+  Heading,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Button,
+  Input,
+  InputGroup,
+  InputRightElement,
+  useToast,
+} from '@chakra-ui/core';
 import { useForm } from 'react-hook-form';
-import { ChangePassword, ChangePasswordVariables } from '../../graphql/mutations/__generated__/ChangePassword';
+import {
+  ChangePassword,
+  ChangePasswordVariables,
+} from '../../graphql/mutations/__generated__/ChangePassword';
 import CHANGE_PASSWORD from '../../graphql/mutations/changePassword';
 
 const ChangePasswdForm: React.FC = () => {
-  const [changePassword, changedPassword] = useMutation<ChangePassword, ChangePasswordVariables>(CHANGE_PASSWORD, {
+  const [changePassword, changedPassword] = useMutation<
+    ChangePassword,
+    ChangePasswordVariables
+  >(CHANGE_PASSWORD, {
     onError: (error) => {
       toast({
         title: '❌ Произошла ошибка!',
@@ -16,24 +34,39 @@ const ChangePasswdForm: React.FC = () => {
         duration: 4000,
         isClosable: true,
       });
-    }
-  })
-  const [showPasswd, setShowPasswd] = useState<boolean[]>([false, false, false]);
-  const onShowPasswd = (index: number) => setShowPasswd(prevState => ([...prevState.map((state, i) => i === index ? !showPasswd[index] : state)]));
+    },
+  });
+  const [showPasswd, setShowPasswd] = useState<boolean[]>([
+    false,
+    false,
+    false,
+  ]);
+  const onShowPasswd = (index: number) =>
+    setShowPasswd((prevState) => [
+      ...prevState.map((state, i) =>
+        i === index ? !showPasswd[index] : state
+      ),
+    ]);
 
-  const { register, handleSubmit, errors, watch, reset } = useForm<{ oldPasswd: string; confirmPasswd: string; newPasswd: string; }>()
+  const { register, handleSubmit, errors, watch, reset } = useForm<{
+    oldPasswd: string;
+    confirmPasswd: string;
+    newPasswd: string;
+  }>();
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const { oldPasswd, newPasswd } = data
+      const { oldPasswd, newPasswd } = data;
 
-      await changePassword({ variables: {
-        input: { oldPasswd, newPasswd }
-      } })
-      reset()
+      await changePassword({
+        variables: {
+          input: { oldPasswd, newPasswd },
+        },
+      });
+      reset();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  })
+  });
 
   const toast = useToast();
 
@@ -66,83 +99,88 @@ const ChangePasswdForm: React.FC = () => {
       </Flex>
       <Flex width="100%" mt="15px" flexDirection="column">
         <FormControl isRequired isInvalid={errors.oldPasswd && true}>
-          <FormLabel htmlFor='oldPasswd'>Старый пароль</FormLabel>
-          <InputGroup mb="10px" >
+          <FormLabel htmlFor="oldPasswd">Старый пароль</FormLabel>
+          <InputGroup mb="10px">
             <Input
               ref={register({
-                required: true
+                required: true,
               })}
-              name='oldPasswd'
-              id='oldPasswd'
+              name="oldPasswd"
+              id="oldPasswd"
               pr="5.5rem"
-              type={showPasswd[0] ? "text" : "password"}
+              type={showPasswd[0] ? 'text' : 'password'}
               placeholder="Введите текущий пароль"
             />
-            <InputRightElement width="5rem" mr='5.5px'>
+            <InputRightElement width="5rem" mr="5.5px">
               <Button h="1.75rem" size="sm" onClick={() => onShowPasswd(0)}>
-                {showPasswd[0] ? "Скрыть" : "Показать"}
+                {showPasswd[0] ? 'Скрыть' : 'Показать'}
               </Button>
             </InputRightElement>
           </InputGroup>
           <FormErrorMessage>
-            {errors.oldPasswd?.type === 'required' && 'Это поля является обязательным!'}
+            {errors.oldPasswd?.type === 'required' &&
+              'Это поля является обязательным!'}
           </FormErrorMessage>
         </FormControl>
         <FormControl isRequired isInvalid={errors.newPasswd && true}>
-          <FormLabel htmlFor='newPasswd'>Новый пароль</FormLabel>
-          <InputGroup mb="10px" >
+          <FormLabel htmlFor="newPasswd">Новый пароль</FormLabel>
+          <InputGroup mb="10px">
             <Input
               ref={register({
                 minLength: 6,
                 required: true,
-                validate: (value) => value !== watch('oldPasswd')
+                validate: (value) => value !== watch('oldPasswd'),
               })}
-              name='newPasswd'
-              id='newPasswd'
+              name="newPasswd"
+              id="newPasswd"
               pr="5.5rem"
-              type={showPasswd[1] ? "text" : "password"}
+              type={showPasswd[1] ? 'text' : 'password'}
               placeholder="Введите текущий пароль"
             />
-            <InputRightElement width="5rem" mr='5.5px'>
+            <InputRightElement width="5rem" mr="5.5px">
               <Button h="1.75rem" size="sm" onClick={() => onShowPasswd(1)}>
-                {showPasswd[1] ? "Скрыть" : "Показать"}
+                {showPasswd[1] ? 'Скрыть' : 'Показать'}
               </Button>
             </InputRightElement>
           </InputGroup>
           <FormErrorMessage>
-            {errors.newPasswd?.type === 'required' && 'Это поля является обязательным!'}
-            {errors.newPasswd?.type === 'minLength' && 'Пароль должен содержать не менее 6 символов!'}
-            {errors.newPasswd?.type === 'validate' && 'Новый пароль должен отличаться от старого!'}
+            {errors.newPasswd?.type === 'required' &&
+              'Это поля является обязательным!'}
+            {errors.newPasswd?.type === 'minLength' &&
+              'Пароль должен содержать не менее 6 символов!'}
+            {errors.newPasswd?.type === 'validate' &&
+              'Новый пароль должен отличаться от старого!'}
           </FormErrorMessage>
         </FormControl>
         <FormControl isRequired isInvalid={errors.confirmPasswd && true}>
-          <FormLabel htmlFor='confirmPasswd'>Подтвердите пароль</FormLabel>
-          <InputGroup mb="10px" >
+          <FormLabel htmlFor="confirmPasswd">Подтвердите пароль</FormLabel>
+          <InputGroup mb="10px">
             <Input
               ref={register({
                 minLength: 6,
                 required: true,
-                validate: (value) => value === watch('newPasswd')
+                validate: (value) => value === watch('newPasswd'),
               })}
-              name='confirmPasswd'
-              id='confirmPasswd'
+              name="confirmPasswd"
+              id="confirmPasswd"
               pr="5.5rem"
-              type={showPasswd[2] ? "text" : "password"}
+              type={showPasswd[2] ? 'text' : 'password'}
               placeholder="Введите текущий пароль"
             />
-            <InputRightElement width="5rem" mr='5.5px'>
+            <InputRightElement width="5rem" mr="5.5px">
               <Button h="1.75rem" size="sm" onClick={() => onShowPasswd(2)}>
-                {showPasswd[2] ? "Скрыть" : "Показать"}
+                {showPasswd[2] ? 'Скрыть' : 'Показать'}
               </Button>
             </InputRightElement>
           </InputGroup>
           <FormErrorMessage>
-            {errors.confirmPasswd?.type === 'required' && 'Это поля является обязательным!'}
+            {errors.confirmPasswd?.type === 'required' &&
+              'Это поля является обязательным!'}
             {errors.confirmPasswd && 'Пароли не совпадают!'}
           </FormErrorMessage>
         </FormControl>
       </Flex>
-      <Flex mt='15px'>
+      <Flex mt="15px">
         <Button
           type="submit"
           isLoading={changedPassword.loading}
@@ -156,7 +194,7 @@ const ChangePasswdForm: React.FC = () => {
         </Button>
       </Flex>
     </Box>
-  )
-}
+  );
+};
 
-export default ChangePasswdForm
+export default ChangePasswdForm;
