@@ -7,6 +7,11 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface ChangePasswordInput {
+  oldPasswd: string;
+  newPasswd: string;
+}
+
 export interface ContactInput {
   name: string;
   link: string;

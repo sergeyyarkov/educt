@@ -165,6 +165,40 @@ const userResolver: IResolvers = {
         throw error;
       }
     },
+    changePassword: async (_, args: { input: { oldPasswd: string; newPasswd: string; } }, context: IContext): Promise<string> => {
+      try {
+        Auth.isAuthenticated(context);
+        const user = await User.findById(context.req.userId)
+        const { oldPasswd, newPasswd } = args.input
+        const hashedNewPassword = bcrypt.hashSync(newPasswd, 10);
+
+        if (!user) {
+          throw new ApolloError(
+            'Такого пользователя не существует!',
+            '404 Not Found'
+          );
+        }
+
+        if (oldPasswd.toLocaleLowerCase() === newPasswd.toLocaleLowerCase()) {
+          throw new ApolloError(
+            'Новый пароль совпадает со старым!',
+            '400 Bad Request'
+          );
+        }
+
+        const validate = await bcrypt.compare(oldPasswd, user.password);
+
+        if (!validate) {
+          throw new ApolloError('Неверный пароль!', '403 Forbidden');
+        }
+
+        await User.findByIdAndUpdate(context.req.userId, { password: hashedNewPassword });
+
+        return hashedNewPassword
+      } catch (error) {
+        throw error;
+      }
+    }
   },
 };
 

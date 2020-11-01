@@ -1,16 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useMutation } from '@apollo/client'
 import { MdLock, MdReplay } from 'react-icons/md'
-import { Flex, Box, Heading, FormControl, FormLabel, FormErrorMessage, Button, Input, InputGroup, InputRightElement } from '@chakra-ui/core';
+import { Flex, Box, Heading, FormControl, FormLabel, FormErrorMessage, Button, Input, InputGroup, InputRightElement, useToast } from '@chakra-ui/core';
 import { useForm } from 'react-hook-form';
+import { ChangePassword, ChangePasswordVariables } from '../../graphql/mutations/__generated__/ChangePassword';
+import CHANGE_PASSWORD from '../../graphql/mutations/changePassword';
 
 const ChangePasswdForm: React.FC = () => {
+  const [changePassword, changedPassword] = useMutation<ChangePassword, ChangePasswordVariables>(CHANGE_PASSWORD, {
+    onError: (error) => {
+      toast({
+        title: '❌ Произошла ошибка!',
+        description: `${error.graphQLErrors[0].message}`,
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      });
+    }
+  })
   const [showPasswd, setShowPasswd] = useState<boolean[]>([false, false, false]);
   const onShowPasswd = (index: number) => setShowPasswd(prevState => ([...prevState.map((state, i) => i === index ? !showPasswd[index] : state)]));
 
-  const { register, handleSubmit, errors, watch } = useForm<{ oldPasswd: string; confirmPasswd: string; newPasswd: string; }>()
+  const { register, handleSubmit, errors, watch, reset } = useForm<{ oldPasswd: string; confirmPasswd: string; newPasswd: string; }>()
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data)
+    try {
+      const { oldPasswd, newPasswd } = data
+
+      await changePassword({ variables: {
+        input: { oldPasswd, newPasswd }
+      } })
+      reset()
+    } catch (error) {
+      console.log(error)
+    }
   })
+
+  const toast = useToast();
+
+  useEffect(() => {
+    if (changedPassword.data) {
+      toast({
+        title: `Пароль изменен!`,
+        description: 'Вы успешно изменили свой пароль.',
+        status: 'success',
+        duration: 2500,
+        isClosable: true,
+      });
+    }
+  }, [changedPassword.data, toast]);
 
   return (
     <Box
@@ -57,7 +94,8 @@ const ChangePasswdForm: React.FC = () => {
             <Input
               ref={register({
                 minLength: 6,
-                required: true
+                required: true,
+                validate: (value) => value !== watch('oldPasswd')
               })}
               name='newPasswd'
               id='newPasswd'
@@ -74,6 +112,7 @@ const ChangePasswdForm: React.FC = () => {
           <FormErrorMessage>
             {errors.newPasswd?.type === 'required' && 'Это поля является обязательным!'}
             {errors.newPasswd?.type === 'minLength' && 'Пароль должен содержать не менее 6 символов!'}
+            {errors.newPasswd?.type === 'validate' && 'Новый пароль должен отличаться от старого!'}
           </FormErrorMessage>
         </FormControl>
         <FormControl isRequired isInvalid={errors.confirmPasswd && true}>
@@ -103,10 +142,10 @@ const ChangePasswdForm: React.FC = () => {
           </FormErrorMessage>
         </FormControl>
       </Flex>
-      <Flex>
+      <Flex mt='15px'>
         <Button
           type="submit"
-          // isLoading={mutateProfileResult.loading}
+          isLoading={changedPassword.loading}
           loadingText="Сохранение..."
           ml="auto"
           leftIcon={MdReplay}

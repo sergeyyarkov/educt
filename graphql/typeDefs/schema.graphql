@@ -11,6 +11,11 @@ input ContactInput {
   link: String!
 }
 
+input ChangePasswordInput {
+  oldPasswd: String!
+  newPasswd: String!
+}
+
 enum UserRoles {
   ADMIN
   USER
@@ -41,6 +46,7 @@ type Mutation {
   ): User
   updateProfile(contacts: [ContactInput!]): User
   deleteUser(_id: ID!): User
+  changePassword(input: ChangePasswordInput!): String
   createCourse(
     title: String!
     description: String!

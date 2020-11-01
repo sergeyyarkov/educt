@@ -88,7 +88,8 @@ const ProfileForm: React.FC<{
   }
 
   const onSubmit = handleSubmit(async (data) => {
-    const contacts = Object.keys(data)
+    try {
+      const contacts = Object.keys(data)
       .filter((contact) => data[contact] !== '')
       .map((contact) => {
         return {
@@ -98,6 +99,9 @@ const ProfileForm: React.FC<{
       });
 
     await mutateProfile({ variables: { contacts } });
+    } catch (error) {
+      console.log(error)
+    }
   });
 
   return (
@@ -173,7 +177,7 @@ const ProfileForm: React.FC<{
           </FormErrorMessage>
         </FormControl>
       </Flex>
-      <Flex>
+      <Flex mt='15px'>
         <Button
           type="submit"
           isLoading={mutateProfileResult.loading}
