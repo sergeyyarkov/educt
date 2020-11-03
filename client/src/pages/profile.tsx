@@ -11,6 +11,8 @@ import {
   TabPanels,
   TabPanel,
   Tab,
+  Heading,
+  Text,
 } from '@chakra-ui/core';
 import { IPageProps } from '../interfaces';
 import { useQuery } from '@apollo/react-components';
@@ -27,7 +29,17 @@ const ProfilePage: React.FC<IPageProps> = ({ title }) => {
   );
 
   if (error) {
-    console.log(error);
+    console.error(error);
+    return (
+      <>
+        <Heading>
+          Произошла ошибка:
+        </Heading>
+        <Text>
+          {error.message}
+        </Text>
+      </>
+    )
   }
 
   if (data?.me === null) {

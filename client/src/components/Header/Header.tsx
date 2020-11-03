@@ -21,24 +21,43 @@ import {
   MenuGroup,
   MenuDivider,
   Skeleton,
+  useToast,
 } from '@chakra-ui/core';
 import { useApolloClient } from '@apollo/client';
-import { useQuery } from '@apollo/react-components';
+import { useMutation, useQuery } from '@apollo/react-components';
 import UserBadge from '../UserBadge/UserBadge';
 
 import GET_CURRENT_USER_DATA from '../../graphql/queries/currentUserData';
+import LOGOUT_QUERY from '../../graphql/mutations/logout';
 import { currentUserData } from '../../graphql/queries/__generated__/currentUserData';
+import { Logout } from '../../graphql/mutations/__generated__/Logout';
 
 const Header: React.FC = () => {
   const client = useApolloClient();
+  const toast = useToast()
   const { data, loading, error } = useQuery<currentUserData>(
     GET_CURRENT_USER_DATA
   );
+  const [logout] = useMutation<Logout>(LOGOUT_QUERY)
 
-  const handleLogout = () => authenticationService.logout(client);
+  const onLogout = async () => {
+    try {
+      await logout() // clear cookies on server
+      authenticationService.logout(client) // reset store on client
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: '❌ Произошла ошибка!',
+        description: 'Невозможно выполнить запрос!',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
 
   if (error) {
-    console.log(error);
+    console.error(error);
   }
 
   if (data?.me === null) {
@@ -128,7 +147,7 @@ const Header: React.FC = () => {
                         Мой профиль
                       </MenuItem>
                     </Link>
-                    <MenuItem onClick={handleLogout}>
+                    <MenuItem onClick={onLogout}>
                       <Box as={MdExitToApp} mr={2} />
                       Выход
                     </MenuItem>

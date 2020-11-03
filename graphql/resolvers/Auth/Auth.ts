@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import Auth from '../../auth/index'
 import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
@@ -47,6 +48,7 @@ const authResolver: IResolvers = {
           //domain: 'example.com', // domain
         });
 
+
         return {
           _id: user._id,
           name: user.name,
@@ -59,6 +61,20 @@ const authResolver: IResolvers = {
         throw error;
       }
     },
+    logout: (_, __, context: IContext) => {
+      try {
+        Auth.isAuthenticated(context)
+
+        context.res.clearCookie('access-token')
+        context.res.clearCookie('refresh-token')
+        delete context.req.userId
+        delete context.req.userRoles
+
+        return '200 OK'
+      } catch (error) {
+        throw error
+      }
+    }
   },
 };
 

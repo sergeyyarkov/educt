@@ -34,6 +34,7 @@ type Query {
 
 type Mutation {
   login(login: String!, password: String!): AuthData
+  logout: String
   createUser(
     name: String!
     surname: String!

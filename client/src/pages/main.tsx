@@ -16,6 +16,20 @@ import { useQuery } from '@apollo/react-components';
 const MainPage: React.FC<IPageProps> = ({ title }) => {
   const currentUser = useQuery<IUserQueryData>(GET_CURRENT_USER_DATA);
 
+  if (currentUser.error) {
+    console.error(currentUser.error);
+    return (
+      <>
+        <Heading>
+          Произошла ошибка:
+        </Heading>
+        <Text>
+          {currentUser.error.message}
+        </Text>
+      </>
+    )
+  }
+
   return (
     <>
       <Breadcrumb fontWeight="medium" fontSize="sm">
