@@ -5,14 +5,14 @@ import { FindUserInput } from './Inputs/FindUserInput';
 
 /**
  * 
- * User resolver
- * returns a current user by slug or id
+ * User query resolver
+ * Returns a current user by slug or id
  * 
  */
 
 @Resolver(User)
 export class UserResolver {
-  @Query(() => User)
+  @Query(() => User, { description: 'Returns a current user by slug or id' })
   async user(@Arg('input') input: FindUserInput) {
     try {
       if (!input.id && !input.slug || Object.keys(input).length > 1) {

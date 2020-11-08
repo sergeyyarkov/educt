@@ -6,14 +6,14 @@ import { ApolloError } from 'apollo-server-express'
 
 /**
  * 
- * Register resolver 
- * creates a new user and returns it
+ * Register user mutation resolver 
+ * Creates a new user and returns it
  * 
  */
 
 @Resolver(User)
-export class RegisterResolver {
-  @Mutation(() => User)
+export class RegisterUserResolver {
+  @Mutation(() => User, { description: 'Creates a new user and returns it' })
   async registerUser(@Arg('input') input: RegisterUserInput): Promise<User>  {
     try {
       const { name, surname, patronymic, login, password, email, roles, contacts } = input

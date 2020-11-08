@@ -3,14 +3,14 @@ import { User } from '../../../../entities/User'
 
 /**
  * 
- * Users resolver
- * returns a list of users
+ * Users query resolver
+ * Returns a list of users
  * 
  */
 
 @Resolver(User)
 export class UsersResolver {
-  @Query(() => [User])
+  @Query(() => [User], { description: 'Returns a list of users' })
   async users() {
     try {
       const users = await User.find({})
