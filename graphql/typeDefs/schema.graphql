@@ -24,7 +24,7 @@ enum UserRoles {
 
 type Query {
   me: User
-  user(slug: String): User
+  user(slug: String!): User
   users: [User]
   lesson(_id: ID!): Lesson
   lessons: [Lesson]
