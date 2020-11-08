@@ -29,7 +29,7 @@ export class User extends BaseEntity {
 	patronymic: string;
 
 	@Field()
-	@Column()
+	@Column('text', { unique: true })
 	login: string;
 
 	@Column()

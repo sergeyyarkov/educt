@@ -1,5 +1,5 @@
 import { InputType, Field } from 'type-graphql'
-import { Roles } from '../../enums'
+import { Roles } from '../../../enums'
 import { ContactsUserInput } from './ContactsUserInput'
 
 /* 

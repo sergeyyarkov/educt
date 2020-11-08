@@ -1,12 +1,15 @@
 import { Resolver, Mutation, Arg } from 'type-graphql'
 import * as bcrypt from 'bcryptjs'
 import { User } from '../../../../entities/User'
-import { RegisterUserInput } from './RegisterUserInput'
+import { RegisterUserInput } from './Inputs/RegisterUserInput'
 import { ApolloError } from 'apollo-server-express'
 
-/* 
-  Register resolver - creates a new user and returns it
-*/
+/**
+ * 
+ * Register resolver 
+ * creates a new user and returns it
+ * 
+ */
 
 @Resolver(User)
 export class RegisterResolver {
@@ -34,7 +37,7 @@ export class RegisterResolver {
           table: error.table
         })
       }
-      throw error;
+      throw new ApolloError(error);
     }
   }
 }

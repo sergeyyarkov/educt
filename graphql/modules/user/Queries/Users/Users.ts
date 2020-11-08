@@ -1,9 +1,12 @@
 import { Resolver, Query, FieldResolver, Root } from 'type-graphql'
 import { User } from '../../../../entities/User'
 
-/* 
-  Users resolver - returns a list of users
-*/
+/**
+ * 
+ * Users resolver
+ * returns a list of users
+ * 
+ */
 
 @Resolver(User)
 export class UsersResolver {
