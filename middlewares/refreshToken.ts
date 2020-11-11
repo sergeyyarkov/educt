@@ -1,6 +1,6 @@
 import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { User } from '../graphql/models/index';
+import { User } from '../graphql/entities/User'
 import { createTokens } from '../graphql/auth/createTokens';
 import { IRequestData } from '../interfaces';
 
@@ -20,7 +20,7 @@ export async function refreshToken(
       accessToken,
       process.env.ACCESS_TOKEN_SECRET as string
     ) as any;
-    req.userId = data._id;
+    req.userId = data.id;
     req.userRoles = data.roles;
     return next();
   } catch {}
@@ -40,7 +40,7 @@ export async function refreshToken(
     return next();
   }
 
-  const user = await User.findById(data._id);
+  const user = await User.findOne(data.id)
 
   if (!user) {
     return next();
@@ -58,7 +58,7 @@ export async function refreshToken(
     //secure: true, // https
     //domain: 'example.com', // domain
   });
-  req.userId = user._id;
+  req.userId = user.id;
 
   next();
 }

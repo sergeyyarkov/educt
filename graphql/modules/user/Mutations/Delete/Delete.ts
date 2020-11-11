@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Arg } from 'type-graphql'
+import { Resolver, Mutation, Arg, Authorized } from 'type-graphql'
 import { User } from '../../../../entities/User'
 import { ApolloError } from 'apollo-server-express'
 import { DeleteUserInput } from './Inputs/DeleteUserInput'
@@ -7,13 +7,15 @@ import { DeleteUserInput } from './Inputs/DeleteUserInput'
  * 
  * Delete user mutation resolver
  * Removes the user and returns it
+ * Authorized: ADMIN
  * 
  */
 
 @Resolver(User)
 export class DeleteUserResolver {
+  @Authorized('ADMIN')
   @Mutation(() => User, { description: 'Removes the user and returns it' })
-  async deleteUser(@Arg('input') input: DeleteUserInput) {
+  async deleteUser(@Arg('input') input: DeleteUserInput): Promise<User> {
     try {
       const user = await User.findOne(input.id)
 

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, OneToMany, Column, BaseEntity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 import { Field, ObjectType, ID } from 'type-graphql'
 import { Roles } from '../modules/user/enums'
 
