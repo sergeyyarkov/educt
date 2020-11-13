@@ -1,10 +1,10 @@
-import { ObjectType, ID, Field } from 'type-graphql'
+import { ObjectType, ID, Field } from 'type-graphql';
 
 @ObjectType()
 export class AuthData {
   @Field(() => ID)
   id: number;
-  
+
   @Field()
   name: string;
 

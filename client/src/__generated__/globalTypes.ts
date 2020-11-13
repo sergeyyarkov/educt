@@ -11,17 +11,17 @@
  * Names of contacts
  */
 export enum ContactsList {
-  TELEGRAM = "TELEGRAM",
-  VK = "VK",
+  TELEGRAM = 'TELEGRAM',
+  VK = 'VK',
 }
 
 /**
  * Roles of users
  */
 export enum Roles {
-  ADMIN = "ADMIN",
-  OWNER = "OWNER",
-  USER = "USER",
+  ADMIN = 'ADMIN',
+  OWNER = 'OWNER',
+  USER = 'USER',
 }
 
 export interface ChangeUserPasswdInput {

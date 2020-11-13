@@ -1,4 +1,4 @@
-import { registerEnumType } from 'type-graphql'
+import { registerEnumType } from 'type-graphql';
 
 /* 
   Enums declare
@@ -7,12 +7,12 @@ import { registerEnumType } from 'type-graphql'
 export enum Roles {
   ADMIN = 'ADMIN',
   USER = 'USER',
-  OWNER = 'OWNER'
+  OWNER = 'OWNER',
 }
 
 export enum ContactsList {
-  VK = "vk",
-  TELEGRAM = "telegram"
+  VK = 'vk',
+  TELEGRAM = 'telegram',
 }
 
 /* 
@@ -20,11 +20,11 @@ export enum ContactsList {
 */
 
 registerEnumType(Roles, {
-  name: "Roles",
-  description: "Roles of users",
-})
+  name: 'Roles',
+  description: 'Roles of users',
+});
 
 registerEnumType(ContactsList, {
-  name: "ContactsList",
-  description: "Names of contacts"
-})
+  name: 'ContactsList',
+  description: 'Names of contacts',
+});

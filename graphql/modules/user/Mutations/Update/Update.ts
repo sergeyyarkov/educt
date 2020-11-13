@@ -1,24 +1,29 @@
-import { ApolloError } from 'apollo-server-express'
-import { Resolver, Mutation, Arg, Authorized, Ctx } from 'type-graphql'
-import { IContext } from '../../../../../interfaces'
-import { User } from '../../../../entities/User'
-import { UpdateUserInput } from './Inputs/UpdateUserInput'
+import { ApolloError } from 'apollo-server-express';
+import { Resolver, Mutation, Arg, Authorized, Ctx } from 'type-graphql';
+import { IContext } from '../../../../../interfaces';
+import { User } from '../../../../entities/User';
+import { UpdateUserInput } from './Inputs/UpdateUserInput';
 
 /**
- * 
- * Update user mutation resolver 
+ *
+ * Update user mutation resolver
  * Updates user data and returns updated user
  * Authorized: USER
- * 
+ *
  */
 
 @Resolver()
 export class UpdateUserResolver {
   @Authorized()
-  @Mutation(() => User, { description: 'Updates user data and returns updated user' })
-  async updateProfile(@Arg('input') { contacts }: UpdateUserInput, @Ctx() ctx: IContext) {
+  @Mutation(() => User, {
+    description: 'Updates user data and returns updated user',
+  })
+  async updateProfile(
+    @Arg('input') { contacts }: UpdateUserInput,
+    @Ctx() ctx: IContext
+  ) {
     try {
-      const user = await User.findOne(ctx.req.userId)
+      const user = await User.findOne(ctx.req.userId);
 
       if (!user) {
         throw new ApolloError(
@@ -27,12 +32,12 @@ export class UpdateUserResolver {
         );
       }
 
-      user.contacts = contacts
-      user.save()
-      
-      return user
+      user.contacts = contacts;
+      user.save();
+
+      return user;
     } catch (error) {
-      throw new ApolloError(error)
+      throw new ApolloError(error);
     }
   }
 }

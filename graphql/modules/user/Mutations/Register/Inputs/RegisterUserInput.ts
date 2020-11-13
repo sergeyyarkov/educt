@@ -1,14 +1,14 @@
-import { InputType, Field } from 'type-graphql'
-import { Roles } from '../../../enums'
-import { ContactsUserInput } from './ContactsUserInput'
-import { IsEmail } from 'class-validator'
+import { InputType, Field } from 'type-graphql';
+import { Roles } from '../../../enums';
+import { ContactsUserInput } from './ContactsUserInput';
+import { IsEmail } from 'class-validator';
 import { IsContactsValid } from '../../../validations/isContactsValid';
 
 /* 
   Input type for register user
 */
 
-@InputType({ description: "Register a new user" })
+@InputType({ description: 'Register a new user' })
 export class RegisterUserInput {
   @Field()
   name: string;
@@ -18,7 +18,7 @@ export class RegisterUserInput {
 
   @Field()
   patronymic: string;
-  
+
   @Field()
   login: string;
 
@@ -34,5 +34,5 @@ export class RegisterUserInput {
 
   @Field(() => [ContactsUserInput])
   @IsContactsValid({ message: 'Ошибка валидации контактов!' })
-  contacts: ContactsUserInput[]
+  contacts: ContactsUserInput[];
 }

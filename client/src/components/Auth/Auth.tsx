@@ -23,10 +23,10 @@ import {
 } from '../../graphql/mutations/__generated__/Login';
 
 /**
- * 
+ *
  * Auth Component
  * Component for user authorization through a form
- * 
+ *
  */
 
 const Auth: React.FC = () => {

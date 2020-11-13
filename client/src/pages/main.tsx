@@ -20,14 +20,10 @@ const MainPage: React.FC<IPageProps> = ({ title }) => {
     console.error(currentUser.error);
     return (
       <>
-        <Heading>
-          Произошла ошибка:
-        </Heading>
-        <Text>
-          {currentUser.error.message}
-        </Text>
+        <Heading>Произошла ошибка:</Heading>
+        <Text>{currentUser.error.message}</Text>
       </>
-    )
+    );
   }
 
   return (

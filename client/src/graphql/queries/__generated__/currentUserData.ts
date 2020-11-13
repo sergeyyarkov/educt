@@ -3,20 +3,20 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { Roles } from "./../../../__generated__/globalTypes";
+import { Roles } from './../../../__generated__/globalTypes';
 
 // ====================================================
 // GraphQL query operation: currentUserData
 // ====================================================
 
 export interface currentUserData_me_contacts {
-  __typename: "Contact";
+  __typename: 'Contact';
   name: string;
   link: string;
 }
 
 export interface currentUserData_me {
-  __typename: "User";
+  __typename: 'User';
   id: string;
   roles: Roles[];
   name: string;

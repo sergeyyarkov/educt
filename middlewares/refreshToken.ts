@@ -1,6 +1,6 @@
 import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { User } from '../graphql/entities/User'
+import { User } from '../graphql/entities/User';
 import { createTokens } from '../utils/createTokens';
 import { IRequestData } from '../interfaces';
 
@@ -40,7 +40,7 @@ export async function refreshToken(
     return next();
   }
 
-  const user = await User.findOne(data.id)
+  const user = await User.findOne(data.id);
 
   if (!user) {
     return next();

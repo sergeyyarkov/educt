@@ -23,7 +23,6 @@ import {
 } from '../../graphql/mutations/__generated__/updateProfile';
 import { ContactsList } from '../../__generated__/globalTypes';
 
-
 const ProfileForm: React.FC<{
   loading: boolean;
   data: currentUserData | undefined;
@@ -96,26 +95,29 @@ const ProfileForm: React.FC<{
   const onSubmit = handleSubmit(async (data) => {
     try {
       const contacts = Object.keys(data)
-        .filter(contact => data[contact] !== '')
-        .map(contact => {
-          const obj: { name: ContactsList, link: string } = { name: ContactsList.TELEGRAM, link: '' }
-          
+        .filter((contact) => data[contact] !== '')
+        .map((contact) => {
+          const obj: { name: ContactsList; link: string } = {
+            name: ContactsList.TELEGRAM,
+            link: '',
+          };
+
           switch (contact.toUpperCase()) {
             case ContactsList.TELEGRAM:
-              obj.name = ContactsList.TELEGRAM
-              obj.link = data[contact]
+              obj.name = ContactsList.TELEGRAM;
+              obj.link = data[contact];
               break;
             case ContactsList.VK:
-              obj.name = ContactsList.VK
-              obj.link = data[contact]
+              obj.name = ContactsList.VK;
+              obj.link = data[contact];
               break;
             default:
               break;
           }
 
-          return obj
+          return obj;
         });
-        console.log(contacts)
+      console.log(contacts);
 
       await mutateProfile({ variables: { input: { contacts } } });
     } catch (error) {
@@ -145,11 +147,7 @@ const ProfileForm: React.FC<{
         </FormControl>
         <FormControl isReadOnly isRequired>
           <FormLabel>ФИО</FormLabel>
-          <Input
-            isReadOnly
-            value={`${data?.me.fullname}`}
-            mb="10px"
-          />
+          <Input isReadOnly value={`${data?.me.fullname}`} mb="10px" />
         </FormControl>
         <FormControl isReadOnly isRequired>
           <FormLabel>Почта</FormLabel>

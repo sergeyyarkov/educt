@@ -34,18 +34,18 @@ import { Logout } from '../../graphql/mutations/__generated__/Logout';
 
 const Header: React.FC = () => {
   const client = useApolloClient();
-  const toast = useToast()
+  const toast = useToast();
   const { data, loading, error } = useQuery<currentUserData>(
     GET_CURRENT_USER_DATA
   );
-  const [logout] = useMutation<Logout>(LOGOUT_QUERY)
+  const [logout] = useMutation<Logout>(LOGOUT_QUERY);
 
   const onLogout = async () => {
     try {
-      await logout() // clear cookies on server
-      authenticationService.logout(client) // reset store on client
+      await logout(); // clear cookies on server
+      authenticationService.logout(client); // reset store on client
     } catch (error) {
-      console.error(error)
+      console.error(error);
       toast({
         title: '❌ Произошла ошибка!',
         description: 'Невозможно выполнить запрос!',
@@ -137,9 +137,7 @@ const Header: React.FC = () => {
                   <UserBadge roles={data?.me.roles} />
                 </MenuButton>
                 <MenuList mr="1rem">
-                  <MenuGroup
-                    title={`${data?.me.fullname}`}
-                  >
+                  <MenuGroup title={`${data?.me.fullname}`}>
                     <MenuDivider />
                     <Link to="/profile">
                       <MenuItem>

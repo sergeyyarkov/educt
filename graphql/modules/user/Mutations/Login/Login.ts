@@ -1,25 +1,33 @@
-import * as bcrypt from 'bcryptjs'
+import * as bcrypt from 'bcryptjs';
 import { ApolloError } from 'apollo-server-express';
-import { Resolver, Mutation, Arg, Ctx } from 'type-graphql' 
-import { AuthData } from './ObjectTypes/AuthData'
-import { IContext } from '../../../../../interfaces'
-import { User } from '../../../../entities/User'
-import { createTokens } from '../../../../../utils/createTokens'
+import { Resolver, Mutation, Arg, Ctx } from 'type-graphql';
+import { AuthData } from './ObjectTypes/AuthData';
+import { IContext } from '../../../../../interfaces';
+import { User } from '../../../../entities/User';
+import { createTokens } from '../../../../../utils/createTokens';
 
 /**
- * 
+ *
  * Login user mutation resolver
  * Set cookies and returns AuthData
- * 
+ *
  */
 
- @Resolver()
- export class LoginUserResolver {
-   @Mutation(() => AuthData, { description: "Login user" })
-   async login(@Arg('login') login: string, @Arg('password') password: string, @Ctx() ctx: IContext): Promise<AuthData> {
+@Resolver()
+export class LoginUserResolver {
+  @Mutation(() => AuthData, { description: 'Login user' })
+  async login(
+    @Arg('login') login: string,
+    @Arg('password') password: string,
+    @Ctx() ctx: IContext
+  ): Promise<AuthData> {
     try {
       if (!ctx.req.userId) {
-        const user = await User.findOne(login.includes("@") ? { where: { email: login } } : { where: { login: login } })
+        const user = await User.findOne(
+          login.includes('@')
+            ? { where: { email: login } }
+            : { where: { login: login } }
+        );
 
         if (!user) {
           throw new ApolloError(
@@ -57,13 +65,10 @@ import { createTokens } from '../../../../../utils/createTokens'
         };
       } else {
         /* User already logged in */
-        throw new ApolloError(
-          'Вы уже авторизованы!',
-          '406 Not Acceptable'
-        );
+        throw new ApolloError('Вы уже авторизованы!', '406 Not Acceptable');
       }
     } catch (error) {
-      throw new ApolloError(error)
+      throw new ApolloError(error);
     }
-   }
- }
+  }
+}

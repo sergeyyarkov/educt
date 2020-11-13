@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import express, { Application, Request, Response } from 'express';
 import path from 'path';
@@ -7,10 +7,10 @@ import cors from 'cors';
 import depthLimit from 'graphql-depth-limit';
 import cookieParser from 'cookie-parser';
 
-import { schema } from './graphql/schema'
+import { schema } from './graphql/schema';
 import { context } from './graphql/context';
 import { refreshToken } from './middlewares/refreshToken';
-import { createConnection } from 'typeorm'
+import { createConnection } from 'typeorm';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: `${__dirname}/.env` });
@@ -20,9 +20,9 @@ const PORT = process.env.PORT || 4000;
 
 async function startServer() {
   try {
-    console.log('• Starting the server...')
+    console.log('• Starting the server...');
     await createConnection({
-      name: "default",
+      name: 'default',
       type: 'postgres',
       host: process.env.TYPEORM_HOST || 'localhost',
       port: parseInt(process.env.TYPEORM_PORT || '5432', 10),
@@ -31,9 +31,9 @@ async function startServer() {
       database: process.env.TYPEORM_DATABASE,
       synchronize: Boolean(process.env.TYPEORM_SYNCHRONIZE),
       logging: Boolean(process.env.TYPEORM_LOGGING),
-      entities: ["graphql/entities/*.*"],
-    })
-      
+      entities: ['graphql/entities/*.*'],
+    });
+
     const app: Application = express();
     const server = new ApolloServer({
       schema,

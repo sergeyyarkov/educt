@@ -32,14 +32,10 @@ const ProfilePage: React.FC<IPageProps> = ({ title }) => {
     console.error(error);
     return (
       <>
-        <Heading>
-          Произошла ошибка:
-        </Heading>
-        <Text>
-          {error.message}
-        </Text>
+        <Heading>Произошла ошибка:</Heading>
+        <Text>{error.message}</Text>
       </>
-    )
+    );
   }
 
   if (data?.me === null) {
