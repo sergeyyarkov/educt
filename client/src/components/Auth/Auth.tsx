@@ -22,6 +22,13 @@ import {
   LoginVariables,
 } from '../../graphql/mutations/__generated__/Login';
 
+/**
+ * 
+ * Auth Component
+ * Component for user authorization through a form
+ * 
+ */
+
 const Auth: React.FC = () => {
   const isLoggedIn = isLoggedInVar();
   const [authState, setAuthState] = React.useState<LoginVariables>({

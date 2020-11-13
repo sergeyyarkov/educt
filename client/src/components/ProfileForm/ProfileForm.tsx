@@ -21,6 +21,8 @@ import {
   updateProfile,
   updateProfileVariables,
 } from '../../graphql/mutations/__generated__/updateProfile';
+import { ContactsList } from '../../__generated__/globalTypes';
+
 
 const ProfileForm: React.FC<{
   loading: boolean;
@@ -29,7 +31,7 @@ const ProfileForm: React.FC<{
   const { register, handleSubmit, errors } = useForm<{
     telegram: string;
     vk: string;
-    [key: string]: any;
+    [key: string]: string;
   }>();
   const [mutateProfile, mutateProfileResult] = useMutation<
     updateProfile,
@@ -46,7 +48,7 @@ const ProfileForm: React.FC<{
     },
     update: (cache, user) => {
       cache.modify({
-        id: `User:${data?.me?._id}`,
+        id: `User:${data?.me?.id}`,
         fields: {
           contacts() {
             return user.data?.user?.contacts;
@@ -94,15 +96,28 @@ const ProfileForm: React.FC<{
   const onSubmit = handleSubmit(async (data) => {
     try {
       const contacts = Object.keys(data)
-        .filter((contact) => data[contact] !== '')
-        .map((contact) => {
-          return {
-            name: contact,
-            link: data[contact],
-          };
-        });
+        .filter(contact => data[contact] !== '')
+        .map(contact => {
+          const obj: { name: ContactsList, link: string } = { name: ContactsList.TELEGRAM, link: '' }
+          
+          switch (contact.toUpperCase()) {
+            case ContactsList.TELEGRAM:
+              obj.name = ContactsList.TELEGRAM
+              obj.link = data[contact]
+              break;
+            case ContactsList.VK:
+              obj.name = ContactsList.VK
+              obj.link = data[contact]
+              break;
+            default:
+              break;
+          }
 
-      await mutateProfile({ variables: { contacts } });
+          return obj
+        });
+        console.log(contacts)
+
+      await mutateProfile({ variables: { input: { contacts } } });
     } catch (error) {
       console.log(error);
     }
@@ -132,7 +147,7 @@ const ProfileForm: React.FC<{
           <FormLabel>ФИО</FormLabel>
           <Input
             isReadOnly
-            value={`${data?.me.surname} ${data?.me.name} ${data?.me.patronymic}`}
+            value={`${data?.me.fullname}`}
             mb="10px"
           />
         </FormControl>

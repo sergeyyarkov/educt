@@ -3,16 +3,19 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { ChangePasswordInput } from "./../../../../__generated__/globalTypes";
+import { ChangeUserPasswdInput } from "./../../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: ChangePassword
 // ====================================================
 
 export interface ChangePassword {
-  changedPassword: string | null;
+  /**
+   * Сhanges the user's password and returns a new password
+   */
+  changedPassword: string;
 }
 
 export interface ChangePasswordVariables {
-  input: ChangePasswordInput;
+  input: ChangeUserPasswdInput;
 }

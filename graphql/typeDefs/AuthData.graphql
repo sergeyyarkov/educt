@@ -1,8 +1,0 @@
-type AuthData {
-  _id: ID!
-  token: String!
-  tokenExpiration: Int!
-  name: String!
-  surname: String!
-  patronymic: String!
-}

@@ -7,7 +7,7 @@ import cors from 'cors';
 import depthLimit from 'graphql-depth-limit';
 import cookieParser from 'cookie-parser';
 
-import { schema } from './graphql/modules/schema'
+import { schema } from './graphql/schema'
 import { context } from './graphql/context';
 import { refreshToken } from './middlewares/refreshToken';
 import { createConnection } from 'typeorm'

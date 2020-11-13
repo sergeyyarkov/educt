@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const CHANGE_PASSWORD = gql`
-  mutation ChangePassword($input: ChangePasswordInput!) {
+  mutation ChangePassword($input: ChangeUserPasswdInput!) {
     changedPassword: changePassword(input: $input)
   }
 `;

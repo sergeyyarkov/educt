@@ -8,5 +8,8 @@
 // ====================================================
 
 export interface Logout {
-  logout: string | null;
+  /**
+   * Сlears the context and returns status
+   */
+  logout: string;
 }

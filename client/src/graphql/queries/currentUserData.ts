@@ -3,9 +3,10 @@ import gql from 'graphql-tag';
 const GET_CURRENT_USER_DATA = gql`
   query currentUserData {
     me {
-      _id
+      id
       roles
       name
+      fullname
       surname
       patronymic
       login

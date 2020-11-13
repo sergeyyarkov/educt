@@ -1,19 +1,34 @@
-import {
-  mergeResolvers,
-  loadSchemaSync,
-  loadFilesSync,
-  GraphQLFileLoader,
-  addResolversToSchema,
-} from 'graphql-tools';
-import { GraphQLSchema } from 'graphql';
+import { buildSchemaSync } from 'type-graphql'
+import { authChecker } from '../utils/authChecker'
 
-const schema = loadSchemaSync(`${__dirname}/typeDefs/schema.graphql`, {
-  loaders: [new GraphQLFileLoader()],
-});
-const resolvers = loadFilesSync(`${__dirname}/resolvers`);
-const schemaWithResolvers: GraphQLSchema = addResolversToSchema({
-  schema,
-  resolvers: mergeResolvers(resolvers),
-});
+/* 
+  User resolvers
+*/
 
-export { schemaWithResolvers as schema };
+import { UsersResolver } from './modules/user/Queries/Users/Users'
+import { UserResolver } from './modules/user/Queries/User/User'
+import { MeResolver } from './modules/user/Queries/Me/Me'
+import { LoginUserResolver } from './modules/user/Mutations/Login/Login'
+import { LogoutUserResolver } from './modules/user/Mutations/Logout/Logout'
+import { RegisterUserResolver } from './modules/user/Mutations/Register/Register'
+import { DeleteUserResolver } from './modules/user/Mutations/Delete/Delete'
+import { UpdateUserResolver } from './modules/user/Mutations/Update/Update'
+import { ChangeUserPasswdResolver } from './modules/user/Mutations/ChangePasswd/ChangePasswd'
+
+const schema = buildSchemaSync({
+  resolvers: [
+    UsersResolver, 
+    UserResolver, 
+    MeResolver, 
+    LoginUserResolver, 
+    LogoutUserResolver, 
+    RegisterUserResolver, 
+    DeleteUserResolver,
+    UpdateUserResolver, 
+    ChangeUserPasswdResolver
+  ],
+  validate: true,
+  authChecker
+})
+
+export { schema }

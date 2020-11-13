@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const UPDATE_PROFILE = gql`
-  mutation updateProfile($contacts: [ContactInput!]) {
-    user: updateProfile(contacts: $contacts) {
+  mutation updateProfile($input: UpdateUserInput!) {
+    user: updateProfile(input: $input) {
       contacts {
         name
         link

@@ -3,28 +3,37 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { Roles } from "./../../../__generated__/globalTypes";
+
 // ====================================================
 // GraphQL query operation: currentUserData
 // ====================================================
 
 export interface currentUserData_me_contacts {
   __typename: "Contact";
-  name: string | null;
-  link: string | null;
+  name: string;
+  link: string;
 }
 
 export interface currentUserData_me {
   __typename: "User";
-  _id: string | null;
-  roles: (string | null)[] | null;
-  name: string | null;
-  surname: string | null;
-  patronymic: string | null;
-  login: string | null;
-  email: string | null;
-  contacts: (currentUserData_me_contacts | null)[] | null;
+  id: string;
+  roles: Roles[];
+  name: string;
+  /**
+   * Returns full name in format Name Surname Patronymic
+   */
+  fullname: string;
+  surname: string;
+  patronymic: string;
+  login: string;
+  email: string;
+  contacts: currentUserData_me_contacts[];
 }
 
 export interface currentUserData {
-  me: currentUserData_me | null;
+  /**
+   * Returns the authorized user
+   */
+  me: currentUserData_me;
 }

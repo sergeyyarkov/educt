@@ -138,7 +138,7 @@ const Header: React.FC = () => {
                 </MenuButton>
                 <MenuList mr="1rem">
                   <MenuGroup
-                    title={`${data?.me.name} ${data?.me.surname} ${data?.me.patronymic}`}
+                    title={`${data?.me.fullname}`}
                   >
                     <MenuDivider />
                     <Link to="/profile">

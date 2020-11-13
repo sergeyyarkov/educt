@@ -9,16 +9,18 @@
 
 export interface Login_login {
   __typename: "AuthData";
-  _id: string;
-  token: string;
-  tokenExpiration: number;
+  id: string;
   name: string;
   surname: string;
   patronymic: string;
+  token: string;
 }
 
 export interface Login {
-  login: Login_login | null;
+  /**
+   * Login user
+   */
+  login: Login_login;
 }
 
 export interface LoginVariables {

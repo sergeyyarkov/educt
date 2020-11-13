@@ -35,7 +35,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "codegen": "apollo client:codegen __generated__ --target typescript"
+    "codegen": "apollo client:codegen __generated__ --target typescript --globalTypesFile=\"src/__generated__/globalTypes.ts\""
   },
   "eslintConfig": {
     "extends": "react-app"

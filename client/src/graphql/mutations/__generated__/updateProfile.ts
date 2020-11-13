@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { ContactInput } from "./../../../../__generated__/globalTypes";
+import { UpdateUserInput } from "./../../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: updateProfile
@@ -11,19 +11,22 @@ import { ContactInput } from "./../../../../__generated__/globalTypes";
 
 export interface updateProfile_user_contacts {
   __typename: "Contact";
-  name: string | null;
-  link: string | null;
+  name: string;
+  link: string;
 }
 
 export interface updateProfile_user {
   __typename: "User";
-  contacts: (updateProfile_user_contacts | null)[] | null;
+  contacts: updateProfile_user_contacts[];
 }
 
 export interface updateProfile {
-  user: updateProfile_user | null;
+  /**
+   * Updates user data and returns updated user
+   */
+  user: updateProfile_user;
 }
 
 export interface updateProfileVariables {
-  contacts?: ContactInput[] | null;
+  input: UpdateUserInput;
 }
