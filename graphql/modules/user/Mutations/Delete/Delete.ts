@@ -11,7 +11,7 @@ import { DeleteUserInput } from './Inputs/DeleteUserInput'
  * 
  */
 
-@Resolver(User)
+@Resolver()
 export class DeleteUserResolver {
   @Authorized('ADMIN')
   @Mutation(() => User, { description: 'Removes the user and returns it' })

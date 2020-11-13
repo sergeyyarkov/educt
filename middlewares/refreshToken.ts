@@ -1,7 +1,7 @@
 import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../graphql/entities/User'
-import { createTokens } from '../graphql/auth/createTokens';
+import { createTokens } from '../utils/createTokens';
 import { IRequestData } from '../interfaces';
 
 export async function refreshToken(

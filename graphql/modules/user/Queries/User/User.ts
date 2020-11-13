@@ -11,7 +11,7 @@ import { FindUserInput } from './Inputs/FindUserInput';
  * 
  */
 
-@Resolver(User)
+@Resolver()
 export class UserResolver {
   @Authorized()
   @Query(() => User, { description: 'Returns a current user by slug or id' })

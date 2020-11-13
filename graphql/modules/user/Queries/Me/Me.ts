@@ -11,7 +11,7 @@ import { User } from '../../../../entities/User'
  * 
  */
 
-@Resolver(User)
+@Resolver()
 export class MeResolver {
   @Authorized()
   @Query(() => User, { description: 'Returns the authorized user' })

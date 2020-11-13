@@ -12,13 +12,14 @@ import { ApolloError } from 'apollo-server-express'
  * 
  */
 
-@Resolver(User)
+@Resolver()
 export class RegisterUserResolver {
   @Authorized("ADMIN")
   @Mutation(() => User, { description: 'Creates a new user and returns it' })
   async registerUser(@Arg('input') { name, surname, patronymic, login, password, email, roles, contacts }: RegisterUserInput): Promise<User>  {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
+      
       const user = await User.create({
         name,
         surname,

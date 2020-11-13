@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { User } from '../entities/User'
+import { User } from '../graphql/entities/User'
 
 export const createTokens = (user: User) => {
   const refreshToken = jwt.sign(

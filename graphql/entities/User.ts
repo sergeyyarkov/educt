@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
-import { Field, ObjectType, ID } from 'type-graphql'
+import { Field, ObjectType, ID, Root } from 'type-graphql'
 import { Roles } from '../modules/user/enums'
 
 /* 
@@ -18,7 +18,9 @@ export class User extends BaseEntity {
 	name: string;
 
 	@Field({ description: "Returns full name in format Name Surname Patronymic" })
-	fullname: string;
+	fullname(@Root() parent: User): string {
+		return `${parent.surname} ${parent.name} ${parent.patronymic}`
+	};
 
 	@Field()
 	@Column()

@@ -4,7 +4,7 @@ import { ApolloError } from 'apollo-server-express';
 import { IResolvers } from 'graphql-tools';
 import { User } from '../../models/index';
 import { IAuthData, IContext } from '../../../interfaces';
-import { createTokens } from '../../auth/createTokens';
+import { createTokens } from '../../../utils/createTokens';
 
 const authResolver: IResolvers = {
   Mutation: {

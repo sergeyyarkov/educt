@@ -1,6 +1,6 @@
 import { ApolloError, AuthenticationError } from 'apollo-server-express';
 import { AuthChecker } from 'type-graphql'
-import { IContext } from '../../interfaces';
+import { IContext } from '../interfaces';
 
 export const authChecker: AuthChecker<IContext> = ({ root, args, context, info }, roles) => {
   if (!context.req.userId) throw new AuthenticationError('Unauthenticated')

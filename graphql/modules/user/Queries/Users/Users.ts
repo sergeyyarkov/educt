@@ -9,7 +9,7 @@ import { User } from '../../../../entities/User'
  * 
  */
 
-@Resolver(User)
+@Resolver()
 export class UsersResolver {
   @Authorized()
   @Query(() => [User], { description: 'Returns a list of users' })
@@ -20,14 +20,5 @@ export class UsersResolver {
     } catch (error) {
       throw error
     }
-  }
-
-  /* 
-    Concat user fullname 
-  */
- 
-  @FieldResolver()
-  async fullname(@Root() parent: User) {
-    return `${parent.surname} ${parent.name} ${parent.patronymic}`
   }
 }
