@@ -7,8 +7,7 @@
     "start": "ts-node index.ts",
     "dev": "ts-node-dev --respawn index.ts",
     "update": "concurrently \"npm install\" \"cd ./client && npm install\"",
-    "format": "prettier --write .",
-    "generate": "graphql-codegen"
+    "format": "prettier --write ."
   },
   "repository": {
     "type": "git",
