@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Flex,
@@ -13,33 +13,30 @@ import {
   useToast,
 } from '@chakra-ui/core';
 import { MdAccountCircle, MdSave } from 'react-icons/md';
-import { useMutation } from '@apollo/client';
-import { currentUserData } from '../../graphql/queries/__generated__/currentUserData';
+import { ContactsList, useCurrentUserDataQuery, useUpdateProfileMutation } from '../../__generated__/types';
 
-import UPDATE_PROFILE from '../../graphql/mutations/updateProfile';
-import {
-  updateProfile,
-  updateProfileVariables,
-} from '../../graphql/mutations/__generated__/updateProfile';
-import { ContactsList } from '../../__generated__/globalTypes';
-
-const ProfileForm: React.FC<{
-  loading: boolean;
-  data: currentUserData | undefined;
-}> = ({ data, loading }) => {
+const ProfileForm: React.FC = () => {
+  const toast = useToast();
   const { register, handleSubmit, errors } = useForm<{
     telegram: string;
     vk: string;
     [key: string]: string;
   }>();
-  const [mutateProfile, mutateProfileResult] = useMutation<
-    updateProfile,
-    updateProfileVariables
-  >(UPDATE_PROFILE, {
-    onError: () => {
+  const { data, loading } = useCurrentUserDataQuery()
+  const [updateProfile, updateProfileResult] = useUpdateProfileMutation({
+    onCompleted: () => {
+      toast({
+        title: `Информация обновлена!`,
+        description: 'Вы успешно изменили информацию о профиле.',
+        status: 'success',
+        duration: 2500,
+        isClosable: true,
+      });
+    },
+    onError: (error) => {
       toast({
         title: '❌ Произошла ошибка!',
-        description: 'Повторите запрос позже.',
+        description: `${error.graphQLErrors[0].message}`,
         status: 'error',
         duration: 4000,
         isClosable: true,
@@ -47,7 +44,7 @@ const ProfileForm: React.FC<{
     },
     update: (cache, user) => {
       cache.modify({
-        id: `User:${data?.me?.id}`,
+        id: `User:${data?.me.id}`,
         fields: {
           contacts() {
             return user.data?.user?.contacts;
@@ -56,19 +53,6 @@ const ProfileForm: React.FC<{
       });
     },
   });
-  const toast = useToast();
-
-  useEffect(() => {
-    if (mutateProfileResult.data) {
-      toast({
-        title: `Информация обновлена!`,
-        description: 'Вы успешно изменили информацию о профиле.',
-        status: 'success',
-        duration: 2500,
-        isClosable: true,
-      });
-    }
-  }, [mutateProfileResult.data, toast]);
 
   if (data?.me === null) {
     return null;
@@ -88,27 +72,23 @@ const ProfileForm: React.FC<{
     );
   }
 
-  if (mutateProfileResult.error) {
-    console.log(mutateProfileResult.error);
-  }
-
   const onSubmit = handleSubmit(async (data) => {
     try {
       const contacts = Object.keys(data)
         .filter((contact) => data[contact] !== '')
         .map((contact) => {
           const obj: { name: ContactsList; link: string } = {
-            name: ContactsList.TELEGRAM,
+            name: ContactsList.Telegram,
             link: '',
           };
 
           switch (contact.toUpperCase()) {
-            case ContactsList.TELEGRAM:
-              obj.name = ContactsList.TELEGRAM;
+            case ContactsList.Telegram:
+              obj.name = ContactsList.Telegram;
               obj.link = data[contact];
               break;
-            case ContactsList.VK:
-              obj.name = ContactsList.VK;
+            case ContactsList.Vk:
+              obj.name = ContactsList.Vk;
               obj.link = data[contact];
               break;
             default:
@@ -117,9 +97,8 @@ const ProfileForm: React.FC<{
 
           return obj;
         });
-      console.log(contacts);
 
-      await mutateProfile({ variables: { input: { contacts } } });
+      await updateProfile({ variables: { input: { contacts } } });
     } catch (error) {
       console.log(error);
     }
@@ -197,7 +176,7 @@ const ProfileForm: React.FC<{
       <Flex mt="15px">
         <Button
           type="submit"
-          isLoading={mutateProfileResult.loading}
+          isLoading={updateProfileResult.loading}
           loadingText="Сохранение..."
           ml="auto"
           leftIcon={MdSave}

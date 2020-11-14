@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useMutation } from '@apollo/client';
 import { MdLock, MdReplay } from 'react-icons/md';
 import {
   Flex,
@@ -15,17 +14,10 @@ import {
   useToast,
 } from '@chakra-ui/core';
 import { useForm } from 'react-hook-form';
-import {
-  ChangePassword,
-  ChangePasswordVariables,
-} from '../../graphql/mutations/__generated__/ChangePassword';
-import CHANGE_PASSWORD from '../../graphql/mutations/changePassword';
+import { useChangePasswordMutation } from '../../__generated__/types';
 
 const ChangePasswdForm: React.FC = () => {
-  const [changePassword, changedPassword] = useMutation<
-    ChangePassword,
-    ChangePasswordVariables
-  >(CHANGE_PASSWORD, {
+  const [changePassword, changedPassword] = useChangePasswordMutation({
     onError: (error) => {
       toast({
         title: '❌ Произошла ошибка!',
@@ -35,7 +27,7 @@ const ChangePasswdForm: React.FC = () => {
         isClosable: true,
       });
     },
-  });
+  })
   const [showPasswd, setShowPasswd] = useState<boolean[]>([
     false,
     false,

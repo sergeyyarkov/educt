@@ -1,13 +1,12 @@
 import React from 'react';
 import { Flex, Box, Heading, Text, Avatar, Skeleton } from '@chakra-ui/core';
 import UserBadge from '../UserBadge/UserBadge';
-import { currentUserData } from '../../graphql/queries/__generated__/currentUserData';
 import ProfileContacts from '../ProfileContacts/ProfileContacts';
+import { useCurrentUserDataQuery } from '../../__generated__/types';
 
-const ProfileInfo: React.FC<{
-  loading: boolean;
-  data: currentUserData | undefined;
-}> = ({ data, loading }) => {
+const ProfileInfo: React.FC = () => {
+  const { data, loading } = useCurrentUserDataQuery()
+
   if (data?.me === null) {
     return null;
   }

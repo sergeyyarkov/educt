@@ -9,12 +9,11 @@ import {
   BreadcrumbLink,
   Skeleton,
 } from '@chakra-ui/core';
-import { IPageProps, IUserQueryData } from '../interfaces';
-import GET_CURRENT_USER_DATA from '../graphql/queries/currentUserData';
-import { useQuery } from '@apollo/react-components';
+import { IPageProps } from '../interfaces';
+import { useCurrentUserDataQuery } from '../__generated__/types';
 
 const MainPage: React.FC<IPageProps> = ({ title }) => {
-  const currentUser = useQuery<IUserQueryData>(GET_CURRENT_USER_DATA);
+  const currentUser = useCurrentUserDataQuery()
 
   if (currentUser.error) {
     console.error(currentUser.error);

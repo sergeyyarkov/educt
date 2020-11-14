@@ -1,0 +1,8 @@
+ mutation UpdateProfile($input: UpdateUserInput!) {
+  user: updateProfile(input: $input) {
+    contacts {
+      name
+      link
+    }
+  }
+}

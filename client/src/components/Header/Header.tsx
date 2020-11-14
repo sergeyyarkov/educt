@@ -24,21 +24,24 @@ import {
   useToast,
 } from '@chakra-ui/core';
 import { useApolloClient } from '@apollo/client';
-import { useMutation, useQuery } from '@apollo/react-components';
 import UserBadge from '../UserBadge/UserBadge';
-
-import GET_CURRENT_USER_DATA from '../../graphql/queries/currentUserData';
-import LOGOUT_QUERY from '../../graphql/mutations/logout';
-import { currentUserData } from '../../graphql/queries/__generated__/currentUserData';
-import { Logout } from '../../graphql/mutations/__generated__/Logout';
+import { useCurrentUserDataQuery, useLogoutMutation } from '../../__generated__/types';
 
 const Header: React.FC = () => {
   const client = useApolloClient();
   const toast = useToast();
-  const { data, loading, error } = useQuery<currentUserData>(
-    GET_CURRENT_USER_DATA
-  );
-  const [logout] = useMutation<Logout>(LOGOUT_QUERY);
+  const { data, loading, error } = useCurrentUserDataQuery()
+  const [logout] = useLogoutMutation({
+    onError: (error) => {
+      toast({
+        title: '❌ Произошла ошибка!',
+        description: `${error.graphQLErrors[0].message}`,
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  });
 
   const onLogout = async () => {
     try {
@@ -46,13 +49,6 @@ const Header: React.FC = () => {
       authenticationService.logout(client); // reset store on client
     } catch (error) {
       console.error(error);
-      toast({
-        title: '❌ Произошла ошибка!',
-        description: 'Невозможно выполнить запрос!',
-        status: 'error',
-        duration: 2000,
-        isClosable: true,
-      });
     }
   };
 

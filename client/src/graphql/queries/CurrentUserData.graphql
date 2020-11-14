@@ -1,0 +1,17 @@
+query CurrentUserData {
+  me {
+    id
+    roles
+    name
+    fullname
+    surname
+    patronymic
+    login
+    email
+    roles
+    contacts {
+      name
+      link
+    }
+  }
+}

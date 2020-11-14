@@ -15,18 +15,14 @@ import {
   Text,
 } from '@chakra-ui/core';
 import { IPageProps } from '../interfaces';
-import { useQuery } from '@apollo/react-components';
 
-import GET_CURRENT_USER_DATA from '../graphql/queries/currentUserData';
-import { currentUserData } from '../graphql/queries/__generated__/currentUserData';
 import ProfileForm from '../components/ProfileForm/ProfileForm';
 import ProfileInfo from '../components/ProfileInfo/ProfileInfo';
 import ChangePasswdForm from '../components/ChangePasswdForm/ChangePasswdForm';
+import { useCurrentUserDataQuery } from '../__generated__/types';
 
 const ProfilePage: React.FC<IPageProps> = ({ title }) => {
-  const { data, loading, error } = useQuery<currentUserData>(
-    GET_CURRENT_USER_DATA
-  );
+  const { data, error } = useCurrentUserDataQuery()
 
   if (error) {
     console.error(error);
@@ -50,7 +46,7 @@ const ProfilePage: React.FC<IPageProps> = ({ title }) => {
         </BreadcrumbItem>
       </Breadcrumb>
       <Box marginTop={10}>
-        <ProfileInfo data={data} loading={loading} />
+        <ProfileInfo />
         <Divider />
         <Tabs variant="soft-rounded" variantColor="blue" marginTop={5}>
           <TabList>
@@ -61,7 +57,7 @@ const ProfilePage: React.FC<IPageProps> = ({ title }) => {
           <TabPanels mt="20px">
             <TabPanel>
               <Flex>
-                <ProfileForm data={data} loading={loading} />
+                <ProfileForm />
               </Flex>
             </TabPanel>
             <TabPanel>

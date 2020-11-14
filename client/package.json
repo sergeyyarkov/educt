@@ -19,6 +19,7 @@
     "@types/react-router-dom": "^5.1.5",
     "apollo-link-context": "^1.0.20",
     "emotion-theming": "^10.0.27",
+    "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",
     "js-cookie": "^2.2.1",
     "react": "^16.13.1",
@@ -35,7 +36,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "codegen": "apollo client:codegen __generated__ --target typescript --globalTypesFile=\"src/__generated__/globalTypes.ts\""
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -53,6 +54,10 @@
     ]
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "1.19.1",
+    "@graphql-codegen/typescript": "1.17.11",
+    "@graphql-codegen/typescript-operations": "1.17.9",
+    "@graphql-codegen/typescript-react-apollo": "2.1.1",
     "@types/js-cookie": "^2.2.6"
   }
 }

@@ -1,10 +1,10 @@
 import React from 'react';
 import { FaVk, FaTelegramPlane } from 'react-icons/fa';
 import { Flex, Box, Link } from '@chakra-ui/core';
-import { currentUserData_me_contacts } from '../../graphql/queries/__generated__/currentUserData';
+import { Contact } from '../../__generated__/types';
 
 const ProfileContacts: React.FC<{
-  contacts: (currentUserData_me_contacts | null)[] | null | undefined;
+  contacts: (Contact | null)[] | null | undefined;
 }> = ({ contacts }) => {
   const vk = contacts?.find((contact) => contact?.name === 'vk');
   const telegram = contacts?.find((contact) => contact?.name === 'telegram');

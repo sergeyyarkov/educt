@@ -1,7 +1,6 @@
 import React from 'react';
 import { authenticationService } from '../../services/authentication.service';
 import { useHistory } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
 import { MdAccountCircle, MdSchool, MdVpnKey } from 'react-icons/md';
 import {
   Flex,
@@ -14,50 +13,53 @@ import {
   Button,
   useToast,
 } from '@chakra-ui/core';
-import { isLoggedInVar } from '../../cache';
 
-import LOGIN_MUTATION from '../../graphql/mutations/login';
-import {
-  Login,
-  LoginVariables,
-} from '../../graphql/mutations/__generated__/Login';
+import { LoginMutationVariables, useLoginMutation } from '../../__generated__/types';
 
 /**
  *
- * Auth Component
- * Component for user authorization through a form
+ * Auth component
+ * Component for user authorization through a form.
  *
  */
 
 const Auth: React.FC = () => {
-  const isLoggedIn = isLoggedInVar();
-  const [authState, setAuthState] = React.useState<LoginVariables>({
+  const toast = useToast();
+  const history = useHistory();
+  const [authState, setAuthState] = React.useState<LoginMutationVariables>({
     login: '',
     password: '',
   });
-  const [login, { data, loading, error }] = useMutation<Login>(LOGIN_MUTATION, {
-    onCompleted: () => authenticationService.setUserLoggedIn(),
+  const [login, { loading }] = useLoginMutation({
+    onCompleted: ({ login: { name } }) => {
+      authenticationService.setUserLoggedIn()
+      history.push('/');
+      toast({
+        title: `👋 Приветствуем вас, ${name}`,
+        description: 'Вы были успешно авторизованы.',
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+      });
+    },
     onError: (error) => {
       toast({
         title: '❌ Ошибка авторизации!',
-        description: error.graphQLErrors[0].message,
+        description: `${error.graphQLErrors[0].message}`,
         status: 'error',
         duration: 4000,
         isClosable: true,
       });
     },
   });
-  const toast = useToast();
-  const history = useHistory();
-
+ 
   const handleLogin = async (e: any) => {
     e.preventDefault();
-
     try {
-      await authenticationService.login(login, {
+      login({ variables: {
         login: authState.login,
         password: authState.password,
-      });
+      }})
       setAuthState({ login: '', password: '' });
     } catch (error) {
       toast({
@@ -78,21 +80,6 @@ const Auth: React.FC = () => {
       return { ...prevState, [e.target.name]: e.target.value };
     });
   };
-
-  React.useEffect(() => {
-    if (data && data.login && isLoggedIn) {
-      const { name } = data.login;
-
-      history.push('/');
-      toast({
-        title: `👋 Приветствуем вас, ${name}`,
-        description: 'Вы были успешно авторизованы.',
-        status: 'success',
-        duration: 4000,
-        isClosable: true,
-      });
-    }
-  }, [data, error, history, isLoggedIn, toast]);
 
   return (
     <Flex minHeight="100vh" align="center" justifyContent="center">
