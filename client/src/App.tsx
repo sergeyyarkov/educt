@@ -8,12 +8,11 @@ import MessagesPage from './pages/messages';
 import ProfilePage from './pages/profile';
 import AuthPage from './pages/auth';
 import NotFoundPage from './pages/404';
-import { ThemeProvider, CSSReset } from '@chakra-ui/core';
+import { ChakraProvider } from '@chakra-ui/react';
 
 const App: React.FC = () => {
   return (
-    <ThemeProvider>
-      <CSSReset />
+    <ChakraProvider>
       <Router>
         <Switch>
           <PrivateRoute exact path="/" component={MainPage} title="Главная" />
@@ -41,7 +40,7 @@ const App: React.FC = () => {
           <Route component={NotFoundPage} title="Ошибка 404" />
         </Switch>
       </Router>
-    </ThemeProvider>
+    </ChakraProvider>
   );
 };
 

@@ -13,7 +13,7 @@ import {
   Tab,
   Heading,
   Text,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { IPageProps } from '../interfaces';
 
 import ProfileForm from '../components/ProfileForm/ProfileForm';
@@ -48,7 +48,7 @@ const ProfilePage: React.FC<IPageProps> = ({ title }) => {
       <Box marginTop={10}>
         <ProfileInfo />
         <Divider />
-        <Tabs variant="soft-rounded" variantColor="blue" marginTop={5}>
+        <Tabs variant="soft-rounded" colorScheme="blue" marginTop={5}>
           <TabList>
             <Tab>Мой профиль</Tab>
             <Tab>Изменить пароль</Tab>

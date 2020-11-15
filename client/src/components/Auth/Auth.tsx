@@ -1,7 +1,7 @@
 import React from 'react';
 import { authenticationService } from '../../services/authentication.service';
 import { useHistory } from 'react-router-dom';
-import { MdAccountCircle, MdSchool, MdVpnKey } from 'react-icons/md';
+import { MdAccountCircle, MdVpnKey } from 'react-icons/md';
 import {
   Flex,
   Box,
@@ -12,8 +12,9 @@ import {
   InputLeftElement,
   Button,
   useToast,
-} from '@chakra-ui/core';
-
+  Icon
+} from '@chakra-ui/react';
+import { ReactComponent as LogoIcon } from '../../images/logo.svg'
 import { LoginMutationVariables, useLoginMutation } from '../../__generated__/types';
 
 /**
@@ -53,8 +54,8 @@ const Auth: React.FC = () => {
     },
   });
  
-  const handleLogin = async (e: any) => {
-    e.preventDefault();
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault()
     try {
       login({ variables: {
         login: authState.login,
@@ -73,8 +74,8 @@ const Auth: React.FC = () => {
     }
   };
 
-  const handleInputChange = (e: any): void => {
-    e.persist();
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    e.persist()
 
     setAuthState((prevState) => {
       return { ...prevState, [e.target.name]: e.target.value };
@@ -93,7 +94,7 @@ const Auth: React.FC = () => {
       >
         <Box textAlign="center">
           <Flex justifyContent="center">
-            <Box as={MdSchool} color="blue.600" size="64px" />
+            <Box as={LogoIcon} color="blue.600" boxSize="64px" />
           </Flex>
         </Box>
         <Box my="30px">
@@ -101,20 +102,20 @@ const Auth: React.FC = () => {
             <FormControl isRequired={true}>
               <FormLabel>Логин</FormLabel>
               <InputGroup>
-                <InputLeftElement children={<Box as={MdAccountCircle} />} />
+                <InputLeftElement children={<Icon as={MdAccountCircle} />} />
                 <Input
                   onChange={handleInputChange}
                   value={authState.login}
                   type="Логин"
                   name="login"
-                  placeholder="example@gmail.com"
+                  placeholder="email@mail.com"
                 />
               </InputGroup>
             </FormControl>
             <FormControl mt={5} isRequired={true}>
               <FormLabel>Пароль</FormLabel>
               <InputGroup>
-                <InputLeftElement children={<Box as={MdVpnKey} />} />
+                <InputLeftElement children={<Icon as={MdVpnKey} />} />
                 <Input
                   onChange={handleInputChange}
                   value={authState.password}
@@ -128,7 +129,7 @@ const Auth: React.FC = () => {
               isLoading={loading ? true : false}
               loadingText="Выполняется вход..."
               type="submit"
-              variantColor="blue"
+              colorScheme="blue"
               variant="outline"
               width="full"
               mt={4}

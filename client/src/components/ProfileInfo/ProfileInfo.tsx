@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, Box, Heading, Text, Avatar, Skeleton } from '@chakra-ui/core';
+import { Flex, Box, Heading, Text, Avatar, Skeleton } from '@chakra-ui/react';
 import UserBadge from '../UserBadge/UserBadge';
 import ProfileContacts from '../ProfileContacts/ProfileContacts';
 import { useCurrentUserDataQuery } from '../../__generated__/types';

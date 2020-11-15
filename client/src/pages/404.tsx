@@ -1,7 +1,7 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router-dom';
-import { Box, Heading, Button } from '@chakra-ui/core';
+import { Box, Heading, Button } from '@chakra-ui/react';
 
 const NotFoundPage: React.FC = () => {
   return (
@@ -20,7 +20,7 @@ const NotFoundPage: React.FC = () => {
           </span>
         </Heading>
         <Link to="/">
-          <Button variant="link" variantColor="blue">
+          <Button variant="link" colorScheme="blue">
             Вернуться на главную
           </Button>
         </Link>

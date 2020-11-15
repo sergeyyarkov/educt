@@ -11,7 +11,7 @@ import {
   Button,
   Spinner,
   useToast,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { MdAccountCircle, MdSave } from 'react-icons/md';
 import { ContactsList, useCurrentUserDataQuery, useUpdateProfileMutation } from '../../__generated__/types';
 
@@ -114,7 +114,7 @@ const ProfileForm: React.FC = () => {
       border="1px solid #E2E8F0"
     >
       <Flex alignItems="center">
-        <Box mr="5px" as={MdAccountCircle} size="24px" />
+        <Box mr="5px" as={MdAccountCircle} boxSize="24px" />
         <Heading as="h3" fontSize="xl">
           Информация о профиле
         </Heading>
@@ -179,8 +179,8 @@ const ProfileForm: React.FC = () => {
           isLoading={updateProfileResult.loading}
           loadingText="Сохранение..."
           ml="auto"
-          leftIcon={MdSave}
-          variantColor="blue"
+          leftIcon={<MdSave />}
+          colorScheme="blue"
           rounded="9999px"
         >
           Сохранить

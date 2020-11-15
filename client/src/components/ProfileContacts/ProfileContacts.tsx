@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaVk, FaTelegramPlane } from 'react-icons/fa';
-import { Flex, Box, Link } from '@chakra-ui/core';
+import { Flex, Box, Link } from '@chakra-ui/react';
 import { Contact } from '../../__generated__/types';
 
 const ProfileContacts: React.FC<{
@@ -18,7 +18,7 @@ const ProfileContacts: React.FC<{
           rel="noopener noreferrer"
           mr="5px"
         >
-          <Box as={FaVk} size="18px"></Box>
+          <Box as={FaVk} boxSize="18px"></Box>
         </Link>
       ) : null}
       {telegram ? (
@@ -27,7 +27,7 @@ const ProfileContacts: React.FC<{
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Box as={FaTelegramPlane} size="18px"></Box>
+          <Box as={FaTelegramPlane} boxSize="18px"></Box>
         </Link>
       ) : null}
     </Flex>

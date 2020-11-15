@@ -5,9 +5,10 @@
   "dependencies": {
     "@apollo/client": "^3.2.1",
     "@apollo/react-components": "^4.0.0",
-    "@chakra-ui/core": "^0.8.0",
-    "@emotion/core": "^10.0.35",
-    "@emotion/styled": "^10.0.27",
+    "@chakra-ui/react": "^1.0.0",
+    "@chakra-ui/system": "^1.0.0",
+    "@emotion/react": "^11.0.0",
+    "@emotion/styled": "^11.0.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -18,7 +19,7 @@
     "@types/react-helmet": "^6.1.0",
     "@types/react-router-dom": "^5.1.5",
     "apollo-link-context": "^1.0.20",
-    "emotion-theming": "^10.0.27",
+    "framer-motion": "^2.9.4",
     "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",
     "js-cookie": "^2.2.1",
@@ -28,7 +29,7 @@
     "react-hook-form": "^6.9.6",
     "react-icons": "^3.11.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3",
+    "react-scripts": "4.0.0",
     "typescript": "~3.7.2"
   },
   "scripts": {

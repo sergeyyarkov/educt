@@ -1,6 +1,6 @@
 import React from 'react';
-import { MdSchool } from 'react-icons/md';
-import { Flex, Box, Text } from '@chakra-ui/core';
+import { Flex, Box, Text } from '@chakra-ui/react';
+import { ReactComponent as LogoIcon } from '../../images/logo.svg'
 
 const Footer: React.FC = () => {
   return (
@@ -36,8 +36,8 @@ const Footer: React.FC = () => {
           />
         </Box>
         <Flex alignItems="center">
-          <Text>&copy; 2020 • Sergey Yarkov • Educt</Text>
-          <Box as={MdSchool} marginLeft={2} size="18px" />
+          <Text>• Educt - Learn management system</Text>
+          <Box as={LogoIcon} marginLeft={2} boxSize="18px" />
         </Flex>
       </Flex>
     </Box>

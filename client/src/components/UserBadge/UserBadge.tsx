@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge } from '@chakra-ui/core';
+import { Badge } from '@chakra-ui/react';
 
 const UserBadge: React.FC<{ roles: (string | null)[] | null | undefined }> = ({
   roles,
@@ -10,13 +10,13 @@ const UserBadge: React.FC<{ roles: (string | null)[] | null | undefined }> = ({
 
   if (roles?.includes('ADMIN')) {
     return (
-      <Badge variantColor="purple" variant="solid">
+      <Badge colorScheme="purple" variant="solid">
         Преподаватель
       </Badge>
     );
   } else {
     return (
-      <Badge variantColor="blue" variant="solid">
+      <Badge colorScheme="blue" variant="solid">
         Ученик
       </Badge>
     );

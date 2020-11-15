@@ -2,7 +2,6 @@ import React from 'react';
 import { authenticationService } from '../../services/authentication.service';
 import { Link } from 'react-router-dom';
 import {
-  MdSchool,
   MdNotifications,
   MdSettings,
   MdExitToApp,
@@ -22,7 +21,8 @@ import {
   MenuDivider,
   Skeleton,
   useToast,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
+import { ReactComponent as LogoIcon } from '../../images/logo.svg'
 import { useApolloClient } from '@apollo/client';
 import UserBadge from '../UserBadge/UserBadge';
 import { useCurrentUserDataQuery, useLogoutMutation } from '../../__generated__/types';
@@ -82,12 +82,12 @@ const Header: React.FC = () => {
         paddingRight="1.5rem"
       >
         <Flex alignItems="center">
-          <Box as={MdSchool} size={10} color="blue.600" marginRight={4} />
+          <Box as={LogoIcon} boxSize={10} color="blue.600" marginRight={4} />
           <Box lineHeight="12px">
             <Heading as="p" fontSize="2xl" color="gray.700">
               Educt
             </Heading>
-            <Text as="small">Learn management system</Text>
+            <Text position='relative' bottom='5px' as="small">Learn management system</Text>
           </Box>
         </Flex>
         <Flex alignItems="center">
@@ -117,10 +117,11 @@ const Header: React.FC = () => {
                   borderRadius: '100%',
                 }}
               >
-                <Box as={MdNotifications} size="21px" />
+                <Box as={MdNotifications} boxSize="21px" />
               </Button>
               <Menu>
                 <MenuButton as={Button} pr={6}>
+                  <Flex alignItems='center'>
                   <Avatar
                     size="sm"
                     name={data?.me.name || ''}
@@ -131,6 +132,7 @@ const Header: React.FC = () => {
                     {data?.me.name}
                   </Text>
                   <UserBadge roles={data?.me.roles} />
+                  </Flex>
                 </MenuButton>
                 <MenuList mr="1rem">
                   <MenuGroup title={`${data?.me.fullname}`}>

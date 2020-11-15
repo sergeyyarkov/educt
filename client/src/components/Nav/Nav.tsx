@@ -1,7 +1,14 @@
 import React from 'react';
 import NavLinks from './NavLinks';
-import metaData from '../../metaData';
-import { Flex, Box } from '@chakra-ui/core';
+import config from '../../config';
+import { Flex, Box } from '@chakra-ui/react';
+
+/**
+ *
+ * Nav component
+ * Component for navigating the application
+ *
+ */
 
 const Nav: React.FC = () => {
   return (
@@ -24,11 +31,11 @@ const Nav: React.FC = () => {
           height="calc(100vh - 4rem)"
           padding="1.5rem 1.2rem"
         >
-          <NavLinks links={metaData.links} />
+          <NavLinks links={config.links} />
         </Flex>
       </Box>
     </Box>
   );
 };
 
-export default Nav;
+export default Nav

@@ -6,7 +6,7 @@ import {
   MdMessage,
 } from 'react-icons/md';
 
-export default {
+const config = {
   links: [
     { location: '/', title: 'Главная', icon: MdHome },
     {
@@ -19,3 +19,5 @@ export default {
     { location: '/profile', title: 'Мой профиль', icon: MdAccountCircle },
   ],
 };
+
+export default config

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/core';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
 import { IPageProps } from '../interfaces';
 
 const HomeworksPage: React.FC<IPageProps> = ({ title }) => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { MdLock, MdReplay } from 'react-icons/md';
 import {
   Flex,
@@ -12,12 +12,22 @@ import {
   InputGroup,
   InputRightElement,
   useToast,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useChangePasswordMutation } from '../../__generated__/types';
 
 const ChangePasswdForm: React.FC = () => {
+  const toast = useToast();
   const [changePassword, changedPassword] = useChangePasswordMutation({
+    onCompleted: () => {
+      toast({
+        title: `Пароль изменен!`,
+        description: 'Вы успешно изменили свой пароль.',
+        status: 'success',
+        duration: 2500,
+        isClosable: true,
+      });
+    },
     onError: (error) => {
       toast({
         title: '❌ Произошла ошибка!',
@@ -28,11 +38,13 @@ const ChangePasswdForm: React.FC = () => {
       });
     },
   })
+
   const [showPasswd, setShowPasswd] = useState<boolean[]>([
     false,
     false,
     false,
   ]);
+
   const onShowPasswd = (index: number) =>
     setShowPasswd((prevState) => [
       ...prevState.map((state, i) =>
@@ -60,20 +72,6 @@ const ChangePasswdForm: React.FC = () => {
     }
   });
 
-  const toast = useToast();
-
-  useEffect(() => {
-    if (changedPassword.data) {
-      toast({
-        title: `Пароль изменен!`,
-        description: 'Вы успешно изменили свой пароль.',
-        status: 'success',
-        duration: 2500,
-        isClosable: true,
-      });
-    }
-  }, [changedPassword.data, toast]);
-
   return (
     <Box
       onSubmit={onSubmit}
@@ -99,11 +97,11 @@ const ChangePasswdForm: React.FC = () => {
               })}
               name="oldPasswd"
               id="oldPasswd"
-              pr="5.5rem"
+              pr="6.5rem"
               type={showPasswd[0] ? 'text' : 'password'}
               placeholder="Введите текущий пароль"
             />
-            <InputRightElement width="5rem" mr="5.5px">
+            <InputRightElement width="6.5rem" mr="5.5px">
               <Button h="1.75rem" size="sm" onClick={() => onShowPasswd(0)}>
                 {showPasswd[0] ? 'Скрыть' : 'Показать'}
               </Button>
@@ -129,7 +127,7 @@ const ChangePasswdForm: React.FC = () => {
               type={showPasswd[1] ? 'text' : 'password'}
               placeholder="Введите текущий пароль"
             />
-            <InputRightElement width="5rem" mr="5.5px">
+            <InputRightElement width="6.5rem" mr="5.5px">
               <Button h="1.75rem" size="sm" onClick={() => onShowPasswd(1)}>
                 {showPasswd[1] ? 'Скрыть' : 'Показать'}
               </Button>
@@ -159,7 +157,7 @@ const ChangePasswdForm: React.FC = () => {
               type={showPasswd[2] ? 'text' : 'password'}
               placeholder="Введите текущий пароль"
             />
-            <InputRightElement width="5rem" mr="5.5px">
+            <InputRightElement width="6.5rem" mr="5.5px">
               <Button h="1.75rem" size="sm" onClick={() => onShowPasswd(2)}>
                 {showPasswd[2] ? 'Скрыть' : 'Показать'}
               </Button>
@@ -178,8 +176,8 @@ const ChangePasswdForm: React.FC = () => {
           isLoading={changedPassword.loading}
           loadingText="Сохранение..."
           ml="auto"
-          leftIcon={MdReplay}
-          variantColor="red"
+          leftIcon={<MdReplay />}
+          colorScheme="red"
           rounded="9999px"
         >
           Изменить
