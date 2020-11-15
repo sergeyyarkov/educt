@@ -7,7 +7,7 @@ import { LinkType } from '../../interfaces';
 /**
  *
  * NavLink component
- * Returns the component for navigation
+ * Returns the component for navigation.
  *
  */
 

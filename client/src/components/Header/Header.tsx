@@ -25,12 +25,19 @@ import {
 import { ReactComponent as LogoIcon } from '../../images/logo.svg'
 import { useApolloClient } from '@apollo/client';
 import UserBadge from '../UserBadge/UserBadge';
+import config from '../../config'
 import { useCurrentUserDataQuery, useLogoutMutation } from '../../__generated__/types';
+
+/**
+ *
+ * Header component
+ *
+ */
 
 const Header: React.FC = () => {
   const client = useApolloClient();
   const toast = useToast();
-  const { data, loading, error } = useCurrentUserDataQuery()
+  const user = useCurrentUserDataQuery()
   const [logout] = useLogoutMutation({
     onError: (error) => {
       toast({
@@ -43,7 +50,7 @@ const Header: React.FC = () => {
     }
   });
 
-  const onLogout = async () => {
+  const onLogout = async (): Promise<void> => {
     try {
       await logout(); // clear cookies on server
       authenticationService.logout(client); // reset store on client
@@ -52,11 +59,11 @@ const Header: React.FC = () => {
     }
   };
 
-  if (error) {
-    console.error(error);
+  if (user.error) {
+    console.error(user.error);
   }
 
-  if (data?.me === null) {
+  if (user.data?.me === null) {
     return null;
   }
 
@@ -85,13 +92,13 @@ const Header: React.FC = () => {
           <Box as={LogoIcon} boxSize={10} color="blue.600" marginRight={4} />
           <Box lineHeight="12px">
             <Heading as="p" fontSize="2xl" color="gray.700">
-              Educt
+              {config.app.name}
             </Heading>
-            <Text position='relative' bottom='5px' as="small">Learn management system</Text>
+            <Text position='relative' bottom='5px' as="small">{config.app.description}</Text>
           </Box>
         </Flex>
         <Flex alignItems="center">
-          {loading ? (
+          {user.loading ? (
             <>
               <Skeleton width="53px" height="40px" marginRight={3} />
               <Skeleton width="180px" height="40px" />
@@ -124,18 +131,18 @@ const Header: React.FC = () => {
                   <Flex alignItems='center'>
                   <Avatar
                     size="sm"
-                    name={data?.me.name || ''}
+                    name={user.data?.me.name || ''}
                     src="https://bit.ly/broken-link"
                     marginRight={3}
                   />
                   <Text as="span" mr={2}>
-                    {data?.me.name}
+                    {user.data?.me.name}
                   </Text>
-                  <UserBadge roles={data?.me.roles} />
+                  <UserBadge roles={user.data?.me.roles} />
                   </Flex>
                 </MenuButton>
                 <MenuList mr="1rem">
-                  <MenuGroup title={`${data?.me.fullname}`}>
+                  <MenuGroup title={`${user.data?.me.fullname}`}>
                     <MenuDivider />
                     <Link to="/profile">
                       <MenuItem>

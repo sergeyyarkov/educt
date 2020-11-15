@@ -1,6 +1,13 @@
 import React from 'react';
 import { Badge } from '@chakra-ui/react';
 
+/**
+ *
+ * UserBadge component
+ * Returns the user's badge by role
+ *
+ */
+
 const UserBadge: React.FC<{ roles: (string | null)[] | null | undefined }> = ({
   roles,
 }) => {

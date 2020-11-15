@@ -4,21 +4,28 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Nav from '../Nav/Nav';
 
+/**
+ *
+ * Layout component
+ * Сomponent for rendering the current page.
+ *
+ */
+
 const Layout: React.FC = ({ children }) => {
   return (
-    <Flex minHeight="100vh" flexDirection="column">
+    <Flex minH="100vh" flexDirection="column">
       <Header />
       <Nav />
       <Box pl="18rem" mt="4rem" mb="4rem" flex="1 0 auto">
         <Box
           as="main"
-          marginRight="auto"
-          marginLeft="auto"
-          maxWidth="85rem"
-          paddingLeft={5}
-          paddingRight={5}
-          paddingTop="2rem"
-          paddingBottom="2rem"
+          mr="auto"
+          ml="auto"
+          maxW="85rem"
+          pl={5}
+          pr={5}
+          pt="2rem"
+          pb="2rem"
         >
           {children}
         </Box>

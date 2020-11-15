@@ -4,6 +4,13 @@ import UserBadge from '../UserBadge/UserBadge';
 import ProfileContacts from '../ProfileContacts/ProfileContacts';
 import { useCurrentUserDataQuery } from '../../__generated__/types';
 
+/**
+ *
+ * ProfileInfo component
+ * Component for displaying user profile.
+ *
+ */
+
 const ProfileInfo: React.FC = () => {
   const { data, loading } = useCurrentUserDataQuery()
 

@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { INavLinksProps } from '../../interfaces';
+import { LinkType } from '../../interfaces';
 import NavLink from './NavLink';
 
 /**
  *
  * NavLinks component
- * Returns a list of NavLink component
+ * Returns a list of NavLink component.
  *
  */
 
 export type ActiveLinkState = {
   title: string | null
+}
+
+interface INavLinksProps {
+  links: LinkType[]
 }
 
 const NavLinks: React.FC<INavLinksProps> = ({ links }) => {

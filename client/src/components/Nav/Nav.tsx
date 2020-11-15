@@ -6,7 +6,7 @@ import { Flex, Box } from '@chakra-ui/react';
 /**
  *
  * Nav component
- * Component for navigating the application
+ * Component for navigating the application.
  *
  */
 

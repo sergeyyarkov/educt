@@ -15,7 +15,3 @@ export interface IPrivateRouteProps extends RouteProps {
   component: React.FC<any>;
   title?: string;
 }
-
-export interface INavLinksProps {
-  links: LinkType[]
-}

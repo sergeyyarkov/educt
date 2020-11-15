@@ -16,6 +16,19 @@ import {
 import { useForm } from 'react-hook-form';
 import { useChangePasswordMutation } from '../../__generated__/types';
 
+/**
+ *
+ * ChangePasswdForm component
+ * Сomponent for changing user password through a form.
+ *
+ */
+
+type FormTypes = {
+  oldPasswd: string;
+  confirmPasswd: string;
+  newPasswd: string;
+}
+
 const ChangePasswdForm: React.FC = () => {
   const toast = useToast();
   const [changePassword, changedPassword] = useChangePasswordMutation({
@@ -46,27 +59,21 @@ const ChangePasswdForm: React.FC = () => {
   ]);
 
   const onShowPasswd = (index: number) =>
-    setShowPasswd((prevState) => [
+    setShowPasswd(prevState => [
       ...prevState.map((state, i) =>
         i === index ? !showPasswd[index] : state
       ),
     ]);
 
-  const { register, handleSubmit, errors, watch, reset } = useForm<{
-    oldPasswd: string;
-    confirmPasswd: string;
-    newPasswd: string;
-  }>();
-  const onSubmit = handleSubmit(async (data) => {
+  const { register, handleSubmit, errors, watch, reset } = useForm<FormTypes>();
+  const onSubmit = handleSubmit(async ({ oldPasswd, newPasswd }) => {
     try {
-      const { oldPasswd, newPasswd } = data;
-
       await changePassword({
         variables: {
           input: { oldPasswd, newPasswd },
         },
       });
-      reset();
+      reset(); // clear inputs value
     } catch (error) {
       console.log(error);
     }

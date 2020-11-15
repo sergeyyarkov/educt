@@ -7,6 +7,10 @@ import {
 } from 'react-icons/md';
 
 const config = {
+  app: {
+    name: 'Educt',
+    description: 'Learn management system'
+  },
   links: [
     { location: '/', title: 'Главная', icon: MdHome },
     {

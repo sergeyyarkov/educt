@@ -1,6 +1,13 @@
 import React from 'react';
 import { Flex, Box, Text } from '@chakra-ui/react';
 import { ReactComponent as LogoIcon } from '../../images/logo.svg'
+import config from '../../config'
+
+/**
+ *
+ * Footer component
+ * 
+ */
 
 const Footer: React.FC = () => {
   return (
@@ -36,7 +43,7 @@ const Footer: React.FC = () => {
           />
         </Box>
         <Flex alignItems="center">
-          <Text>• Educt - Learn management system</Text>
+          <Text>• {config.app.name} - {config.app.description}</Text>
           <Box as={LogoIcon} marginLeft={2} boxSize="18px" />
         </Flex>
       </Flex>

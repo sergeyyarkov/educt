@@ -104,7 +104,7 @@ const MainPage: React.FC<IPageProps> = ({ title }) => {
                 <Button colorScheme='blue' variant='outline'>Смотерть все курсы</Button>
               </Flex>
             </Box>
-            <Box maxH='370px' p='10px' pl='20px' pr='20px' bg='gray.50' borderWidth='1px' borderRadius='lg'>
+            <Box maxH='370px' p='10px' pl='20px' pr='20px' bg='gray.50' borderRadius='lg'>
               <Flex alignItems='center'>
                 <HotIcon />
                 <Heading as='h3' fontSize='xl' mb='5px' ml='10px'>Популярные курсы</Heading>
