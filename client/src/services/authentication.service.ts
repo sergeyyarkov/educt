@@ -1,7 +1,5 @@
 import Cookies from 'js-cookie';
-import {
-  ApolloClient,
-} from '@apollo/client';
+import { ApolloClient } from '@apollo/client';
 import { isLoggedInVar } from '../cache';
 
 class AuthenticationService {

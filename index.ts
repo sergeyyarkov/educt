@@ -56,6 +56,6 @@ async function main(): Promise<void> {
   );
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.log(`× Something went wrong: \n ${error}`);
 });

@@ -22,7 +22,7 @@ import ChangePasswdForm from '../components/ChangePasswdForm/ChangePasswdForm';
 import { useCurrentUserDataQuery } from '../__generated__/types';
 
 const ProfilePage: React.FC<IPageProps> = ({ title }) => {
-  const { data, error } = useCurrentUserDataQuery()
+  const { data, error } = useCurrentUserDataQuery();
 
   if (error) {
     console.error(error);

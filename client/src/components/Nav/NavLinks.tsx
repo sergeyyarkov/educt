@@ -11,11 +11,11 @@ import NavLink from './NavLink';
  */
 
 export type ActiveLinkState = {
-  title: string | null
-}
+  title: string | null;
+};
 
 interface INavLinksProps {
-  links: LinkType[]
+  links: LinkType[];
 }
 
 const NavLinks: React.FC<INavLinksProps> = ({ links }) => {
@@ -31,17 +31,16 @@ const NavLinks: React.FC<INavLinksProps> = ({ links }) => {
   return (
     <React.Fragment>
       {links.map((link, i) => (
-          <NavLink 
-            handleOnHoverLink={handleOnHoverLink} 
-            handleOnLeaveLink={handleOnLeaveLink} 
-            handleRoute={handleRoute}
-            activeLink={activeLink}
-            history={history}
-            link={link}
-            key={i}
-          />
-        )
-      )}
+        <NavLink
+          handleOnHoverLink={handleOnHoverLink}
+          handleOnLeaveLink={handleOnLeaveLink}
+          handleRoute={handleRoute}
+          activeLink={activeLink}
+          history={history}
+          link={link}
+          key={i}
+        />
+      ))}
     </React.Fragment>
   );
 };

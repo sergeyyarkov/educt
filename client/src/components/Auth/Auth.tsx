@@ -12,10 +12,13 @@ import {
   InputLeftElement,
   Button,
   useToast,
-  Icon
+  Icon,
 } from '@chakra-ui/react';
-import { ReactComponent as LogoIcon } from '../../images/logo.svg'
-import { LoginMutationVariables, useLoginMutation } from '../../__generated__/types';
+import { ReactComponent as LogoIcon } from '../../images/logo.svg';
+import {
+  LoginMutationVariables,
+  useLoginMutation,
+} from '../../__generated__/types';
 
 /**
  *
@@ -33,7 +36,7 @@ const Auth: React.FC = () => {
   });
   const [login, { loading }] = useLoginMutation({
     onCompleted: ({ login: { name } }) => {
-      authenticationService.setUserLoggedIn()
+      authenticationService.setUserLoggedIn();
       history.push('/');
       toast({
         title: `👋 Приветствуем вас, ${name}`,
@@ -53,14 +56,18 @@ const Auth: React.FC = () => {
       });
     },
   });
- 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault()
+
+  const handleLogin = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    e.preventDefault();
     try {
-      login({ variables: {
-        login: authState.login,
-        password: authState.password,
-      }})
+      login({
+        variables: {
+          login: authState.login,
+          password: authState.password,
+        },
+      });
       setAuthState({ login: '', password: '' });
     } catch (error) {
       toast({
@@ -75,7 +82,7 @@ const Auth: React.FC = () => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    e.persist()
+    e.persist();
 
     setAuthState((prevState) => {
       return { ...prevState, [e.target.name]: e.target.value };

@@ -12,7 +12,7 @@ import { useCurrentUserDataQuery } from '../../__generated__/types';
  */
 
 const ProfileInfo: React.FC = () => {
-  const { data, loading } = useCurrentUserDataQuery()
+  const { data, loading } = useCurrentUserDataQuery();
 
   if (data?.me === null) {
     return null;

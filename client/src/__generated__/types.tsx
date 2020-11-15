@@ -1,7 +1,9 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -20,7 +22,6 @@ export type Query = {
   /** Returns the authorized user */
   me: User;
 };
-
 
 export type QueryUserArgs = {
   input: FindUserInput;
@@ -44,7 +45,7 @@ export type User = {
 export enum Roles {
   Admin = 'ADMIN',
   User = 'USER',
-  Owner = 'OWNER'
+  Owner = 'OWNER',
 }
 
 export type Contact = {
@@ -75,27 +76,22 @@ export type Mutation = {
   changePassword: Scalars['String'];
 };
 
-
 export type MutationLoginArgs = {
   password: Scalars['String'];
   login: Scalars['String'];
 };
 
-
 export type MutationRegisterUserArgs = {
   input: RegisterUserInput;
 };
-
 
 export type MutationDeleteUserArgs = {
   input: DeleteUserInput;
 };
 
-
 export type MutationUpdateProfileArgs = {
   input: UpdateUserInput;
 };
-
 
 export type MutationChangePasswordArgs = {
   input: ChangeUserPasswdInput;
@@ -131,7 +127,7 @@ export type ContactsUserInput = {
 /** Names of contacts */
 export enum ContactsList {
   Vk = 'VK',
-  Telegram = 'TELEGRAM'
+  Telegram = 'TELEGRAM',
 }
 
 /** Delete user by id */
@@ -153,72 +149,70 @@ export type ChangePasswordMutationVariables = Exact<{
   input: ChangeUserPasswdInput;
 }>;
 
-
-export type ChangePasswordMutation = (
-  { __typename?: 'Mutation' }
-  & { changedPassword: Mutation['changePassword'] }
-);
+export type ChangePasswordMutation = { __typename?: 'Mutation' } & {
+  changedPassword: Mutation['changePassword'];
+};
 
 export type LoginMutationVariables = Exact<{
   login: Scalars['String'];
   password: Scalars['String'];
 }>;
 
+export type LoginMutation = { __typename?: 'Mutation' } & {
+  login: { __typename?: 'AuthData' } & Pick<
+    AuthData,
+    'id' | 'name' | 'surname' | 'patronymic' | 'token'
+  >;
+};
 
-export type LoginMutation = (
-  { __typename?: 'Mutation' }
-  & { login: (
-    { __typename?: 'AuthData' }
-    & Pick<AuthData, 'id' | 'name' | 'surname' | 'patronymic' | 'token'>
-  ) }
-);
+export type LogoutMutationVariables = Exact<{ [key: string]: never }>;
 
-export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type LogoutMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'logout'>
-);
+export type LogoutMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'logout'
+>;
 
 export type UpdateProfileMutationVariables = Exact<{
   input: UpdateUserInput;
 }>;
 
+export type UpdateProfileMutation = { __typename?: 'Mutation' } & {
+  user: { __typename?: 'User' } & {
+    contacts: Array<
+      { __typename?: 'Contact' } & Pick<Contact, 'name' | 'link'>
+    >;
+  };
+};
 
-export type UpdateProfileMutation = (
-  { __typename?: 'Mutation' }
-  & { user: (
-    { __typename?: 'User' }
-    & { contacts: Array<(
-      { __typename?: 'Contact' }
-      & Pick<Contact, 'name' | 'link'>
-    )> }
-  ) }
-);
+export type CurrentUserDataQueryVariables = Exact<{ [key: string]: never }>;
 
-export type CurrentUserDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type CurrentUserDataQuery = (
-  { __typename?: 'Query' }
-  & { me: (
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'roles' | 'name' | 'fullname' | 'surname' | 'patronymic' | 'login' | 'email'>
-    & { contacts: Array<(
-      { __typename?: 'Contact' }
-      & Pick<Contact, 'name' | 'link'>
-    )> }
-  ) }
-);
-
+export type CurrentUserDataQuery = { __typename?: 'Query' } & {
+  me: { __typename?: 'User' } & Pick<
+    User,
+    | 'id'
+    | 'roles'
+    | 'name'
+    | 'fullname'
+    | 'surname'
+    | 'patronymic'
+    | 'login'
+    | 'email'
+  > & {
+      contacts: Array<
+        { __typename?: 'Contact' } & Pick<Contact, 'name' | 'link'>
+      >;
+    };
+};
 
 export const ChangePasswordDocument = gql`
-    mutation ChangePassword($input: ChangeUserPasswdInput!) {
-  changedPassword: changePassword(input: $input)
-}
-    `;
-export type ChangePasswordMutationFn = Apollo.MutationFunction<ChangePasswordMutation, ChangePasswordMutationVariables>;
+  mutation ChangePassword($input: ChangeUserPasswdInput!) {
+    changedPassword: changePassword(input: $input)
+  }
+`;
+export type ChangePasswordMutationFn = Apollo.MutationFunction<
+  ChangePasswordMutation,
+  ChangePasswordMutationVariables
+>;
 
 /**
  * __useChangePasswordMutation__
@@ -237,24 +231,42 @@ export type ChangePasswordMutationFn = Apollo.MutationFunction<ChangePasswordMut
  *   },
  * });
  */
-export function useChangePasswordMutation(baseOptions?: Apollo.MutationHookOptions<ChangePasswordMutation, ChangePasswordMutationVariables>) {
-        return Apollo.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument, baseOptions);
-      }
-export type ChangePasswordMutationHookResult = ReturnType<typeof useChangePasswordMutation>;
-export type ChangePasswordMutationResult = Apollo.MutationResult<ChangePasswordMutation>;
-export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePasswordMutation, ChangePasswordMutationVariables>;
-export const LoginDocument = gql`
-    mutation Login($login: String!, $password: String!) {
-  login(login: $login, password: $password) {
-    id
-    name
-    surname
-    patronymic
-    token
-  }
+export function useChangePasswordMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ChangePasswordMutation,
+    ChangePasswordMutationVariables
+  >
+) {
+  return Apollo.useMutation<
+    ChangePasswordMutation,
+    ChangePasswordMutationVariables
+  >(ChangePasswordDocument, baseOptions);
 }
-    `;
-export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+export type ChangePasswordMutationHookResult = ReturnType<
+  typeof useChangePasswordMutation
+>;
+export type ChangePasswordMutationResult = Apollo.MutationResult<
+  ChangePasswordMutation
+>;
+export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<
+  ChangePasswordMutation,
+  ChangePasswordMutationVariables
+>;
+export const LoginDocument = gql`
+  mutation Login($login: String!, $password: String!) {
+    login(login: $login, password: $password) {
+      id
+      name
+      surname
+      patronymic
+      token
+    }
+  }
+`;
+export type LoginMutationFn = Apollo.MutationFunction<
+  LoginMutation,
+  LoginMutationVariables
+>;
 
 /**
  * __useLoginMutation__
@@ -274,18 +286,32 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  *   },
  * });
  */
-export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, baseOptions);
-      }
+export function useLoginMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    LoginMutation,
+    LoginMutationVariables
+  >
+) {
+  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
+    LoginDocument,
+    baseOptions
+  );
+}
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<
+  LoginMutation,
+  LoginMutationVariables
+>;
 export const LogoutDocument = gql`
-    mutation Logout {
-  logout
-}
-    `;
-export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+  mutation Logout {
+    logout
+  }
+`;
+export type LogoutMutationFn = Apollo.MutationFunction<
+  LogoutMutation,
+  LogoutMutationVariables
+>;
 
 /**
  * __useLogoutMutation__
@@ -303,23 +329,37 @@ export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMut
  *   },
  * });
  */
-export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
-        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, baseOptions);
-      }
+export function useLogoutMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    LogoutMutation,
+    LogoutMutationVariables
+  >
+) {
+  return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(
+    LogoutDocument,
+    baseOptions
+  );
+}
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
-export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<
+  LogoutMutation,
+  LogoutMutationVariables
+>;
 export const UpdateProfileDocument = gql`
-    mutation UpdateProfile($input: UpdateUserInput!) {
-  user: updateProfile(input: $input) {
-    contacts {
-      name
-      link
+  mutation UpdateProfile($input: UpdateUserInput!) {
+    user: updateProfile(input: $input) {
+      contacts {
+        name
+        link
+      }
     }
   }
-}
-    `;
-export type UpdateProfileMutationFn = Apollo.MutationFunction<UpdateProfileMutation, UpdateProfileMutationVariables>;
+`;
+export type UpdateProfileMutationFn = Apollo.MutationFunction<
+  UpdateProfileMutation,
+  UpdateProfileMutationVariables
+>;
 
 /**
  * __useUpdateProfileMutation__
@@ -338,31 +378,46 @@ export type UpdateProfileMutationFn = Apollo.MutationFunction<UpdateProfileMutat
  *   },
  * });
  */
-export function useUpdateProfileMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProfileMutation, UpdateProfileMutationVariables>) {
-        return Apollo.useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(UpdateProfileDocument, baseOptions);
-      }
-export type UpdateProfileMutationHookResult = ReturnType<typeof useUpdateProfileMutation>;
-export type UpdateProfileMutationResult = Apollo.MutationResult<UpdateProfileMutation>;
-export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProfileMutation, UpdateProfileMutationVariables>;
+export function useUpdateProfileMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateProfileMutation,
+    UpdateProfileMutationVariables
+  >
+) {
+  return Apollo.useMutation<
+    UpdateProfileMutation,
+    UpdateProfileMutationVariables
+  >(UpdateProfileDocument, baseOptions);
+}
+export type UpdateProfileMutationHookResult = ReturnType<
+  typeof useUpdateProfileMutation
+>;
+export type UpdateProfileMutationResult = Apollo.MutationResult<
+  UpdateProfileMutation
+>;
+export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<
+  UpdateProfileMutation,
+  UpdateProfileMutationVariables
+>;
 export const CurrentUserDataDocument = gql`
-    query CurrentUserData {
-  me {
-    id
-    roles
-    name
-    fullname
-    surname
-    patronymic
-    login
-    email
-    roles
-    contacts {
+  query CurrentUserData {
+    me {
+      id
+      roles
       name
-      link
+      fullname
+      surname
+      patronymic
+      login
+      email
+      roles
+      contacts {
+        name
+        link
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useCurrentUserDataQuery__
@@ -379,12 +434,35 @@ export const CurrentUserDataDocument = gql`
  *   },
  * });
  */
-export function useCurrentUserDataQuery(baseOptions?: Apollo.QueryHookOptions<CurrentUserDataQuery, CurrentUserDataQueryVariables>) {
-        return Apollo.useQuery<CurrentUserDataQuery, CurrentUserDataQueryVariables>(CurrentUserDataDocument, baseOptions);
-      }
-export function useCurrentUserDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CurrentUserDataQuery, CurrentUserDataQueryVariables>) {
-          return Apollo.useLazyQuery<CurrentUserDataQuery, CurrentUserDataQueryVariables>(CurrentUserDataDocument, baseOptions);
-        }
-export type CurrentUserDataQueryHookResult = ReturnType<typeof useCurrentUserDataQuery>;
-export type CurrentUserDataLazyQueryHookResult = ReturnType<typeof useCurrentUserDataLazyQuery>;
-export type CurrentUserDataQueryResult = Apollo.QueryResult<CurrentUserDataQuery, CurrentUserDataQueryVariables>;
+export function useCurrentUserDataQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CurrentUserDataQuery,
+    CurrentUserDataQueryVariables
+  >
+) {
+  return Apollo.useQuery<CurrentUserDataQuery, CurrentUserDataQueryVariables>(
+    CurrentUserDataDocument,
+    baseOptions
+  );
+}
+export function useCurrentUserDataLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CurrentUserDataQuery,
+    CurrentUserDataQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<
+    CurrentUserDataQuery,
+    CurrentUserDataQueryVariables
+  >(CurrentUserDataDocument, baseOptions);
+}
+export type CurrentUserDataQueryHookResult = ReturnType<
+  typeof useCurrentUserDataQuery
+>;
+export type CurrentUserDataLazyQueryHookResult = ReturnType<
+  typeof useCurrentUserDataLazyQuery
+>;
+export type CurrentUserDataQueryResult = Apollo.QueryResult<
+  CurrentUserDataQuery,
+  CurrentUserDataQueryVariables
+>;

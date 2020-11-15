@@ -27,7 +27,7 @@ type FormTypes = {
   oldPasswd: string;
   confirmPasswd: string;
   newPasswd: string;
-}
+};
 
 const ChangePasswdForm: React.FC = () => {
   const toast = useToast();
@@ -50,7 +50,7 @@ const ChangePasswdForm: React.FC = () => {
         isClosable: true,
       });
     },
-  })
+  });
 
   const [showPasswd, setShowPasswd] = useState<boolean[]>([
     false,
@@ -59,7 +59,7 @@ const ChangePasswdForm: React.FC = () => {
   ]);
 
   const onShowPasswd = (index: number) =>
-    setShowPasswd(prevState => [
+    setShowPasswd((prevState) => [
       ...prevState.map((state, i) =>
         i === index ? !showPasswd[index] : state
       ),

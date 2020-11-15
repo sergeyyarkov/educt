@@ -7,10 +7,10 @@ import { useReactiveVar } from '@apollo/react-components';
 import { isLoggedInVar } from '../../cache';
 
 /**
- * 
+ *
  * PrivateRoute component
  * A component that checks if the user is loggedIn by reactive variable and if not, then a redirect to "/auth" route.
- * 
+ *
  */
 
 const PrivateRoute: React.FC<IPrivateRouteProps> = ({

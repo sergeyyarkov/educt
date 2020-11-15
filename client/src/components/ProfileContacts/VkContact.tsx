@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Link } from '@chakra-ui/react'
-import { FaVk } from 'react-icons/fa'
-import { Contact } from '../../__generated__/types'
+import { Box, Link } from '@chakra-ui/react';
+import { FaVk } from 'react-icons/fa';
+import { Contact } from '../../__generated__/types';
 
 /**
  *
@@ -11,9 +11,9 @@ import { Contact } from '../../__generated__/types'
 
 const VkContact: React.FC<{ vk: Contact | null | undefined }> = ({ vk }) => {
   if (!vk) {
-    return null
+    return null;
   }
-  
+
   return (
     <Link
       href={`${vk.link}`}
@@ -23,7 +23,7 @@ const VkContact: React.FC<{ vk: Contact | null | undefined }> = ({ vk }) => {
     >
       <Box as={FaVk} boxSize="18px"></Box>
     </Link>
-  )
-}
+  );
+};
 
-export default VkContact
+export default VkContact;

@@ -12,7 +12,7 @@ import TelegramContact from './TelegramContact';
  */
 
 interface IProfileContactsProps {
-  contacts: (Contact | null)[] | null | undefined
+  contacts: (Contact | null)[] | null | undefined;
 }
 
 const ProfileContacts: React.FC<IProfileContactsProps> = ({ contacts }) => {

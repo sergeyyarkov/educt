@@ -1,11 +1,7 @@
 import React from 'react';
 import { authenticationService } from '../../services/authentication.service';
 import { Link } from 'react-router-dom';
-import {
-  MdNotifications,
-  MdSettings,
-  MdExitToApp,
-} from 'react-icons/md';
+import { MdNotifications, MdSettings, MdExitToApp } from 'react-icons/md';
 import {
   Flex,
   Box,
@@ -22,11 +18,14 @@ import {
   Skeleton,
   useToast,
 } from '@chakra-ui/react';
-import { ReactComponent as LogoIcon } from '../../images/logo.svg'
+import { ReactComponent as LogoIcon } from '../../images/logo.svg';
 import { useApolloClient } from '@apollo/client';
 import UserBadge from '../UserBadge/UserBadge';
-import config from '../../config'
-import { useCurrentUserDataQuery, useLogoutMutation } from '../../__generated__/types';
+import config from '../../config';
+import {
+  useCurrentUserDataQuery,
+  useLogoutMutation,
+} from '../../__generated__/types';
 
 /**
  *
@@ -37,7 +36,7 @@ import { useCurrentUserDataQuery, useLogoutMutation } from '../../__generated__/
 const Header: React.FC = () => {
   const client = useApolloClient();
   const toast = useToast();
-  const user = useCurrentUserDataQuery()
+  const user = useCurrentUserDataQuery();
   const [logout] = useLogoutMutation({
     onError: (error) => {
       toast({
@@ -47,7 +46,7 @@ const Header: React.FC = () => {
         duration: 2000,
         isClosable: true,
       });
-    }
+    },
   });
 
   const onLogout = async (): Promise<void> => {
@@ -94,7 +93,9 @@ const Header: React.FC = () => {
             <Heading as="p" fontSize="2xl" color="gray.700">
               {config.app.name}
             </Heading>
-            <Text position='relative' bottom='5px' as="small">{config.app.description}</Text>
+            <Text position="relative" bottom="5px" as="small">
+              {config.app.description}
+            </Text>
           </Box>
         </Flex>
         <Flex alignItems="center">
@@ -128,17 +129,17 @@ const Header: React.FC = () => {
               </Button>
               <Menu>
                 <MenuButton as={Button} pr={6}>
-                  <Flex alignItems='center'>
-                  <Avatar
-                    size="sm"
-                    name={user.data?.me.name || ''}
-                    src="https://bit.ly/broken-link"
-                    marginRight={3}
-                  />
-                  <Text as="span" mr={2}>
-                    {user.data?.me.name}
-                  </Text>
-                  <UserBadge roles={user.data?.me.roles} />
+                  <Flex alignItems="center">
+                    <Avatar
+                      size="sm"
+                      name={user.data?.me.name || ''}
+                      src="https://bit.ly/broken-link"
+                      marginRight={3}
+                    />
+                    <Text as="span" mr={2}>
+                      {user.data?.me.name}
+                    </Text>
+                    <UserBadge roles={user.data?.me.roles} />
                   </Flex>
                 </MenuButton>
                 <MenuList mr="1rem">

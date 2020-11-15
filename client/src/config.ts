@@ -9,7 +9,7 @@ import {
 const config = {
   app: {
     name: 'Educt',
-    description: 'Learn management system'
+    description: 'Learn management system',
   },
   links: [
     { location: '/', title: 'Главная', icon: MdHome },
@@ -24,4 +24,4 @@ const config = {
   ],
 };
 
-export default config
+export default config;

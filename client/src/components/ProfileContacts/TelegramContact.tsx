@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Link } from '@chakra-ui/react'
-import { FaTelegramPlane } from 'react-icons/fa'
-import { Contact } from '../../__generated__/types'
+import { Box, Link } from '@chakra-ui/react';
+import { FaTelegramPlane } from 'react-icons/fa';
+import { Contact } from '../../__generated__/types';
 
 /**
  *
@@ -9,11 +9,13 @@ import { Contact } from '../../__generated__/types'
  *
  */
 
-const TelegramContact: React.FC<{ telegram: Contact | null | undefined }> = ({ telegram }) => {
+const TelegramContact: React.FC<{ telegram: Contact | null | undefined }> = ({
+  telegram,
+}) => {
   if (!telegram) {
-    return null
+    return null;
   }
-  
+
   return (
     <Link
       href={`https://t.me/${telegram.link.slice(1)}`}
@@ -22,7 +24,7 @@ const TelegramContact: React.FC<{ telegram: Contact | null | undefined }> = ({ t
     >
       <Box as={FaTelegramPlane} boxSize="18px"></Box>
     </Link>
-  )
-}
+  );
+};
 
-export default TelegramContact
+export default TelegramContact;

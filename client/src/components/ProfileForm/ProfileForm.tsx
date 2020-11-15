@@ -13,7 +13,11 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { MdAccountCircle, MdSave } from 'react-icons/md';
-import { ContactsList, useCurrentUserDataQuery, useUpdateProfileMutation } from '../../__generated__/types';
+import {
+  ContactsList,
+  useCurrentUserDataQuery,
+  useUpdateProfileMutation,
+} from '../../__generated__/types';
 
 /**
  *
@@ -26,12 +30,12 @@ type FormTypes = {
   telegram: string;
   vk: string;
   [key: string]: string;
-}
+};
 
 const ProfileForm: React.FC = () => {
   const toast = useToast();
   const { register, handleSubmit, errors } = useForm<FormTypes>();
-  const { data, loading } = useCurrentUserDataQuery()
+  const { data, loading } = useCurrentUserDataQuery();
   const [updateProfile, updateProfileResult] = useUpdateProfileMutation({
     onCompleted: () => {
       toast({
@@ -72,8 +76,8 @@ const ProfileForm: React.FC = () => {
     telegram: {
       pattern: /.*\B@(?=\w{5,64}\b)[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*.*/gm,
       maxLength: 100,
-    }
-  }
+    },
+  };
 
   if (data?.me === null) {
     return null;
