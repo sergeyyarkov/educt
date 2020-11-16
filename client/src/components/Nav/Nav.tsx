@@ -1,5 +1,6 @@
-import React from 'react';
-import NavLinks from './NavLinks';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'
+import NavLink from './NavLink';
 import config from '../../config';
 import { Flex, Box } from '@chakra-ui/react';
 
@@ -10,7 +11,20 @@ import { Flex, Box } from '@chakra-ui/react';
  *
  */
 
+export type ActiveLinkState = {
+  title: string | null;
+};
+
 const Nav: React.FC = () => {
+  const [activeLink, setActiveLink] = useState<ActiveLinkState>({
+    title: null,
+  });
+  const history = useHistory();
+
+  const handleRoute = (location: string): void => history.push(location);
+  const handleOnHoverLink = (title: string): void => setActiveLink({ title });
+  const handleOnLeaveLink = (): void => setActiveLink({ title: null });
+
   return (
     <Box
       display="block"
@@ -24,14 +38,24 @@ const Nav: React.FC = () => {
     >
       <Box top="4rem" position="relative" overflowY="auto" borderRightWidth={1}>
         <Flex
-          as="nav"
-          flexDirection="column"
-          alignItems="flex-start"
-          textDecoration="none"
-          height="calc(100vh - 4rem)"
-          padding="1.5rem 1.2rem"
+            as="nav"
+            flexDirection="column"
+            alignItems="flex-start"
+            textDecoration="none"
+            height="calc(100vh - 4rem)"
+            padding="1.5rem 1.2rem"
         >
-          <NavLinks links={config.links} />
+          {config.links.map((link, i) => (
+            <NavLink
+              handleOnHoverLink={handleOnHoverLink}
+              handleOnLeaveLink={handleOnLeaveLink}
+              handleRoute={handleRoute}
+              activeLink={activeLink}
+              history={history}
+              link={link}
+              key={i}
+            />
+          ))}
         </Flex>
       </Box>
     </Box>

@@ -21,6 +21,12 @@ import ProfileInfo from '../components/ProfileInfo/ProfileInfo';
 import ChangePasswdForm from '../components/ChangePasswdForm/ChangePasswdForm';
 import { useCurrentUserDataQuery } from '../__generated__/types';
 
+/**
+ * 
+ * Profile page
+ * 
+ */
+
 const ProfilePage: React.FC<IPageProps> = ({ title }) => {
   const { data, error } = useCurrentUserDataQuery();
 

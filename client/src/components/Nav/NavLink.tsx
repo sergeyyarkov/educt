@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
 import { History } from 'history';
-import { ActiveLinkState } from './NavLinks';
 import { LinkType } from '../../interfaces';
+import { ActiveLinkState } from './Nav';
 
 /**
  *
  * NavLink component
- * Returns the component for navigation.
+ * Returns the link component for navigation.
  *
  */
 
