@@ -9,7 +9,7 @@ class AuthenticationService {
     client.resetStore();
   }
 
-  public setUserLoggedIn() {
+  public setUserLoggedIn(): void {
     document.cookie = `logged_in=true`;
     isLoggedInVar(true);
   }

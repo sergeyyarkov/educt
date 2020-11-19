@@ -1,15 +1,16 @@
 import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import express, { Application, Request, Response } from 'express';
+import { createConnection } from 'typeorm';
 import path from 'path';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import depthLimit from 'graphql-depth-limit';
 import cookieParser from 'cookie-parser';
+import depthLimit from 'graphql-depth-limit'
 import { schema } from './graphql/schema';
 import { context } from './graphql/context';
+import { queryComplexityPlugin } from './graphql/plugins/queryComplexityPlugin'
 import { refreshToken } from './middlewares/refreshToken';
-import { createConnection } from 'typeorm';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: `${__dirname}/.env` });
@@ -34,6 +35,7 @@ async function main(): Promise<void> {
   const server = new ApolloServer({
     schema,
     validationRules: [depthLimit(10)],
+    plugins: [queryComplexityPlugin],
     playground: true,
     context,
   });
