@@ -27,7 +27,7 @@ export class Lesson extends BaseEntity {
   content: string;
 
   @Field(() => Course)
-  @ManyToOne(type => Course, course => course.lessons)
+  @ManyToOne(type => Course, course => course.lessons, { onDelete: 'CASCADE' })
   course: Course
 
   @Field()

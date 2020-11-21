@@ -22,13 +22,16 @@ import { ChangeUserPasswdResolver } from './modules/user/Mutations/ChangePasswd/
 import { CreateCourseResolver } from './modules/course/Mutations/Create/Create'
 import { DeleteCourseResolver } from './modules/course/Mutations/Delete/Delete'
 import { CoursesResolver } from './modules/course/Queries/Courses/Courses';
+import { CourseResolver } from './modules/course/Queries/Course/Course'
 
 /* 
   Lesson resolvers
 */
 
 import { CreateLessonResolver } from './modules/lesson/Mutations/Create/Create'
+import { DeleteLessonResolver } from './modules/lesson/Mutations/Delete/Delete'
 import { LessonsResolver } from './modules/lesson/Queries/Lessons/Lessons'
+import { LessonResolver } from './modules/lesson/Queries/Lesson/Lesson'
 
 const schema = buildSchemaSync({
   resolvers: [
@@ -44,8 +47,11 @@ const schema = buildSchemaSync({
     CreateCourseResolver,
     DeleteCourseResolver,
     CoursesResolver,
+    CourseResolver,
     CreateLessonResolver,
-    LessonsResolver
+    DeleteLessonResolver,
+    LessonsResolver,
+    LessonResolver
   ],
   validate: true,
   authChecker,

@@ -1,4 +1,4 @@
-import { Resolver, Query, Authorized, FieldResolver } from 'type-graphql';
+import { Resolver, Query, Authorized, FieldResolver, Root } from 'type-graphql';
 import { Lesson } from '../../../../entities/Lesson';
 
 /**

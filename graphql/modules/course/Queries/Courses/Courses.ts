@@ -1,4 +1,5 @@
 import { Resolver, Query, Authorized } from 'type-graphql';
+import { ApolloError } from 'apollo-server-express';
 import { Course } from '../../../../entities/Course';
 
 /**
@@ -16,10 +17,9 @@ export class CoursesResolver {
   async courses(): Promise<Course[]> {
     try {
       const courses = await Course.find({ });
-      console.log(courses[0].lessons)
       return courses; 
     } catch (error) {
-      throw error;
+      throw new ApolloError(error);
     }
   }
 }
