@@ -16,7 +16,7 @@ export class LessonResolver {
   @Query(() => Lesson, { description: 'Returns a current lesson by id' })
   async lesson(@Arg('id') id: number): Promise<Lesson> {
     try {
-      const lesson = await Lesson.findOne(id, { relations: ['course'] })
+      const lesson = await Lesson.findOne(id)
       
       if (!lesson) {
         throw new ApolloError(

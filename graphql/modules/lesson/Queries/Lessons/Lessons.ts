@@ -1,6 +1,8 @@
-import { Resolver, Query, Authorized, FieldResolver, Root } from 'type-graphql';
+import { Resolver, Query, Authorized, FieldResolver, Root, Ctx } from 'type-graphql';
+import { IContext } from '../../../../../interfaces';
 import { Course } from '../../../../entities/Course';
 import { Lesson } from '../../../../entities/Lesson';
+import { courseLoader } from '../../../../loaders/courseLoader';
 
 /**
  *
@@ -24,8 +26,8 @@ export class LessonsResolver {
   }
 
   @FieldResolver()
-  async course(@Root() lesson: Lesson) {
-    const course = await Course.findOne(lesson.courseId)
+  async course(@Root() lesson: Lesson, @Ctx() { courseLoader }: IContext) {
+    const course = courseLoader.load(lesson.courseId)
     return course
   }
 }
