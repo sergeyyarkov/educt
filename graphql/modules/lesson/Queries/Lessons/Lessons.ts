@@ -1,4 +1,5 @@
 import { Resolver, Query, Authorized, FieldResolver, Root } from 'type-graphql';
+import { Course } from '../../../../entities/Course';
 import { Lesson } from '../../../../entities/Lesson';
 
 /**
@@ -9,16 +10,22 @@ import { Lesson } from '../../../../entities/Lesson';
  *
  */
 
-@Resolver()
+@Resolver(Lesson)
 export class LessonsResolver {
   // @Authorized()
   @Query(() => [Lesson], { description: 'Returns a list of lessons' })
   async lessons(): Promise<Lesson[]> {
     try {
-      const lessons = await Lesson.find({ relations: ['course'] });
+      const lessons = await Lesson.find({});
       return lessons;
     } catch (error) {
       throw error;
     }
+  }
+
+  @FieldResolver()
+  async course(@Root() lesson: Lesson) {
+    const course = await Course.findOne(lesson.courseId)
+    return course
   }
 }

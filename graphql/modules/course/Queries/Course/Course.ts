@@ -1,7 +1,6 @@
 import { Resolver, Query, Authorized, Arg, FieldResolver } from 'type-graphql';
 import { ApolloError } from 'apollo-server-express';
 import { Course } from '../../../../entities/Course';
-import { Lesson } from '../../../../entities/Lesson';
 
 /**
  *

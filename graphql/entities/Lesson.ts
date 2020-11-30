@@ -16,6 +16,10 @@ export class Lesson extends BaseEntity {
 
   @Field()
   @Column()
+  courseId: number;
+
+  @Field()
+  @Column()
   title: string;
 
   @Field()
