@@ -1,0 +1,6 @@
+[submodule "educt-server"]
+	path = educt-server
+	url = https://github.com/sergeyyarkov/educt-server.git
+[submodule "educt-client"]
+	path = educt-client
+	url = https://github.com/sergeyyarkov/educt-client.git
