@@ -20,6 +20,8 @@ services:
       context: ./educt-client
       target: production
       dockerfile: Dockerfile
+    environment:
+      - VITE_API_URL=http://api:3333
     ports:
       - 5000:5000
     depends_on:
