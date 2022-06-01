@@ -1,4 +1,15 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 _All necessary services are started from this repository._
+
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [Description](#description)
+- [Technologies Stack](#technologies-stack)
+- [Features](#features)
+- [Requirements](#requirements)
+- [License](#license)
 
 ## Description
 
@@ -36,7 +47,7 @@ You can see the demo application [here](#). -->
 
 --- -->
 
-### Requirements
+## Requirements
 
 - NodeJS v14+
 - Docker
