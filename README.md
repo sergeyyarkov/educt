@@ -19,6 +19,7 @@ Educt learning management system (LMS) is an application where you can create an
 
 - Backend (AdonisJS)
 - Frontend (ReactJS)
+- ChakraUI (React component library)
 - Database (PostgreSQL & Redis)
 - Web server (nginx)
 - Socket.IO for chat
@@ -36,6 +37,7 @@ Educt learning management system (LMS) is an application where you can create an
 - Editing your profile personal data (password, mail, contacts)
 - Deployment with Docker
 - Adaptive design
+- Night/Light theme
 
 <!-- ## Demo
 
