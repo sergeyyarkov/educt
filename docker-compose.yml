@@ -24,7 +24,7 @@ services:
         - API_URL=http://api.localhost
         - WS_URL=ws://api.localhost
     ports:
-      - 5000:5000
+      - 5000
     depends_on:
       - api
     networks:
@@ -37,7 +37,7 @@ services:
       target: production
       dockerfile: Dockerfile
     ports:
-      - 3333:3333
+      - 3333
     environment:
       - PORT=3333
       - APP_KEY=IP387l45rlNO3t7Qgjd89qr-a2G4oUgz
@@ -51,6 +51,7 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_PASSWORD=
+      - MAILER=smtp
       - SMTP_HOST=localhost
       - SMTP_PORT=587
       - SMTP_USERNAME=<username>
@@ -80,7 +81,7 @@ services:
       POSTGRES_PASSWORD: 1234
       POSTGRES_DB: educt
     ports:
-      - 5432:5432
+      - 5432
     networks:
       - app-network
   redis:
@@ -89,7 +90,7 @@ services:
     volumes:
       - redis_volume:/data
     ports:
-      - 6379:6379
+      - 6379
     networks:
       - app-network
     depends_on:
