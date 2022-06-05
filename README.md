@@ -77,7 +77,14 @@ make migrate
 make seed
 ```
 
-The client application is running on port 5000 and the API server is on 3333. You can also use `make logs` to view the logs and `make stop` to stop the application.
+Now the application is completely ready to work. Go to the http://localhost to check if it works. Log in as an administrator.
+
+```text
+login: admin
+password: 123456
+```
+
+Then you can change your password in your personal profile.
 
 ## Environment variables
 
