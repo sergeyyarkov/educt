@@ -51,7 +51,7 @@ You can see the demo application [here](#). -->
 
 ## Screenshots
 
-You can see the screenshots of the application in [this](./resources//screenshots/README.md) folder.
+You can see the screenshots of the application in [this](./resources/screenshots) folder.
 
 ## Installation
 
