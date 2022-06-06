@@ -8,6 +8,7 @@ _All necessary services are started from this repository._
 - [Description](#description)
 - [Technologies Stack](#technologies-stack)
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Installation](#installation)
 - [Environment variables](#environment-variables)
 - [Requirements](#requirements)
@@ -47,6 +48,10 @@ Educt learning management system (LMS) is an application where you can create an
 ---
 
 You can see the demo application [here](#). -->
+
+## Screenshots
+
+You can see the screenshots of the application in [this](./resources//screenshots/README.md) folder.
 
 ## Installation
 
