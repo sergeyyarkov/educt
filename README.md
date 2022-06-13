@@ -1,4 +1,5 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/bde70986-e5af-4e69-b62c-ff0ed4b76401/deploy-status)](https://app.netlify.com/sites/client-educt-lms/deploys)
 
 _All necessary services are started from this repository._
 
@@ -8,6 +9,7 @@ _All necessary services are started from this repository._
 - [Description](#description)
 - [Technologies Stack](#technologies-stack)
 - [Features](#features)
+- [Demo](#demo)
 - [Screenshots](#screenshots)
 - [Installation](#installation)
 - [Environment variables](#environment-variables)
@@ -43,11 +45,19 @@ Educt learning management system (LMS) is an application where you can create an
 - Adaptive design
 - Night/Light theme
 
-<!-- ## Demo
+## Demo
 
----
+The API server is deployed on heroku and is available at [this](https://educt-lms.herokuapp.com) link.
 
-You can see the demo application [here](#). -->
+You can interact with the server through the client, which is deployed on the Netlify service at [this](https://client-educt-lms.netlify.app/) link.
+
+Use the following information below to login.
+
+| Role          | Login   | Password |
+| ------------- | ------- | -------- |
+| ADMINISTRATOR | admin   | 123456   |
+| TEACHER       | teacher | 123456   |
+| STUDENT       | student | 123456   |
 
 ## Screenshots
 
