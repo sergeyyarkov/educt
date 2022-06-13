@@ -51,7 +51,7 @@ The API server is deployed on heroku and is available at [this](https://educt-lm
 
 You can interact with the server through the client, which is deployed on the Netlify service at [this](https://client-educt-lms.netlify.app/) link.
 
-Сross-domain cookies may not work correctly with Heroku + Netlify and therefore authentication issues may occur.
+Сross-domain cookies may not work correctly with Heroku + Netlify and therefore authentication issues may occur. Also, the mail sending service is not configured and is not available.
 
 _Use the following information below to login._
 
